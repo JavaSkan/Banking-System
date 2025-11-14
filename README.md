@@ -7,4 +7,4 @@ _A Data Structure project - HIDE 2025/2026_
 ## ChangeLog
 - Full syntax coloring for easier reading and comprehension of pseudocode.
 - 13-11-2025 : Set up github - Skander.
-- 14-11-2025 : Made advanced README.md file -Aymen
+- 14-11-2025 : Made advanced README.md file -Aymen.
