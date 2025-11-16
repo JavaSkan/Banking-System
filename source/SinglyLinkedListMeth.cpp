@@ -201,6 +201,8 @@ int IDGen(const List<T>&L,char type){
     int ID;
     if(isEmpty(L)){
         switch (type){
+        case 'E':
+            ID=10;
         case 'C':
             ID=11;
         case 'L':
