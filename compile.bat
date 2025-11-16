@@ -1,0 +1,1 @@
+g++ .\source\*.cpp -o main

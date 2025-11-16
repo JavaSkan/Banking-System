@@ -37,7 +37,6 @@ int main(){
         usedSpace++;
     }
     p= add(p,n,usedSpace,25);
-    for (int i=0;i<n)
 
 
 
