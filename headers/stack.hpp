@@ -3,6 +3,7 @@
 #define STACK_H
 
 struct Stack{
+    
 
 };
 
