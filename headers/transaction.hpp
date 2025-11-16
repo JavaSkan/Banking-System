@@ -4,6 +4,8 @@
 #include <string>
 using namespace std;
 
+#include "Dates.hpp"
+
 enum Type{
     WITHDRAYAL,
     DEPOSIT
@@ -14,7 +16,7 @@ struct Transaction{
     int accountNumber;
     Type type;
     float amount;
-    string date;
+    Date date;
 };
 
 
