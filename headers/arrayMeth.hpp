@@ -1,6 +1,6 @@
 #ifndef ARRAYMETH_H
 #define ARRAYMETH-H
-#include "array.hpp"
+#include "Array.hpp"
 #define TEMPLATE template <typename T>
 
 TEMPLATE array<T> createArray();
