@@ -8,8 +8,6 @@ enum Status{
     INACTIVE,
     ACTIVE,
     CLOSED
-
-    
 };
 //Status values can only be one of the 3 above 
 

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "SinglyLinkedListMeth.hpp"
+#include "../headers/SinglyLinkedListMeth.hpp"
 using namespace std;
 #define TEMPLATE template <typename T>
 
