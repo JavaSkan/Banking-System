@@ -186,7 +186,7 @@ TEMPLATE
 bool isUnique(const List<T>& L, int value) {
     Node<T>* current = L.head;
     while (current != nullptr) {
-        if (current->data == value) {
+        if (current->data.ID == value) {
             return false;
         }
         current = current->next;
