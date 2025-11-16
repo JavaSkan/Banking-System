@@ -180,3 +180,16 @@ Node<T>* createNode(T value) {
     }
     return node;
 }
+
+TEMPLATE
+
+bool isUnique(const List<T>& L, int value) {
+    Node<T>* current = L.head;
+    while (current != nullptr) {
+        if (current->data == value) {
+            return false;
+        }
+        current = current->next;
+    }
+    return true; 
+}
