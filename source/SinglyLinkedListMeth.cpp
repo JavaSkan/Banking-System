@@ -196,26 +196,4 @@ bool isUnique(const List<T>& L, int value) {
     }
     return true; 
 }
-TEMPLATE
-int IDGen(const List<T>&L,char type){
-    int ID;
-    if(isEmpty(L)){
-        switch (type){
-        case 'E':
-            ID=10;
-        case 'C':
-            ID=11;
-        case 'L':
-            ID=12;
-        case 'T':
-            ID=13;
-    }
-    }else{
-        Node<T>* current = L.head;
-        while (current != nullptr) {
-            current = current->next;
-        }
-        ID=(current->data.ID)+10 
-    }
-    return ID; 
-}
+
