@@ -15,7 +15,7 @@ Node<T>* p1 = L1.head;
 Node<T>* p2 = L2.head;
 
 while (p1) {
-    if (p1->data != p2->data) return false; //to change to pi->data.ID           !!!!!!!!!!!!!
+    if (p1->data.ID != p2->data.ID) return false;
         p1 = p1->next;
         p2 = p2->next;
     }

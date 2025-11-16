@@ -1,14 +1,13 @@
 //Defining the customer structure
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
-#include <iostream>
 #include <string>
 using namespace std;
 
-enum status{
-    Inactive,
-    Active,
-    Closed
+enum Status{
+    INACTIVE,
+    ACTIVE,
+    CLOSED
 
     
 };
@@ -21,12 +20,8 @@ struct customer{
     string IBAN;
     string name;
     string openingDate;
-    status status;
+    Status status;
     float balance;
-
-    
-
-
 };
 
 
