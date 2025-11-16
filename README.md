@@ -1,5 +1,5 @@
 # Banking-System
-[WorkLog](WORKLOG.md) • [Main](main.cpp) • [Report Files](reports/)\n
+[WorkLog](WORKLOG.md) • [Main](main.cpp) • [Report Files](reports/) <br>
 A Simple Banking System implemented in C++ .
 
 _A Data Structure project - HIDE 2025/2026_
