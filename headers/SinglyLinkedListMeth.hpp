@@ -18,7 +18,6 @@ TEMPLATE bool isUnique (const List<T>& L, int value);
 
 TEMPLATE List<T> CopyList(const List<T>& L);
 TEMPLATE bool CompareLists(const List<T>& L1, const List<T>& L2);
-TEMPLATE bool isUnique(const List<T>& L, int value);
-TEMPLATE int IDGen(const List<T>& L,char type);
+
 
 #endif // SINGLYLINKEDLISTMETH_H
