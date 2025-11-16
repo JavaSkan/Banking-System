@@ -2,6 +2,9 @@
 #include "../headers/SinglyLinkedListMeth.hpp"
 using namespace std;
 #define TEMPLATE template <typename T>
+//---------------------------------------------------------------------------------------------------------
+//          EVERY FUNCTION ADDED HERE SHOULD HAVE IT'S HEADER ADDED TO 'SinglyLinkedListMeth.hpp'
+//---------------------------------------------------------------------------------------------------------
 
 TEMPLATE
 List<T> createList() {
@@ -179,4 +182,40 @@ Node<T>* createNode(T value) {
         cerr << "\nMemory allocation failed for node\n";
     }
     return node;
+}
+
+TEMPLATE
+
+bool isUnique(const List<T>& L, int value) {
+    Node<T>* current = L.head;
+    while (current != nullptr) {
+        if (current->data.ID == value) {
+            return false;
+        }
+        current = current->next;
+    }
+    return true; 
+}
+TEMPLATE
+int IDGen(const List<T>&L,char type){
+    int ID;
+    if(isEmpty(L)){
+        switch (type){
+        case 'E':
+            ID=10;
+        case 'C':
+            ID=11;
+        case 'L':
+            ID=12;
+        case 'T':
+            ID=13;
+    }
+    }else{
+        Node<T>* current = L.head;
+        while (current != nullptr) {
+            current = current->next;
+        }
+        ID=(current->data.ID)+10 
+    }
+    return ID; 
 }
