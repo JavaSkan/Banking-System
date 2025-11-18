@@ -1,10 +1,10 @@
 #include "../headers/DoublyLinkedListMeth.hpp"
 
-List createList() {
-    return List{ nullptr, nullptr, 0 };
+D_list createList() {
+    return D_list{ nullptr, nullptr, 0 };
 }
 
-void destroyList(List* L) {
+void destroyList(D_list* L) {
     if (!L) return;
     Node* current = L->head;
     while (current) {
@@ -17,22 +17,22 @@ void destroyList(List* L) {
     L->size = 0;
 }
 
-bool isEmpty(const List& L) {
+bool isEmpty(const D_list& L) {
     return L.size == 0;
 }
 
-int listSize(const List& L) {
+int listSize(const D_list& L) {
     return L.size;
 }
 
-bool isFull(const List& L) {
+bool isFull(const D_list& L) {
     Node* test = new (nothrow) Node;
     if (!test) return true;
     delete test;
     return false;
 }
 
-bool CompareLists(const List& L1, const List& L2) {
+bool CompareLists(const D_list& L1, const D_list& L2) {
     if (L1.size != L2.size) return false;
 
     Node* p1 = L1.head;
@@ -46,8 +46,8 @@ bool CompareLists(const List& L1, const List& L2) {
     return true;
 }
 
-List CopyList(const List& L) {
-    List newList = createList();
+D_list CopyList(const D_list& L) {
+    D_list newList = createList();
     Node* current = L.head;
     Node* tail = nullptr; // keep track of last node in new list
     while (current) {
@@ -71,7 +71,7 @@ List CopyList(const List& L) {
     return newList;
 }
 
-void displayList(const List& L) {
+void displayList(const D_list& L) {
     if (isEmpty(L)) {
         cout << "List is empty\n";
         return;
@@ -94,7 +94,7 @@ void destroyNode(Node* node) {
     delete node;
 }
 
-Loan getElement(const List& L, int pos) {
+Loan getElement(const D_list& L, int pos) {
     if (isEmpty(L)) {
         cerr << "List is empty\n";
         return {};
@@ -118,7 +118,7 @@ Loan getElement(const List& L, int pos) {
     return current->data;
 }
 
-int insert(List* L, Loan e, int pos) {
+int insert(D_list* L, Loan e, int pos) {
     if (!L) return 0;
     if (pos < 1 || pos > L->size + 1) { //Invalid Pos
         cout << "Invalid position\n";
@@ -165,7 +165,7 @@ int insert(List* L, Loan e, int pos) {
     return 1;
 }
 
-int removeAt(List* L, int pos) {
+int removeAt(D_list* L, int pos) {
     if (!L || isEmpty(*L)) { //Empty List
         cout << "List is empty\n";
         return 0;

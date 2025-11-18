@@ -78,7 +78,7 @@ bool isValidEmail(const string& email) {
 }
 
 TEMPLATE
-int IDGen(const List<T>&L,char type){
+int IDGen(const S_list<T>&L,char type){
     int ID;
     if(isEmpty(L)){
         switch (type){
