@@ -1,6 +1,6 @@
 #include "../headers/SinglyLinkedListMeth.hpp"
-#include "../headers/customerInterface.hpp"
-#include "../headers/employeeInterface.hpp"
+#include "../headers/CustomerInterface.hpp"
+#include "../headers/EmployeeInterface.hpp"
 #include <iostream>
 #include <string>
 using namespace std;

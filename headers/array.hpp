@@ -4,10 +4,9 @@
 #define TEMPLATE template <typename T>
 
 TEMPLATE
-struct array{
-    T* p;
-    int size;
+struct Array{
+    T* data=nullptr;
+    int size=0;
 };
-
 
 #endif
