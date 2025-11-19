@@ -6,15 +6,15 @@
 using namespace std;
 
 //Loan Types
-#define LNT_CAR 1
-#define LNT_HOME 2
-#define LNT_STUDENT 3
-#define LNT_BUSINESS 4
+constexpr int LNT_CAR = 1;
+constexpr int LNT_HOME = 2;
+constexpr int LNT_STUDENT = 3;
+constexpr int LNT_BUSINESS = 4;
 
 //Loan Status
-#define LNS_ACTIVE 5
-#define LNS_COMPLETED 6
-#define LNS_OVERDUE 7
+constexpr int LNS_ACTIVE = 5;
+constexpr int LNS_COMPLETED = 6;
+constexpr int LNS_OVERDUE = 7;
 
 struct Loan{
     int loadId;

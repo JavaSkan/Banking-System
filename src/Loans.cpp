@@ -1,32 +1,32 @@
-#include "../headers/Loans.hpp"
+#include "../include/Loans.hpp"
 
-string loanTypeStr(LoanType t){
+string loanTypeStr(int t){
     switch (t){
-        case LoanType::CAR :
+        case LNT_CAR :
             return "car";
             break;
-        case LoanType::HOME :
+        case LNT_HOME :
             return "home";
             break;
-        case LoanType::STUDENT :
+        case LNT_STUDENT :
             return "student";
             break;
-        case LoanType::BUSINESS:
+        case LNT_BUSINESS:
             return "business";
             break;
     }
     return "";
 }
 
-string loanStatusStr(LoanStatus s){
+string loanStatusStr(int s){
     switch (s){
-        case LoanStatus::ACTIVE:
+        case LNS_ACTIVE:
             return "active";
             break;
-        case LoanStatus::COMPLETED:
+        case LNS_COMPLETED:
             return "completed";
             break;
-        case LoanStatus::OVERDUE:
+        case LNS_OVERDUE:
             return "overdue";
             break;
     }

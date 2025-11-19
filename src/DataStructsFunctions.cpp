@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cctype>
-#include "../headers/SinglyLinkedList.hpp"
+#include "../include/SinglyLinkedList.hpp"
 #define TEMPLATE template <typename T>
 using namespace std;
 
@@ -78,7 +78,7 @@ bool isValidEmail(const string& email) {
 }
 
 TEMPLATE
-int IDGen(const List<T>&L,char type){
+int IDGen(const SList<T>&L,char type){
     int ID;
     if(isEmpty(L)){
         switch (type){

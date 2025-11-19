@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../headers/EmployeeInterface.hpp"
+#include "../include/EmployeeInterface.hpp"
 using namespace std;
 
 int employeeInterface(){
