@@ -10,8 +10,9 @@ struct Node {
 };
 
 TEMPLATE
-struct List {
+struct S_list {
 Node<T>* head;
 int size;
 };
+
 #endif // SINGLYLINKEDLIST_H
