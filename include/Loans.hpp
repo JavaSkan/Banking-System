@@ -5,33 +5,31 @@
 #include <iostream>
 using namespace std;
 
-enum LoanType{
-    CAR,
-    HOME,
-    STUDENT,
-    BUSINESS
-};
+//Loan Types
+#define LNT_CAR 1
+#define LNT_HOME 2
+#define LNT_STUDENT 3
+#define LNT_BUSINESS 4
 
-enum LoanStatus{
-    ACTIVE,
-    COMPLETED,
-    OVERDUE
-};
+//Loan Status
+#define LNS_ACTIVE 5
+#define LNS_COMPLETED 6
+#define LNS_OVERDUE 7
 
 struct Loan{
     int loadId;
-    LoanType type;
+    int type;
     float pr_amount; //principle amount
     float it_rate; //interest rate
     float am_paid; //amount paid
     float rm_balance; //remaining balance
     Date start_date;
     Date end_date;
-    LoanStatus status;
+    int status;
 };
 
-string loanTypeStr(LoanType t);
-string loanStatusStr(LoanStatus s);
+string loanTypeStr(int t);
+string loanStatusStr(int s);
 void displayLoan(const Loan& l);
 
 #endif
