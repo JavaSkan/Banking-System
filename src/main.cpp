@@ -51,50 +51,53 @@ int main() {
     ImGui_ImplSDLRenderer2_Init(renderer);
 
     // Main loop
-    bool running = true;
-    SDL_Event event;
-    while (running) {
-        while (SDL_PollEvent(&event)) {
-            ImGui_ImplSDL2_ProcessEvent(&event);
-            if (event.type == SDL_QUIT)
-                running = false;
-        }
-
-        // Start ImGui frame
-        ImGui_ImplSDLRenderer2_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();
-
-        // Demo window
-        ImGui::Begin("Hello!");
-        ImGui::Text("This is some text");
-        if (ImGui::Button("Click Me")) {
-            cout << "Button clicked!" << endl;
-        }
-        ImGui::End();
-
-        // Render
-        ImGui::Render();
-        SDL_SetRenderDrawColor(renderer, 114, 144, 154, 255);
-        SDL_RenderClear(renderer);
-        ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
-        SDL_RenderPresent(renderer);
-
+    // Main loop
+bool running = true;
+SDL_Event event;
+while (running) {
+    while (SDL_PollEvent(&event)) {
+        ImGui_ImplSDL2_ProcessEvent(&event);
+        if (event.type == SDL_QUIT)
+            running = false;
     }
 
-    // Cleanup ImGui and SDL
-    ImGui_ImplSDLRenderer2_Shutdown();
-    ImGui_ImplSDL2_Shutdown();
-    ImGui::DestroyContext();
+    ImGui_ImplSDLRenderer2_NewFrame();
+    ImGui_ImplSDL2_NewFrame();
+    ImGui::NewFrame();
 
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    ImGui::Begin("Hello!");
+    ImGui::Text("This is some text");
+    if (ImGui::Button("Click Me")) {
+        cout << "Button clicked!" << endl;
+    }
+    ImGui::End();
 
+    ImGui::Render();
+    SDL_SetRenderDrawColor(renderer, 114, 144, 154, 255);
+    SDL_RenderClear(renderer);
+    ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);
+    SDL_RenderPresent(renderer);
+
+    SDL_Delay(1); // <--- prevents 100% CPU usage
+}
+
+// Cleanup ImGui and SDL
+ImGui_ImplSDLRenderer2_Shutdown();
+ImGui_ImplSDL2_Shutdown();
+ImGui::DestroyContext();
+
+SDL_DestroyRenderer(renderer);
+SDL_DestroyWindow(window);
+SDL_Quit();
+
+// Now run console banking menu
+
+    
     // Banking system menu
+    /*
     bool reloop;
     string input;
-
+    
     cout << "----------------------------------------------------------------------------\n";
     cout <<
     "  ____              _    _               ____            _                  \n"
@@ -108,20 +111,20 @@ int main() {
     "___  _    ____ ____ ____ ____    ____ _  _ ____ ____ ____ ____    ____ _  _ ____     \n"
     "|__] |    |___ |__| [__  |___    |    |__| |  | |  | [__  |___    |  | |\\ | |___    .\n"
     "|    |___ |___ |  | ___] |___    |___ |  | |__| |__| ___] |___    |__| | \\| |___    .\n\n";
-
+    
     cout << "1-Customer Interface\n2-Employee Interface\n3-Exit\n";
-
     do {
         cout << "Please give your choice: ";
         getline(cin, input);
         reloop = !(input == "1" || input == "2" || input == "3");
     } while (reloop);
-
+    
     if (input == "1") {
         customerInterface();
     } else if (input == "2") {
         employeeInterface();
     }
-
+    */
+    
     return 0;
 }

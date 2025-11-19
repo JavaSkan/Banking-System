@@ -10,7 +10,7 @@ struct Node {
 };
 
 TEMPLATE
-struct S_list {
+struct SList {
 Node<T>* head;
 int size;
 };

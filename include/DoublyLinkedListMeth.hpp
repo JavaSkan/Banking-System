@@ -5,21 +5,21 @@
 #include <iostream>
 using namespace std;
 
-D_list createList();
-void destroyList(D_list* L);
-D_list CopyList(const D_list& L);
-bool CompareLists(const D_list& L1, const D_list& L2);
+DList createList();
+void destroyList(DList* L);
+DList CopyList(const DList& L);
+bool CompareLists(const DList& L1, const DList& L2);
 
-bool isEmpty(const D_list& L);
-bool isFull(const D_list& L);
-int listSize(const D_list& L);
+bool isEmpty(const DList& L);
+bool isFull(const DList& L);
+int listSize(const DList& L);
 
 Node* createNode(Loan value);
 void destroyNode(Node* node);
-int insert(D_list* L, Loan e, int pos);
-int removeAt(D_list* L, int pos);
-Loan getElement(const D_list& L, int pos);
-void displayList(const D_list& L);
+int insert(DList* L, Loan e, int pos);
+int removeAt(DList* L, int pos);
+Loan getElement(const DList& L, int pos);
+void displayList(const DList& L);
 
 
 #endif // DOUBLYLINKEDLISTMETH_H

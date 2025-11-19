@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../headers/SinglyLinkedListMeth.hpp"
+#include "../include/SinglyLinkedListMeth.hpp"
 using namespace std;
 #define TEMPLATE template <typename T>
 //---------------------------------------------------------------------------------------------------------
@@ -7,11 +7,11 @@ using namespace std;
 //---------------------------------------------------------------------------------------------------------
 
 TEMPLATE
-List<T> createList() {
-    return List<T>{ nullptr, 0 };
+SList<T> createList() {
+    return SList<T>{ nullptr, 0 };
 }
 TEMPLATE
-bool CompareLists(const List<T>& L1, const List<T>& L2) {
+bool CompareLists(const SList<T>& L1, const SList<T>& L2) {
 if (L1.size != L2.size) return false;
 
 Node<T>* p1 = L1.head;
@@ -26,8 +26,8 @@ while (p1) {
 }
 
 TEMPLATE
-List<T> CopyList(const List<T>& L) {
-    List<T> newList = createList<T>();
+SList<T> CopyList(const SList<T>& L) {
+    SList<T> newList = createList<T>();
     Node<T>* current = L.head;
     Node<T>* tail = nullptr;
 
@@ -57,7 +57,7 @@ List<T> CopyList(const List<T>& L) {
 
 TEMPLATE
 
-void displayList(const List<T>& L) {
+void displayList(const SList<T>& L) {
     if (isEmpty(L)) {
         cout << "List is empty\n";
         return;
@@ -74,7 +74,7 @@ void displayList(const List<T>& L) {
 
 TEMPLATE
 
-void destroyList(List<T>* L) {
+void destroyList(SList<T>* L) {
     if (!L) return;
     Node<T>* current = L->head;
     while (current) {
@@ -86,7 +86,7 @@ void destroyList(List<T>* L) {
     L->size = 0; 
 }
 TEMPLATE
-int getElement(const List<T>& L, int pos) {
+int getElement(const SList<T>& L, int pos) {
     if (isEmpty(L)) {
         cerr << "\nList is empty\n";
         return -1;
@@ -102,7 +102,7 @@ int getElement(const List<T>& L, int pos) {
     return current->data;
 }
 TEMPLATE
-bool removeAt(List<T>* L, int pos) {
+bool removeAt(SList<T>* L, int pos) {
     if (!L || isEmpty(*L)) {
         cerr << "\nList is empty";
         return false;
@@ -127,7 +127,7 @@ bool removeAt(List<T>* L, int pos) {
     return true;
 }
 TEMPLATE
-bool insert(List<T>* L, T e, int pos) {
+bool insert(SList<T>* L, T e, int pos) {
     if (!L) return false;
     if (pos < 1 || pos > L->size + 1) {
         cerr << "\nInvalid position";
@@ -153,17 +153,17 @@ bool insert(List<T>* L, T e, int pos) {
 }
 TEMPLATE
 
-bool isEmpty(const List<T>& L) {
+bool isEmpty(const SList<T>& L) {
     return L.size == 0;
 }
 TEMPLATE
 
-int listSize(const List<T>& L) {
+int listSize(const SList<T>& L) {
     return L.size;
 }
 TEMPLATE
 
-bool isFull(const List<T>& L) {
+bool isFull(const SList<T>& L) {
     Node<T>* test = new (nothrow) Node<T>;
     if (!test) return true;
     delete test;
@@ -186,7 +186,7 @@ Node<T>* createNode(T value) {
 
 TEMPLATE
 
-bool isUnique(const List<T>& L, int value) {
+bool isUnique(const SList<T>& L, int value) {
     Node<T>* current = L.head;
     while (current != nullptr) {
         if (current->data.ID == value) {
@@ -196,4 +196,3 @@ bool isUnique(const List<T>& L, int value) {
     }
     return true; 
 }
-

@@ -9,7 +9,7 @@ struct Node{
     Node* prev;
 };
 
-struct D_list {
+struct DList {
     Node* head;
     Node* tail;
     int size;

@@ -1,2 +1,1 @@
-g++ -g src\*.cpp libs\imgui\*.cpp libs\imgui\backends\*.cpp -Iheaders -Ilibs\SDL2/include -Ilibs\imgui -Llibs/SDL2/lib -lSDL2main -lSDL2 -o BankingSystem.exe 
-pause
+g++ -g src\main.cpp src\CustomerInterface.cpp src\EmployeeInterface.cpp src\SinglyLinkedListMeth.cpp src\DoublyLinkedListMeth.cpp src\DataStructsFunctions.cpp src\Dates.cpp src\Loans.cpp libs\imgui\imgui.cpp libs\imgui\imgui_draw.cpp libs\imgui\imgui_widgets.cpp libs\imgui\imgui_tables.cpp libs\imgui\backends\imgui_impl_sdl2.cpp libs\imgui\backends\imgui_impl_sdlrenderer2.cpp -Iheaders -Ilibs\imgui -Ilibs\SDL2/include -Llibs\SDL2/lib -lmingw32 -lSDL2main -lSDL2 -mwindows -o BankingSystem.exe

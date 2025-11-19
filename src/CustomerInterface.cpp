@@ -1,4 +1,4 @@
-#include "../headers/CustomerInterface.hpp"
+#include "../include/CustomerInterface.hpp"
 
 void customerInterface() {
     cout << "----------------------------------------------------------------------------" << endl;
