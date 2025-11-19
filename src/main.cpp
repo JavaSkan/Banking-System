@@ -24,7 +24,7 @@ int main() {
         "ImGui Test",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        400, 300,
+        800, 600,
         SDL_WINDOW_SHOWN
     );
 
