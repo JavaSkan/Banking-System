@@ -90,8 +90,7 @@ void resizeArray(Array<T>& p, int newCapacity) {
 TEMPLATE
 void removeAtArray(Array<T>& p, int pos) {
     if (pos < 0 || pos >= p.size) {
-        cout << "invalid position" << std::endl;
-        return;
+        cout << "invalid position" <<endl;
     }
 
     for (int i = pos; i < p.size - 1; i++) {
