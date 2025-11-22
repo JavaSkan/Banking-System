@@ -1,0 +1,13 @@
+.title{
+    text-align:center;
+    font-size: x-large;
+    color:rgb(13, 120, 120);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+body{
+    background-color: bisque;
+}
+.main{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
