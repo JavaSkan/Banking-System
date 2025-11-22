@@ -7,12 +7,13 @@
     <script src="script.js"></script>
 </head>
 <body>
-    <h1>WebView Test</h1>
-    <p id="out">Waiting for C++...</p>
-    <button id="testbtn" onclick="readFromCpp()">Get Message from C++</button>
-    <p id="result"></p>
-    <button id="testbtn" onclick="sendToCpp()">Send Message to C++</button>
-    <input type="text" name="name" id="userInput">
-    <p id="response"></p>
+    <nav>
+        <h1>Banking System</h1>
+        <button class="quitbtn" onclick="close()"><img src="../assets/exit.png" alt=""></button>
+    </nav>
+    
+    <iframe src="mainMenu.html" frameborder="0"></iframe>
+    
+    
 </body>
 </html>

@@ -36,7 +36,7 @@ string json_escape(const string &s) {
 // Setup WebView
 void setup() {
     char fullPath[MAX_PATH];
-    GetFullPathNameA("GUI\\index.html", MAX_PATH, fullPath, nullptr);
+    GetFullPathNameA("gui\\index.html", MAX_PATH, fullPath, nullptr);
     string html_url = "file:///" + string(fullPath);
 
     w.set_title("HTML Window");
@@ -44,10 +44,11 @@ void setup() {
     w.navigate(html_url);
 }
 
+
 // Bind C++ message to JS
-void CppJs(const string &msg) {
-    w.bind("getCppMessage", [msg](const string&) -> string {
-        return json_escape(msg); // must be valid JSON string
+void CppJs(const string &obj) {
+    w.bind("getCppObj", [obj](const string&) -> string {
+        return json_escape(obj); // must be valid JSON string
     });
 }
 
@@ -61,16 +62,15 @@ void JsCpp() {
 }
 
 int main() {
+    cout<<"test";
     setup();
 
     // Send value from C++ to JS
     string message = "Hello from C++!";
     CppJs(message);
-
-    // Receive value from JS
     JsCpp();
-
-    // Run WebView
+    cout << lastJsValue;
+    CppJs(lastJsValue);
     w.run();
 
     return 0;

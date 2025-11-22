@@ -1,22 +1,15 @@
 // Read value from C++ and display it
-function readFromCpp() {
-    getCppMessage("").then(msg => {
-        document.getElementById('result').innerText = msg;
+function readFromCpp(id) {
+    getCppObj("").then(msg => {
+        document.getElementById(id).innerText = msg;
     }).catch(err => console.error("Error reading from C++:", err));
 }
 
 // Send value to C++ and display reply
-function sendToCpp() {
-    const val = document.getElementById('userInput').value;
-
+function sendToCpp(id) {
+    const val = document.getElementById(id).value;
     sendToCppFunc(val).then(reply => {
-        // reply is already a JSON string, so use JSON.parse
-        try {
-            const parsed = JSON.parse(reply);
-            document.getElementById('response').innerText = parsed;
-        } catch (e) {
-            console.error("Failed to parse C++ reply:", e, reply);
-            document.getElementById('response').innerText = reply; // fallback
-        }
+        // reply is plain text, so display it directly
+        document.getElementById('response').innerText = reply;
     }).catch(err => console.error("Error sending to C++:", err));
 }
