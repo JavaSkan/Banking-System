@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-    <html>
-        <head>
-            <title>Test Page</title>
-            <link rel="stylesheet" href="Style.css">
-            <script src="JsCode.js"></script>
-        </head>
-        <body>
-            <h1>melik bibi</h1>
-            <p>This is raw HTML rendered directly.</p>
-            <button id="testbtn" onclick="testing()">TEST</button>
-            <p id="out"></p>
-        </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    <link rel="stylesheet" href="Style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>WebView Test</h1>
+    <p id="out">Waiting for C++...</p>
+    <button id="testbtn" onclick="readFromCpp()">Get Message from C++</button>
+    <p id="result"></p>
+    <button id="testbtn" onclick="sendToCpp()">Send Message to C++</button>
+    <input type="text" name="name" id="userInput">
+    <p id="response"></p>
+</body>
 </html>
