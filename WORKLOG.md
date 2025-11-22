@@ -8,3 +8,4 @@
 |            | Developed the Singly Linked List headers                              | All            |
 || Implemented the main menu and placeholders for Customer and Employee interfaces   | Aymen          |
 | 16-11-2025 | Added Loans, Dates, DoublyLinkedLists and their methods               | Skander        |
+|  | Added Loans, Dates, DoublyLinkedLists and their methods               | Skander        |
