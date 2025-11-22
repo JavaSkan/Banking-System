@@ -3,12 +3,14 @@
 #define CUSTOMER_H
 
 #include <string>
+#include "DoublyLinkedList.hpp"
+#include "stack.hpp"
 using namespace std;
 
 //Account Status
-#define CST_INACTIVE 8
-#define CST_ACTIVE   9
-#define CST_CLOSED   10
+constexpr int CST_INACTIVE = 0;
+constexpr int CST_ACTIVE = 1;
+constexpr int CST_CLOSED = -1;
 //Status values can only be one of the 3 above
 
 struct customer{
@@ -20,6 +22,10 @@ struct customer{
     string openingDate;
     int status;
     float balance;
+    int branchCode;
+    DList loans;
+    Stack transactions;
+
 };
 
 #endif

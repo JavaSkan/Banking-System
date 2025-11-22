@@ -6,15 +6,13 @@ using namespace std;
 
 #include "Dates.hpp"
 
-enum Type{
-    WITHDRAYAL,
-    DEPOSIT
-};
+constexpr int TR_WITHDRAWAL = 0;
+constexpr int TR_DEPOSIT = 1;
 
 struct Transaction{
     int ID;
     int accountNumber;
-    Type type;
+    int type;
     float amount;
     Date date;
 };
