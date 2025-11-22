@@ -17,6 +17,8 @@ TEMPLATE int arraySize(const Array<T>& p);
 TEMPLATE void displayArray(const Array<T>& p);
 TEMPLATE int addElement(Array<T>& p, T e, int pos);
 TEMPLATE Array<T> copyArray(const Array<T>& p);
+TEMPLATE void resizeArray(Array<T>& p, int newCapacity);
+
 
 
 #include "arrayMeth.tpp"
