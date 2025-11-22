@@ -7,5 +7,5 @@ using namespace std;
 
 bool isValidEmail(const string& email);
 TEMPLATE
-int IDGen(const S_list<T>&L,char type);
+int IDGen(const SList<T>&L,char type);
 #endif
