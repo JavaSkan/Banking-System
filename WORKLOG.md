@@ -8,4 +8,4 @@
 |            | Developed the Singly Linked List headers                              | All            |
 || Implemented the main menu and placeholders for Customer and Employee interfaces   | Aymen          |
 | 16-11-2025 | Added Loans, Dates, DoublyLinkedLists and their methods               | Skander        |
-| 22-11-2025 | Added custom arrays ( W/ Methods).Re-organized tpp files in include.  | Melik          |
+| 22-11-2025 | Added custom arrays ( & Method ).Re-organized tpp files in include.   | Melik          |
