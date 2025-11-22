@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cctype>
-#include "../include/SinglyLinkedList.hpp"
+#include "SinglyLinkedList.hpp"
 #define TEMPLATE template <typename T>
 using namespace std;
 

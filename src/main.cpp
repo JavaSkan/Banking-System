@@ -7,7 +7,7 @@
 using namespace std;
 
 
-int main(){
+int kahlouch(){
     bool reloop;
     string input;
     
