@@ -8,48 +8,70 @@
 
 using namespace std;
 
+webview::webview w(true, nullptr);
+// Global webview
 
-int main() {
+// Global variable to store value from JS
+string lastJsValue;
+
+// Helper: escape string for JSON
+string json_escape(const string &s) {
+    string result = "\"";
+    for (char c : s) {
+        switch(c) {
+            case '\"': result += "\\\""; break;
+            case '\\': result += "\\\\"; break;
+            case '\b': result += "\\b"; break;
+            case '\f': result += "\\f"; break;
+            case '\n': result += "\\n"; break;
+            case '\r': result += "\\r"; break;
+            case '\t': result += "\\t"; break;
+            default: result += c; break;
+        }
+    }
+    result += "\"";
+    return result;
+}
+
+// Setup WebView
+void setup() {
     char fullPath[MAX_PATH];
     GetFullPathNameA("GUI\\index.html", MAX_PATH, fullPath, nullptr);
-    std::string html_url = "file:///" + std::string(fullPath);
+    string html_url = "file:///" + string(fullPath);
 
-    webview::webview w(true, nullptr);
     w.set_title("HTML Window");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
     w.navigate(html_url);
-    w.run();
-/*
-bool reloop;
-string input;
-
-cout << "----------------------------------------------------------------------------\n";
-cout <<
-"  ____              _    _               ____            _                  \n"
-" | __ )  __ _ _ __ | | _(_)_ __   __ _  / ___| _   _ ___| |_ ___ _ __ ___  \n"
-" |  _ \\ / _` | '_ \\| |/ / | '_ \\ / _` | \\___ \\| | | / __| __/ _ \\ '_ ` _ \\ \n"
-" | |_) | (_| | | | |   <| | | | | (_| |  ___) | |_| \\__ \\ ||  __/ | | | | |\n"
-" |____/ \\__,_|_| |_|_|\\_\\_|_| |_|\\__, | |____/ \\__, |___/\\__\\___|_| |_| |_| \n"
-"                                 |___/         |___/                        \n";
-cout << "----------------------------------------------------------------------------\n";
-cout <<
-"___  _    ____ ____ ____ ____    ____ _  _ ____ ____ ____ ____    ____ _  _ ____     \n"
-"|__] |    |___ |__| [__  |___    |    |__| |  | |  | [__  |___    |  | |\\ | |___    .\n"
-"|    |___ |___ |  | ___] |___    |___ |  | |__| |__| ___] |___    |__| | \\| |___    .\n\n";
-
-cout << "1-Customer Interface\n2-Employee Interface\n3-Exit\n";
-do {
-    cout << "Please give your choice: ";
-    getline(cin, input);
-    reloop = !(input == "1" || input == "2" || input == "3");
-} while (reloop);
-
-if (input == "1") {
-    customerInterface();
-} else if (input == "2") {
-    employeeInterface();
 }
 
-*/
-return 0;
+// Bind C++ message to JS
+void CppJs(const string &msg) {
+    w.bind("getCppMessage", [msg](const string&) -> string {
+        return json_escape(msg); // must be valid JSON string
+    });
+}
+
+// Bind JS to C++ to receive values
+void JsCpp() {
+    w.bind("sendToCppFunc", [](const string &arg) -> string {
+        cout << "Received from JS: " << arg << endl;
+        lastJsValue = arg;  // store for later use
+        return json_escape("C++ got: " + arg);
+    });
+}
+
+int main() {
+    setup();
+
+    // Send value from C++ to JS
+    string message = "Hello from C++!";
+    CppJs(message);
+
+    // Receive value from JS
+    JsCpp();
+
+    // Run WebView
+    w.run();
+
+    return 0;
 }

@@ -73,6 +73,11 @@
         "variant": "cpp",
         "vector": "cpp",
         "xhash": "cpp",
-        "xtree": "cpp"
+        "xtree": "cpp",
+        "bitset": "cpp",
+        "numeric": "cpp",
+        "queue": "cpp",
+        "set": "cpp",
+        "stack": "cpp"
     }
 }
