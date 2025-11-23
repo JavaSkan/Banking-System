@@ -6,7 +6,7 @@ using namespace std;
 
 struct Bank{
     string branchName;
-    int ID;
+    string ID;
 };
 
 #endif

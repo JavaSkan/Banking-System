@@ -86,14 +86,14 @@ void destroyList(SList<T>* L) {
     L->size = 0; 
 }
 TEMPLATE
-int getElement(const SList<T>& L, int pos) {
+T getElement(const SList<T>& L, int pos) {
     if (isEmpty(L)) {
         cerr << "\nList is empty\n";
-        return -1;
+        return {};
     }
     if (pos < 1 || pos > L.size) {
         cerr << "\nInvalid position\n";
-        return -1;
+        return {};
     }
     Node<T>* current = L.head;
     for (int i = 1; i < pos; i++) {

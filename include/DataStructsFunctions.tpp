@@ -91,10 +91,10 @@ bool isUnique(const SList<T>& L, int value) {
 }
 
 int random(int min, int max) {
-    static bool seeded = false; //constant to not reseed (faza comme quoi)
-    if (!seeded) {
+    static bool SEEDED = false; //constant to not reseed (faza comme quoi)
+    if (!SEEDED) {
         srand(static_cast<unsigned>(time(nullptr))); // :)
-        seeded = true;
+        SEEDED = true;
     }
     int randomNumber = min + rand() % (max - min + 1);
     return randomNumber;
@@ -119,7 +119,7 @@ int IDGen(const SList<T>& L,char type){
     }
     while(!test){
         int big_id=random(1,999999)*10;
-        test=isUnique(const SList<T>& L,(big_id+ID))
+        test=isUnique<T>(L,(big_id+ID));
     }
 
     return ID; 

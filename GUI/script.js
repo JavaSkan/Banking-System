@@ -17,3 +17,13 @@ function sendToCpp(id) {
 function closeWin(){
     closeWindow(); // call the C++ bound function
 }
+function BranchInfo() {
+    window.getBranchInfo().then((obj) => {
+        // obj is already: { data: "tunis*1" }
+        const [branchName, ID] = obj.data.split("*");
+        let BranchSpace=document.getElementById('branch_name');
+        let CodeSpace=document.getElementById('branch_code');
+        BranchSpace.innerText=BranchSpace.innerText+" "+branchName;
+        CodeSpace.innerText=CodeSpace.innerText+" "+ID;
+    });
+}

@@ -1,19 +1,48 @@
 #include <windows.h> // for GetFullPathNameA
 #include <webview.h>
 #include "../include/SinglyLinkedListMeth.hpp"
+#include "../include/DataStructsFunctions.hpp"
 #include "../include/CustomerInterface.hpp"
 #include "../include/EmployeeInterface.hpp"
+#include "../include/bankBranch.hpp"
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <fstream> // for files
+#include <sstream> // for stringstream
 
 using namespace std;
-string lastJsValue;
-
-webview::webview w(true, nullptr);
-// Global webview
-
 // Global variable to store value from JS
+string lastJsValue;
+// Global webview
+webview::webview w(true, nullptr);
+
+//function ta3melek lista ta3 bounouk
+TEMPLATE
+SList<Bank>BranchesList() {
+    ifstream file("assets/BankBranches.csv");
+    if (!file.is_open()) {
+        cerr << "Cannot open file!" << endl;
+        return createList<Bank>();   // return EMPTY LIST
+    }
+
+    SList<Bank> BL = createList<Bank>();
+    Bank data;
+    string line;
+    int pos = 1;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        if (!getline(ss, data.branchName, ',') || !getline(ss, data.ID, ',')) {
+            continue; // skip malformed lines
+        }
+        insert<Bank>(&BL, data, pos);
+        pos++;
+    }
+
+    file.close();
+    return BL;
+}
 
 // Helper: escape string for JSON
 string json_escape(const string &s) {
@@ -61,15 +90,33 @@ void init_JsCpp() {
     });
 }
 
-
-
-
 // Bind JS function to C++ close action
 void init_quit(){
     w.bind("closeWindow", [](const std::string&) -> string {
         w.terminate(); // closes the WebView window
         return "\"Closed\""; // must return valid JSON string
     });
+}
+void SessBank(const Bank& sess_bank) {
+    w.bind("getBranchInfo", [sess_bank](const std::string&) -> std::string {
+        std::string combined = sess_bank.branchName + "*" + sess_bank.ID;
+        return "{\"data\":\"" + combined + "\"}";
+    });
+}
+
+
+
+Bank randomBank(){
+    SList<Bank> BL=BranchesList<Bank>();
+    int BL_size=listSize<Bank>(BL);
+    Bank B=getElement<Bank>(BL,random(1,BL_size));
+    return(B);
+    /*
+    Bank test;
+    test.branchName="Tunis";
+    test.ID="1";
+    return(test);
+    */
 }
 
 
@@ -78,6 +125,8 @@ int main() {
     init_quit();
     init_CppJs("");
     init_JsCpp();
+    Bank random_bank=randomBank();
+    SessBank(random_bank);
     w.run();
     return 0;
 }

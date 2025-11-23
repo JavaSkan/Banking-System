@@ -12,4 +12,5 @@ struct Array{
     //capacity expresses how much memory is allocated for the array;
 };
 
+
 #endif

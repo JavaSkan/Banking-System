@@ -5,7 +5,9 @@
 #define TEMPLATE template <typename T>
 using namespace std;
 
+TEMPLATE int IDGen(const SList<T>&L,char type);
+TEMPLATE bool isUnique(const SList<T>& L, int value);
 bool isValidEmail(const string& email);
-TEMPLATE
-int IDGen(const S_list<T>&L,char type);
+int random(int min, int max);
+#include "DataStructsFunctions.tpp"
 #endif
