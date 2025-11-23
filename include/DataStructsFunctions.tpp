@@ -102,6 +102,7 @@ int random(int min, int max) {
 TEMPLATE
 int IDGen(const SList<T>& L,char type){
     int ID;
+    int big_id;
     bool test=false;
     switch (type){
         case 'E':
@@ -122,6 +123,6 @@ int IDGen(const SList<T>& L,char type){
         test=isUnique<T>(L,(big_id+ID));
     }
 
-    return ID; 
+    return (big_id+ID); 
 }
 
