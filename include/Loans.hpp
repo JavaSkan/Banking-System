@@ -19,13 +19,8 @@ constexpr int LNS_OVERDUE = 7;
 struct Loan{
     int loadId;
     int type;
-<<<<<<< HEAD
     float pr_amount; //principle amount
     float it_rate; //interest rate
-=======
-    float prAmount; //principle amount
-    float itRate; //interest rate
->>>>>>> f37345e662495694a89d0ead31e19a30e2b2c280
     float am_paid; //amount paid
     float rm_balance; //remaining balance
     Date start_date;
