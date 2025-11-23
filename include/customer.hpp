@@ -1,7 +1,7 @@
 //Defining the customer structure
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
-
+#include "Dates.hpp"
 #include <string>
 using namespace std;
 
@@ -16,8 +16,9 @@ struct customer{
     //is the account number
     string type;
     string IBAN;
+    string branchCode;
     string name;
-    string openingDate;
+    Date openingDate;
     int status;
     float balance;
 };
