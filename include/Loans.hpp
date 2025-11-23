@@ -17,7 +17,7 @@ constexpr int LNS_COMPLETED = 6;
 constexpr int LNS_OVERDUE = 7;
 
 struct Loan{
-    int loadId;
+    string ID;
     int type;
     float pr_amount; //principle amount
     float it_rate; //interest rate

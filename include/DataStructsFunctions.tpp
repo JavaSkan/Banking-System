@@ -4,6 +4,8 @@
 #include <cstdlib> // For rand() and srand()
 #include <ctime>   // For time()
 #include "SinglyLinkedList.hpp"
+#include "arrayMeth.hpp"
+#include "customer.hpp"
 using namespace std;
 
 bool isValidEmail(const string& email) {
@@ -79,7 +81,7 @@ bool isValidEmail(const string& email) {
 }
 TEMPLATE
 
-bool isUnique(const SList<T>& L, int value) {
+bool isUnique(const SList<T>& L, string value) {
     Node<T>* current = L.head;
     while (current != nullptr) {
         if (current->data.ID == value) {
@@ -100,29 +102,23 @@ int random(int min, int max) {
     return randomNumber;
 }
 TEMPLATE
-int IDGen(const SList<T>& L,char type){
-    int ID;
-    int big_id;
+string IDGenCustomer(const Array<T> T,char type){
     bool test=false;
-    switch (type){
-        case 'E':
-        ID=0;
-        break;
-        case 'C':
-        ID=1;
-        break;
-        case 'L':
-        ID=2;
-        break;
-        case 'T':
-        ID=3;
-        break;
-    }
-    while(!test){
-        int big_id=random(1,999999)*10;
-        test=isUnique<T>(L,(big_id+ID));
-    }
+    int temp = random(1000000000,1999999999);
+    long long ID = temp*1000+random(0,999);
+    string sID = to_string(ID);
+    return(sID);
+}
 
-    return (big_id+ID); 
+string RIBGen(Customer C){
+    string RIB = "67"+C.branchCode+C.ID;
+    long long temp = stoll(RIB);
+    RIB = RIB + to_string(97 - (temp%97));
+    return(RIB);
+}
+
+string IBANGen(Customer C){
+    string IBAN = "TN59" + RIBGen(C);
+    return(IBAN);
 }
 

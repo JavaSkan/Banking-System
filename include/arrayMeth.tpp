@@ -99,3 +99,16 @@ void removeAtArray(Array<T>& p, int pos) {
 
     p.size--;
 }
+
+TEMPLATE
+bool isUniqueInArray(const Array<T>& p, T e){
+    bool test = true;
+    int i = 0;
+    while(test && i<p.size){
+        if ( p.data[i].ID == e.ID ){
+            test = false;
+        }
+    };
+    return(i==p.size);
+
+}
