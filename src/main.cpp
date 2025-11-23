@@ -5,14 +5,15 @@
 #include "../include/EmployeeInterface.hpp"
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 
 using namespace std;
+string lastJsValue;
 
 webview::webview w(true, nullptr);
 // Global webview
 
 // Global variable to store value from JS
-string lastJsValue;
 
 // Helper: escape string for JSON
 string json_escape(const string &s) {
@@ -38,40 +39,45 @@ void setup() {
     char fullPath[MAX_PATH];
     GetFullPathNameA("gui\\index.html", MAX_PATH, fullPath, nullptr);
     string html_url = "file:///" + string(fullPath);
-
-    w.set_title("HTML Window");
+    
+    w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
     w.navigate(html_url);
 }
 
 
 // Bind C++ message to JS
-void CppJs(const string &obj) {
+void init_CppJs(const string &obj) {
     w.bind("getCppObj", [obj](const string&) -> string {
         return json_escape(obj); // must be valid JSON string
     });
 }
 
 // Bind JS to C++ to receive values
-void JsCpp() {
+void init_JsCpp() {
     w.bind("sendToCppFunc", [](const string &arg) -> string {
-        cout << "Received from JS: " << arg << endl;
         lastJsValue = arg;  // store for later use
-        return json_escape("C++ got: " + arg);
+        return "\"\"" ;
     });
 }
 
+
+
+
+// Bind JS function to C++ close action
+void init_quit(){
+    w.bind("closeWindow", [](const std::string&) -> string {
+        w.terminate(); // closes the WebView window
+        return "\"Closed\""; // must return valid JSON string
+    });
+}
+
+
 int main() {
-    cout<<"test";
     setup();
-
-    // Send value from C++ to JS
-    string message = "Hello from C++!";
-    CppJs(message);
-    JsCpp();
-    cout << lastJsValue;
-    CppJs(lastJsValue);
+    init_quit();
+    init_CppJs("");
+    init_JsCpp();
     w.run();
-
     return 0;
 }

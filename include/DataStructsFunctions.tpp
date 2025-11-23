@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
 #include "SinglyLinkedList.hpp"
-#define TEMPLATE template <typename T>
 using namespace std;
 
 bool isValidEmail(const string& email) {
@@ -76,32 +77,51 @@ bool isValidEmail(const string& email) {
 
     return true;
 }
-
 TEMPLATE
-int IDGen(const SList<T>&L,char type){
-    int ID;
-    if(isEmpty(L)){
-        switch (type){
-        case 'E':
-            ID=10;
-            break;
-        case 'C':
-            ID=11;
-            break;
-        case 'L':
-            ID=12;
-            break;
-        case 'T':
-            ID=13;
-            break;
-    }
-    }  else {
-        Node<T>* current = L.head;
-        while (current->next != nullptr) {
-            current = current->next;
+
+bool isUnique(const SList<T>& L, int value) {
+    Node<T>* current = L.head;
+    while (current != nullptr) {
+        if (current->data.ID == value) {
+            return false;
         }
-        ID = current->data.ID + 10;  // now current is valid
+        current = current->next;
     }
+    return true; 
+}
+
+int random(int min, int max) {
+    static bool seeded = false; //constant to not reseed (faza comme quoi)
+    if (!seeded) {
+        srand(static_cast<unsigned>(time(nullptr))); // :)
+        seeded = true;
+    }
+    int randomNumber = min + rand() % (max - min + 1);
+    return randomNumber;
+}
+TEMPLATE
+int IDGen(const SList<T>& L,char type){
+    int ID;
+    bool test=false;
+    switch (type){
+        case 'E':
+        ID=0;
+        break;
+        case 'C':
+        ID=1;
+        break;
+        case 'L':
+        ID=2;
+        break;
+        case 'T':
+        ID=3;
+        break;
+    }
+    while(!test){
+        int big_id=random(1,999999)*10;
+        test=isUnique(const SList<T>& L,(big_id+ID))
+    }
+
     return ID; 
 }
 

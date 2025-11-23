@@ -62,3 +62,24 @@ main {
     margin-right: 4%;
     margin-top: -4%;
 }
+label{
+    display: inline-block;
+    color:rgb(117, 114, 10);
+}
+fieldset{
+    border-color: rgb(117, 114, 10);
+    border-width: 5px;
+    border-radius: 15px;
+    border-style: double;
+    width:50%;
+}
+form,fieldset{
+    display: flex;
+    justify-content: center;
+}
+td{
+    text-align: right;
+}
+td input{
+    color:black;
+}

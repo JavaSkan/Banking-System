@@ -183,16 +183,3 @@ Node<T>* createNode(T value) {
     }
     return node;
 }
-
-TEMPLATE
-
-bool isUnique(const SList<T>& L, int value) {
-    Node<T>* current = L.head;
-    while (current != nullptr) {
-        if (current->data.ID == value) {
-            return false;
-        }
-        current = current->next;
-    }
-    return true; 
-}

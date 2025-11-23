@@ -13,3 +13,7 @@ function sendToCpp(id) {
         document.getElementById('response').innerText = reply;
     }).catch(err => console.error("Error sending to C++:", err));
 }
+
+function closeWin(){
+    closeWindow(); // call the C++ bound function
+}
