@@ -5,4 +5,4 @@ A Simple Banking System implemented in C++ .
 _A Data Structure project - HIDE 2025/2026_
 
 <a name="worklog" href="WORKLOG.md" target="disp">WorkLog</a>
-<iframe src="WORKLOG.md" name="disp"></iframe>
+<img src="assets/exit.png">
