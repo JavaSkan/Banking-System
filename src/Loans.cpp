@@ -34,7 +34,7 @@ string loanStatusStr(int s){
 }
 
 void displayLoan(const Loan& l){
-    cout << "Loan (" << l.loadId << "):\n";
+    cout << "Loan (" << l.ID << "):\n";
     cout << "\ttype: " << loanTypeStr(l.type) << "\n";
     cout << "\tprinciple amount: " << l.pr_amount << "\n";
     cout << "\tinterest rate: " << l.it_rate << "\n";

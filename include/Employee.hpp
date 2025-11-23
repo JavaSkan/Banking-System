@@ -6,7 +6,7 @@
 using namespace std;
 
 struct employee{
-    int Id;
+    string ID;
     string Name;
     string LastName;
     string Adress;

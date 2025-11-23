@@ -39,7 +39,7 @@ bool CompareLists(const DList& L1, const DList& L2) {
     Node* p2 = L2.head;
 
     while (p1) {
-        if (p1->data.loadId != p2->data.loadId) return false;
+        if (p1->data.ID != p2->data.ID) return false;
         p1 = p1->next;
         p2 = p2->next;
     }

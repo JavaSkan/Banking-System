@@ -10,7 +10,7 @@ constexpr int TR_WITHDRAWAL = 0;
 constexpr int TR_DEPOSIT = 1;
 
 struct Transaction{
-    int ID;
+    string ID;
     int accountNumber;
     int type;
     float amount;

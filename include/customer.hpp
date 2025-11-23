@@ -13,8 +13,8 @@ constexpr int CST_ACTIVE = 1;
 constexpr int CST_CLOSED = -1;
 //Status values can only be one of the 3 above
 
-struct customer{
-    int ID;
+struct Customer{
+    string ID;
     //is the account number
     string type;
     string IBAN;
