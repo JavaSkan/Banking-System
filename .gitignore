@@ -1,0 +1,21 @@
+# Visual Studio / VS Code
+.vs/
+*.suo
+*.user
+*.userosscache
+*.ipch
+*.VC.db
+*.pdb
+*.obj
+*.exe
+*.dll
+
+# Build outputs
+Debug/
+Release/
+x64/
+bin/
+build/
+
+# Mac / Linux
+*.DS_Store
