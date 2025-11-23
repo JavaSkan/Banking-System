@@ -83,3 +83,6 @@ td{
 td input{
     color:black;
 }
+select,option{
+    color:black;
+}
