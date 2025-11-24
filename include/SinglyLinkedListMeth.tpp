@@ -14,8 +14,8 @@ TEMPLATE
 bool CompareLists(const SList<T>& L1, const SList<T>& L2) {
 if (L1.size != L2.size) return false;
 
-Node<T>* p1 = L1.head;
-Node<T>* p2 = L2.head;
+SNode<T>* p1 = L1.head;
+SNode<T>* p2 = L2.head;
 
 while (p1) {
     if (p1->data.ID != p2->data.ID) return false;
@@ -28,11 +28,11 @@ while (p1) {
 TEMPLATE
 SList<T> CopyList(const SList<T>& L) {
     SList<T> newList = createList<T>();
-    Node<T>* current = L.head;
-    Node<T>* tail = nullptr;
+    SNode<T>* current = L.head;
+    SNode<T>* tail = nullptr;
 
     while (current) {
-        Node<T>* n = createNode<T>(current->data);
+        SNode<T>* n = createNode(current->data);
         if (!n) {
             cerr << "\nMemory allocation failed while copying\n";
             destroyList(&newList);
@@ -62,7 +62,7 @@ void displayList(const SList<T>& L) {
         cout << "List is empty\n";
         return;
     }
-    Node<T>* current = L.head;
+    SNode<T>* current = L.head;
     while (current) {
     cout << current->data << " -> ";
     current = current->next;
@@ -76,9 +76,9 @@ TEMPLATE
 
 void destroyList(SList<T>* L) {
     if (!L) return;
-    Node<T>* current = L->head;
+    SNode<T>* current = L->head;
     while (current) {
-        Node<T>* temp = current;
+        SNode<T>* temp = current;
         current = current->next;
         destroyNode(temp);
     }
@@ -95,7 +95,7 @@ T getElement(const SList<T>& L, int pos) {
         cerr << "\nInvalid position\n";
         return {};
     }
-    Node<T>* current = L.head;
+    SNode<T>* current = L.head;
     for (int i = 1; i < pos; i++) {
         current = current->next;
     }
@@ -111,8 +111,8 @@ bool removeAt(SList<T>* L, int pos) {
         cerr << "\nInvalid position";
         return false;
     }
-    Node<T>* prev = nullptr;
-    Node<T>* current = L->head;
+    SNode<T>* prev = nullptr;
+    SNode<T>* current = L->head;
     if (pos == 1) {
         L->head = current->next;
     }else {
@@ -133,14 +133,14 @@ bool insert(SList<T>* L, T e, int pos) {
         cerr << "\nInvalid position";
         return 0;
     }
-    Node<T>* n = createNode(e);
+    SNode<T>* n = createNode(e);
     if (!n) return 0;
     if (pos == 1) {
         n->next = L->head;
         L->head = n;
     }else {
-        Node<T>* prev = nullptr;
-        Node<T>* current = L->head;
+        SNode<T>* prev = nullptr;
+        SNode<T>* current = L->head;
         for (int i = 1; i < pos; i++) {
             prev = current;
             current = current->next;
@@ -164,22 +164,22 @@ int listSize(const SList<T>& L) {
 TEMPLATE
 
 bool isFull(const SList<T>& L) {
-    Node<T>* test = new (nothrow) Node<T>;
+    SNode<T>* test = new (nothrow) SNode<T>;
     if (!test) return true;
     delete test;
     return false;
 }
 TEMPLATE
 
-void destroyNode(Node<T>* node) {
-    delete node;
+void destroyNode(SNode<T>* Snode) {
+    delete Snode;
 }
 TEMPLATE
 
-Node<T>* createNode(T value) {
-    Node<T>* node = new (nothrow) Node<T>{ value, nullptr };
-    if (!node) {
-        cerr << "\nMemory allocation failed for node\n";
+SNode<T>* createNode(T value) {
+    SNode<T>* Snode = new (nothrow) SNode<T>{ value, nullptr };
+    if (!Snode) {
+        cerr << "\nMemory allocation failed for Snode\n";
     }
-    return node;
+    return Snode;
 }

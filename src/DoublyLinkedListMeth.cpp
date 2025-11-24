@@ -6,9 +6,9 @@ DList createList() {
 
 void destroyList(DList* L) {
     if (!L) return;
-    Node* current = L->head;
+    DNode* current = L->head;
     while (current) {
-        Node* temp = current;
+        DNode* temp = current;
         current = current->next;
         destroyNode(temp);
     }
@@ -26,7 +26,7 @@ int listSize(const DList& L) {
 }
 
 bool isFull(const DList& L) {
-    Node* test = new (nothrow) Node;
+    DNode* test = new (nothrow) DNode;
     if (!test) return true;
     delete test;
     return false;
@@ -35,8 +35,8 @@ bool isFull(const DList& L) {
 bool CompareLists(const DList& L1, const DList& L2) {
     if (L1.size != L2.size) return false;
 
-    Node* p1 = L1.head;
-    Node* p2 = L2.head;
+    DNode* p1 = L1.head;
+    DNode* p2 = L2.head;
 
     while (p1) {
         if (p1->data.ID != p2->data.ID) return false;
@@ -48,10 +48,10 @@ bool CompareLists(const DList& L1, const DList& L2) {
 
 DList CopyList(const DList& L) {
     DList newList = createList();
-    Node* current = L.head;
-    Node* tail = nullptr; // keep track of last node in new list
+    DNode* current = L.head;
+    DNode* tail = nullptr; // keep track of last node in new list
     while (current) {
-        Node* n = createNode(current->data);
+        DNode* n = createNode(current->data);
         if (!n) {
         cerr << "Memory allocation failed while copying\n";
             destroyList(&newList);
@@ -76,7 +76,7 @@ void displayList(const DList& L) {
         cout << "DList is empty\n";
         return;
     }
-    Node* current = L.head;
+    DNode* current = L.head;
     while (current) {
         displayLoan(current->data);
         current = current->next;
@@ -84,13 +84,13 @@ void displayList(const DList& L) {
     cout << "NULL\n";
 }
 
-Node* createNode(Loan value) {
-    Node* node = new (nothrow) Node{value, nullptr, nullptr };
+DNode* createNode(Loan value) {
+    DNode* node = new (nothrow) DNode{value, nullptr, nullptr };
     if (!node) cout << "Memory allocation failed for node\n";
     return node;
 }
 
-void destroyNode(Node* node) {
+void destroyNode(DNode* node) {
     delete node;
 }
 
@@ -103,7 +103,7 @@ Loan getElement(const DList& L, int pos) {
         cerr << "Invalid position\n";
         return {};
     }
-    Node* current;
+    DNode* current;
     if(L.size - pos > pos){
         current = L.head;
         for (int i = 1; i < pos; i++) {
@@ -124,7 +124,7 @@ int insert(DList* L, Loan e, int pos) {
         cout << "Invalid position\n";
         return 0;
     }
-    Node* n = createNode(e);
+    DNode* n = createNode(e);
     if (!n) return 0;
     if (isEmpty(*L)) { //Empty List
         L->head = n;
@@ -139,8 +139,8 @@ int insert(DList* L, Loan e, int pos) {
         L->tail->next = n;
         L->tail = n;
     }else { // general case
-        Node* current;
-        Node* prev;
+        DNode* current;
+        DNode* prev;
         if(L->size - pos > pos){
             prev = nullptr;
             current = L->head;
@@ -174,7 +174,7 @@ int removeAt(DList* L, int pos) {
         cout << "Invalid position\n";
         return 0;
     }
-    Node* current;
+    DNode* current;
     if (L->size == 1) {
         current = L->head;
         L->head = nullptr;
@@ -191,8 +191,8 @@ int removeAt(DList* L, int pos) {
         L->tail->next = nullptr;
     }
     else { // General case
-        Node* current;
-        Node* prevNode;
+        DNode* current;
+        DNode* prevNode;
         if(L->size - pos > pos){
             prevNode = nullptr;
             current = L->head;

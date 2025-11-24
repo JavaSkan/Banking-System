@@ -4,14 +4,14 @@
 #define TEMPLATE template <typename T>
 
 TEMPLATE
-struct Node {
+struct SNode {
     T data;
-    Node<T>* next;
+    SNode<T>* next;
 };
 
 TEMPLATE
 struct SList {
-Node<T>* head;
+SNode<T>* head;
 int size;
 };
 

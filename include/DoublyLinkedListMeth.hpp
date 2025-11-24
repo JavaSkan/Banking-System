@@ -14,8 +14,8 @@ bool isEmpty(const DList& L);
 bool isFull(const DList& L);
 int listSize(const DList& L);
 
-Node* createNode(Loan value);
-void destroyNode(Node* node);
+DNode* createNode(Loan value);
+void destroyNode(DNode* node);
 int insert(DList* L, Loan e, int pos);
 int removeAt(DList* L, int pos);
 Loan getElement(const DList& L, int pos);

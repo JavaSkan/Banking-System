@@ -13,3 +13,4 @@
 |            | Added stack ( & Method )                                              | Melik          |
 | 23-11-2025 | Added ID, RIB and IBAN generation                                     | Melik          |
 | | Added miscellaneous functions                                     | Aziz          |
+| 24-11-2025| Fixed GUI bugs + added interface hpp and tpp placeholders                                     | Aymen          |

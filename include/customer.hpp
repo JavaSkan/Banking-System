@@ -23,7 +23,6 @@ struct Customer{
     Date openingDate;
     int status;
     float balance;
-    string branchCode;
     DList loans;
     Stack transactions;
 

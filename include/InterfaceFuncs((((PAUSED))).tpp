@@ -1,3 +1,4 @@
+/* 
 #include <windows.h>
 #include <webview.h>
 #include <iostream>
@@ -7,11 +8,7 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "../include/SinglyLinkedListMeth.hpp"
-#include "../include/DataStructsFunctions.hpp"
-#include "../include/bankBranch.hpp"
-
-using namespace std;
+#include "InterfaceFuncs.hpp"
 
 // --- GLOBAL VARIABLES ---
 webview::webview w(true, nullptr);
@@ -133,10 +130,6 @@ void setupBindings() {
     w.bind("goToPage", goToPageCpp);
     
 }
-
-
-
-
 void setupWebView() {
 
     w.set_title("Banking System");
@@ -147,20 +140,4 @@ void setupWebView() {
     w.navigate(path("index.html"));
     
 }
-
-// --- MAIN ---
-int main() {
-    AllocConsole();
-    freopen("CONOUT$", "w", stdout);
-    freopen("CONIN$", "r", stdin);
-
-    cout << "[C++] Hello, console!" << endl;
-
-    globalSessBank = randomBank();
-    cout << "[C++] Loaded Bank: " << globalSessBank.branchName << " (" << globalSessBank.ID << ")" << endl;
-
-    setupWebView();
-   
-    w.run();
-    return 0;
-}
+*/
