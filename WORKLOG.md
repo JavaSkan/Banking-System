@@ -11,3 +11,5 @@
 | 22-11-2025 | Added custom array ( & Method ).Re-organized tpp files in include.    | Melik          |
 | | Added a working GUI    | Aymen          |
 |  | Added stack ( & Method )                                              | Melik          |
+|  | Added miscellaneous
+  functions                                             | Aziz          |
