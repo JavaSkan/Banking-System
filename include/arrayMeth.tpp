@@ -34,13 +34,6 @@ bool isFull(const Array<T>& p) {
 
 
 TEMPLATE
-void displayArray(const Array<T>& p) {
-    for (int i = 0; i < p.size; ++i)
-        cout << p.data[i] << ",";
-    cout << endl;
-}
-
-TEMPLATE
 
 int addElement(Array<T>* p,T e,int pos){
     if (pos<0 || pos> p->size+1){

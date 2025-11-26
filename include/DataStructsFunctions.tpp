@@ -103,7 +103,16 @@ int random(int min, int max) {
     int randomNumber = min + rand() % (max - min + 1);
     return randomNumber;
 }
-TEMPLATE
+string IDGenCustomer(){
+    // THIS DOESNT CHECK FOR UNIQUE , TO FIX LATER
+    bool test=false;
+    string ID="1";
+    for(int i=0;i<12;i++){
+        ID+= to_string(random(0,9));
+    }
+    return ID;
+}
+/*
 void IDGenCustomer(const Array<T>& arr,T& e){
     bool test=false;
     while (!test){
@@ -114,6 +123,7 @@ void IDGenCustomer(const Array<T>& arr,T& e){
         test = isUniqueInArray(arr,e);
     }
 }
+*/
 
 long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
     long long result = 0;
@@ -129,8 +139,13 @@ long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
 }
 string RIBGen(Customer Cus){
     string RIB = "67"+Cus.branchCode+Cus.ID;
-    long long temp = strToLongLong(RIB);
-    RIB = RIB + to_string(97 - (temp%97));
+    long long temp = stoll(RIB);
+    int key=(97 - (temp%97));
+    string skey=to_string(key);
+    if(key<10){
+        string skey="0"+skey;
+    }
+    RIB = RIB + skey;
     return(RIB);
 }
 

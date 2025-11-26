@@ -1,4 +1,14 @@
-// Read value from C++ and display it
+// auto sends date to cpp 
+let date=new Date;
+let day=date.getDate();
+let month=date.getMonth()+1;
+let year=date.getFullYear();
+window.sendDate(day+"*"+month+"&"+year).then((r)=>{
+    console.log(
+        "CPP replied: " + r);
+});
+
+//ntesti beha
 function readFromCpp(id) {
     getCppObj("")
         .then(msg => {
@@ -7,15 +17,17 @@ function readFromCpp(id) {
         .catch(err => console.error("Error reading from C++:", err));
 }
 
+//tsakarli el webview
 function closeWin() {
     closeWindow();
 }
 
 // Load branch info from C++
 function BranchInfo() {
-    getBranchInfo()
-        .then(obj => {
-            const [branchName, ID] = obj.data.split("*");
+    getInfo()
+        .then(info => {
+            const [branchName, ID,todaysDate] = info.data.split("*");
+            document.getElementById('date').innerText = "Date: " + todaysDate;
             document.getElementById('branch_name').innerText = "Branch: " + branchName;
             document.getElementById('branch_code').innerText = "Code: " + ID;
         })
@@ -23,26 +35,18 @@ function BranchInfo() {
 }
 
 // ---- SIMPLE BOOLEAN CHECK FUNCTION (NO ASYNC) ----
-function checkName(id) {
-    if (typeof getInfo === "function") {
-        console.log("walah te5dem exists!");
-    } else {
-        console.log("la2");
-    }    
+//BECH NHEZHA LEL CPP §§§§§§§§§§§§§§§§§§§§§§§§§§§§§ 
+/*function checkName() {
+    let name=document.getElementById("nameInput");
     let test=true;
-    let name = document.getElementById(id).value;
     let acc_type = document.getElementById("AccType").value;
-
     // Trim and remove double spaces
     name = name.trim().replace(/\s+/g, ' ');
-
     // Empty?
     if (name === "") {
         alert("Name cannot be empty.");
-        return false;
+        test= false;
     }
-
-    // Validate characters
     for (let i = 0; i < name.length; i++) {
         const c = name[i];
         if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c === ' ')) {
@@ -50,21 +54,24 @@ function checkName(id) {
             test =false;
         }
     }
-    console.log("el test mta3 el esm kammel")
     if(test){
-        sendNow(name+"*"+acc_type);
+        sendRegCusInfo(acc_type+'*'+name);
         console.log("b3athna lel c++")
     }
     return test;
-}
+}*/
 
 function sendNow() {
-let val = document.getElementById('nameInput').value;
-window.getInfo(val).then((r)=>{
-    alert(
+let name = document.getElementById('nameInput').value;
+let acc_type = document.getElementById('AccType').value;
+
+window.sendRegCusInfo(acc_type+"*"+name).then((r)=>{
+    console.log(
         "CPP replied: " + r);
 });
+
 }
+
 function request() {
 window.getFromCpp().then((answer)=>{
     alert(

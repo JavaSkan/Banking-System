@@ -7,11 +7,11 @@
 #define TEMPLATE template <typename T>
 using namespace std;
 
-TEMPLATE int IDGen(const SList<T>&L,char type);
+string IDGenCustomer();
 TEMPLATE bool isUnique(const SList<T>& L, int value);
 bool isValidEmail(const string& email);
 int random(int min, int max);
-TEMPLATE void IDGenCustomer(const Array<T>& arr, T& e);
+//TEMPLATE void IDGenCustomer(const Array<T>& arr, T& e);
 string RIBGen(Customer Cus);
 string IBANGen(Customer Cus);
 #include "DataStructsFunctions.tpp"

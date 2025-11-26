@@ -8,8 +8,11 @@
 #include <cstdlib>
 
 #include "../include/SinglyLinkedListMeth.hpp"
+#include "../include/DoublyLinkedListMeth.hpp"
 #include "../include/DataStructsFunctions.hpp"
+#include "../include/arrayMeth.hpp"
 #include "../include/bankBranch.hpp"
+
 
 using namespace std;
 
@@ -20,6 +23,7 @@ string lastJsValue;
 string Cus_acc_type;
 string Cus_name;
 Bank globalSessBank; // Store the current bank globally
+Date CurrentDate={0,0,0};
 
 // --- UTILITY FUNCTIONS ---
 
@@ -66,6 +70,7 @@ string unJSON(const string& input) {
     return result;
 }
 //tesna3lek absolute path b variable file name ( faza bech nbadel men page l page)
+
 string path(string togoto) {
     char fullPath[MAX_PATH];
     string combined = "gui\\" + togoto;           // concatenate strings properly
@@ -73,6 +78,7 @@ string path(string togoto) {
     string html_url = "file:///" + string(fullPath);
     return html_url;
 }
+
 void splitStr(const string& s, char splitter, string& left, string& right) {
     int pos = s.find(splitter);
     if (pos != string::npos) {
@@ -97,11 +103,82 @@ bool createSmallTestFile(const string& filename, const string& str1, const strin
 }
 
 // --- WEBVIEW CALLBACK FUNCTIONS ---
+TEMPLATE
+Array<T> createCustomerArray(){
+    Array<Customer> CustArray=createArray<Customer>(0);
+    return CustArray;
+}
+DList Loans;
+Stack transactions;
+void displayLoans(Loan L){
+    //placeholder
+}
+/*
+void displayCusts(Array<Customer> arr){
+    int i=0;
+    while(i<arr.size){
+        cout<<arr.data->balance<<endl;
+        cout<<arr.data->branchCode<<endl;
+        cout<<arr.data->IBAN<<endl;
+        cout<<arr.data->ID<<endl;
+        Loan CustLoan=arr.data[i].loans;
+        displayLoans(arr.data->loans);
+        cout<<arr.data->name<<endl;
+        cout<<arr.data<<endl;
+    }
+}
+*/
 
+Array CustArray=createCustomerArray<Customer>();
 
-string sendtocpp(const string& msg) {
+string getDateJS(const string& dateInfoJSON){
+    string dateInfo=unJSON(dateInfoJSON);
+    string day;
+    string month;
+    string year;
+    string daymonth;
+    splitStr(dateInfo,'&',daymonth,year);
+    splitStr(daymonth,'*',day,month);
+    int iday=stoi(day);
+    int imonth=stoi(month);
+    int iyear=stoi(year);
+    CurrentDate={iday,imonth,iyear};
+    return "\"Date confirmed .\"";
+}
+
+string createNewCustomer(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    string acc_type;
+    string name;
+    splitStr(info,'*',acc_type,name);
+    Customer Cus;
+    Cus.type=acc_type;
+    Cus.branchCode=globalSessBank.ID;
+    Cus.ID=IDGenCustomer();
+    Cus.IBAN=IBANGen(Cus);
+    Cus.name=name;
+    Cus.openingDate=CurrentDate;
+    Cus.status=1;
+    Cus.balance=0;
+    Cus.loans=Loans;
+    Cus.transactions=transactions;
+    //addElement(CustArray,Cus,CustArray.size);
+    cout<<endl;
+    cout<<"ID : "<<Cus.ID<<endl;
+    cout<<"type : "<<Cus.type<<endl;
+    cout<<"IBAN : "<<Cus.IBAN<<"("<<Cus.IBAN.size()<<")"<<endl;
+    cout<<"branch code : "<<Cus.branchCode<<endl;
+    cout<<"name : "<<Cus.name<<endl;
+    cout<<"opening date : "<<Cus.openingDate.day<<"-"<<Cus.openingDate.month<<"-"<<Cus.openingDate.year<<endl;
+    cout<<"status : "<<Cus.status<<endl;
+    cout<<"balance : "<<Cus.balance<<endl;
+
+    //displayCusts(CustArray);
+    return "\"Customer created .\"";
+}
+string getRegInfo(const string& msg) {
     cout<<msg;
-    lastJsValue=msg;createSmallTestFile("testbelehie5dem.txt",lastJsValue,"");
+
     return "\"ok\"";
 }
 string closeWindow(const string&) {
@@ -118,20 +195,34 @@ string goToPageCpp(const string& pageJSON) {
 string getfromcpp(const string&) {
     return lastJsValue; // valid JSON string
 }
+/*
+void getDate(const string& dateJSON){
+    string datestr=unJSON(dateJSON);
+    // datestr format "day-month*year"
+    string dayMonth;
+    string day;
+    string month;
+    string year;
+    splitStr(datestr,'*',dayMonth,year);
+    splitStr(dayMonth,'-',day,month);
+}
+*/
 
-string getBranchInfo(const string&) {
-    string combined = globalSessBank.branchName + "*" + globalSessBank.ID;
+string getInfo(const string&) {
+    string sDate=to_string(CurrentDate.day)+'-'+to_string(CurrentDate.month)+'-'+to_string(CurrentDate.year);
+    string combined = globalSessBank.branchName + "*" + globalSessBank.ID+'*'+sDate;
     return "{\"data\":\"" + combined + "\"}";
 }
 
 // --- SETUP FUNCTIONS ---
 void setupBindings() {
     w.bind("closeWindow", closeWindow);
-    w.bind("getBranchInfo", getBranchInfo);
-    w.bind("getInfo", sendtocpp);
+    w.bind("sendDate",getDateJS);
+    w.bind("getInfo", getInfo);
+    w.bind("getInfo", getRegInfo);
     w.bind("getFromCpp", getfromcpp);
     w.bind("goToPage", goToPageCpp);
-    
+    w.bind("sendRegCusInfo",createNewCustomer);
 }
 
 
@@ -150,6 +241,7 @@ void setupWebView() {
 
 // --- MAIN ---
 int main() {
+    //y7el lconsole
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);

@@ -8,6 +8,8 @@
 #include <ctime>
 #include <cstdlib>
 
+"["element",""]"
+
 #include "InterfaceFuncs.hpp"
 
 // --- GLOBAL VARIABLES ---
@@ -57,7 +59,7 @@ string unJSON(const string& input) {
     string result;
     for(char c : input){
         if(c!='['&&c!='"'&&c!=']'){
-            result+=c;
+            r*ù****²sult+=c;
         }
     }
     return result;
