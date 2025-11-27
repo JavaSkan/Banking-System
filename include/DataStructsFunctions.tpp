@@ -8,6 +8,8 @@
 #include "customer.hpp"
 using namespace std;
 
+//do u remember , the 21st night of september?♫♪♫♪
+
 bool isValidEmail(const string& email) {
     int atPos = -1; // index to search for @
     for (int i = 0; i < (int)email.size(); i++) {
@@ -82,7 +84,7 @@ bool isValidEmail(const string& email) {
 TEMPLATE
 
 bool isUnique(const SList<T>& L, string value) {
-    Node<T>* current = L.head;
+    SNode<T>* current = L.head;
     while (current != nullptr) {
         if (current->data.ID == value) {
             return false;
@@ -101,24 +103,54 @@ int random(int min, int max) {
     int randomNumber = min + rand() % (max - min + 1);
     return randomNumber;
 }
-TEMPLATE
-string IDGenCustomer(const Array<T> T,char type){
+string IDGenCustomer(){
+    // THIS DOESNT CHECK FOR UNIQUE , TO FIX LATER
     bool test=false;
-    int temp = random(1000000000,1999999999);
-    long long ID = temp*1000+random(0,999);
-    string sID = to_string(ID);
-    return(sID);
+    string ID="1";
+    for(int i=0;i<12;i++){
+        ID+= to_string(random(0,9));
+    }
+    return ID;
 }
+/*
+void IDGenCustomer(const Array<T>& arr,T& e){
+    bool test=false;
+    while (!test){
+        int temp = random(1000000000,1999999999);
+        long long ID = temp*1000+random(0,999);
+        string sID = to_string(ID);
+        e.ID = sID;
+        test = isUniqueInArray(arr,e);
+    }
+}
+*/
 
-string RIBGen(Customer C){
-    string RIB = "67"+C.branchCode+C.ID;
+long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
+    long long result = 0;
+
+    for (int i = 0; i < (int)s.size(); i++) {
+        if (s[i] < '0' || s[i] > '9')
+            return 0;
+
+        result = result * 10 + (s[i] - '0');
+    }
+
+    return result;
+}
+string RIBGen(Customer Cus){
+    string RIB = "67"+Cus.branchCode+Cus.ID;
     long long temp = stoll(RIB);
-    RIB = RIB + to_string(97 - (temp%97));
+    int key=(97 - (temp%97));
+    string skey=to_string(key);
+    if(key<10){
+        string skey="0"+skey;
+    }
+    RIB = RIB + skey;
     return(RIB);
 }
 
-string IBANGen(Customer C){
-    string IBAN = "TN59" + RIBGen(C);
+string IBANGen(Customer Cus){
+    string IBAN = "TN59" + RIBGen(Cus);
     return(IBAN);
 }
 

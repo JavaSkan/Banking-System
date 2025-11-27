@@ -6,147 +6,253 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+
 #include "../include/SinglyLinkedListMeth.hpp"
+#include "../include/DoublyLinkedListMeth.hpp"
 #include "../include/DataStructsFunctions.hpp"
+#include "../include/arrayMeth.hpp"
 #include "../include/bankBranch.hpp"
+
 
 using namespace std;
 
-// Global WebView
+// --- GLOBAL VARIABLES ---
 webview::webview w(true, nullptr);
 
-// Store last JS value
 string lastJsValue;
+string Cus_acc_type;
+string Cus_name;
+Bank globalSessBank; // Store the current bank globally
+Date CurrentDate={0,0,0};
 
-// Escape string for JSON
-string json_escape(const string &s) {
-    string result = "\"";
-    for (char c : s) {
-        switch(c){
-            case '\"': result += "\\\""; break;
-            case '\\': result += "\\\\"; break;
-            case '\b': result += "\\b"; break;
-            case '\f': result += "\\f"; break;
-            case '\n': result += "\\n"; break;
-            case '\r': result += "\\r"; break;
-            case '\t': result += "\\t"; break;
-            default: result += c; break;
-        }
-    }
-    result += "\"";
-    return result;
-}
+// --- UTILITY FUNCTIONS ---
 
-// Read bank branches from CSV
 SList<Bank> BranchesList() {
-    ifstream file("assets/BankBranches.csv");
+    ifstream file("assets/BankBranches.csv"); 
     SList<Bank> BL = createList<Bank>();
     if(!file.is_open()){
-        cerr << "Cannot open file!" << endl;
+        cerr << "Cannot open file: assets/BankBranches.csv" << endl;
         return BL;
     }
-
     string line;
     int pos = 1;
     while(getline(file, line)){
         stringstream ss(line);
         Bank data;
-        if(!getline(ss, data.branchName, ',') || !getline(ss, data.ID, ',')) continue;
+        if(!getline(ss, data.branchName, ',') || !getline(ss, data.ID, ',')) continue; 
         insert<Bank>(&BL, data, pos++);
     }
     return BL;
 }
 
-// Pick a random bank from the list
 Bank randomBank() {
     SList<Bank> BL = BranchesList();
     int size = listSize<Bank>(BL);
     if(size == 0) {
-        Bank dummy; dummy.branchName="Unknown"; dummy.ID="0"; return dummy;
+        Bank dummy; dummy.branchName="Unknown"; dummy.ID="0"; 
+        return dummy;
     }
-    srand((unsigned int)time(0));
+    srand((unsigned int)time(NULL)); 
     int idx = rand() % size + 1;
     return getElement<Bank>(BL, idx);
 }
 
-// Setup WebView bindings
-void setupBindings(Bank &sess_bank) {
-    // Send value from JS to C++
-    w.bind("sendToCppFunc", [](const string &arg) -> string {
-        lastJsValue = arg;
-        cout << "Value from JS: " << arg << endl;
-        return "\"\"";  // must be valid JSON
-    });
+//USUAL FUNCTIONS
 
-    // Close window
-    w.bind("closeWindow", [](const string&) -> string {
-        w.terminate();
-        return "\"Closed\"";
-    });
-
-    // Get branch info
-    w.bind("getBranchInfo", [sess_bank](const string&) -> string {
-        string combined = sess_bank.branchName + "*" + sess_bank.ID;
-        return "{\"data\":\"" + combined + "\"}";
-    });
-
-    // **CORRECTED CHECKPLS BINDING (USING w.eval())**
-    w.bind("checkpls", [](const std::string &arg) -> std::string {
-        std::cout << "[C++] checkpls called with: " << arg << std::endl;
-
-        bool isValid = true; 
-        
-        // Validation logic: check if empty or contains non-alpha characters
-        if (arg.empty()) {
-            isValid = false;
-        } else {
-            for (char c : arg) {
-                if (!isalpha(static_cast<unsigned char>(c))) {
-                    isValid = false;
-                    break;
-                }
-            }
+//tna7ilek el [] mta3 json
+string unJSON(const string& input) {
+    string result;
+    for(char c : input){
+        if(c!='['&&c!='"'&&c!=']'){
+            result+=c;
         }
-        
-        // 1. Convert boolean to string "true" or "false"
-        std::string result_str = isValid ? "true" : "false";
+    }
+    return result;
+}
+//tesna3lek absolute path b variable file name ( faza bech nbadel men page l page)
 
-        // 2. Use w.eval() to execute a JavaScript function 'handleCheckResult'
-        // This is highly reliable for sending results back.
-        std::string js_call = "handleCheckResult(" + result_str + ");";
-        w.eval(js_call);
-
-        // 3. Return an empty, valid JSON string to satisfy the binding's signature
-        return "\"\"";
-    });
-    
-    // The previous getInfo binding is removed/replaced by checkpls
-
-    // Return a test string to JS
-    w.bind("getCppObj", [](const string&) -> string {
-        return "\"Hello from C++!\"";
-    });
+string path(string togoto) {
+    char fullPath[MAX_PATH];
+    string combined = "gui\\" + togoto;           // concatenate strings properly
+    GetFullPathNameA(combined.c_str(), MAX_PATH, fullPath, nullptr); 
+    string html_url = "file:///" + string(fullPath);
+    return html_url;
 }
 
-// Setup WebView
-void setupWebView(Bank &sess_bank) {
-    char fullPath[MAX_PATH];
-    GetFullPathNameA("gui\\index.html", MAX_PATH, fullPath, nullptr);
-    string html_url = "file:///" + string(fullPath);
+void splitStr(const string& s, char splitter, string& left, string& right) {
+    int pos = s.find(splitter);
+    if (pos != string::npos) {
+        left = s.substr(0, pos);
+        right = s.substr(pos + 1);
+    } else {
+        left = s;
+        right = "";
+    }
+}
+
+bool createSmallTestFile(const string& filename, const string& str1, const string& str2) {
+    ofstream file(filename, ios::out); 
+    if (!file.is_open()) {
+        cerr << "FAILED to create file: " << filename << endl;
+        return false;
+    }
+    cout << "[C++] SUCCESS: File created at: " << filename << endl;
+    file << str1 << "\n" << str2 << "\n";
+    file.close();
+    return true;
+}
+
+// --- WEBVIEW CALLBACK FUNCTIONS ---
+TEMPLATE
+Array<T> createCustomerArray(){
+    Array<Customer> CustArray=createArray<Customer>(0);
+    return CustArray;
+}
+DList Loans;
+Stack transactions;
+void displayLoans(Loan L){
+    //placeholder
+}
+/*
+void displayCusts(Array<Customer> arr){
+    int i=0;
+    while(i<arr.size){
+        cout<<arr.data->balance<<endl;
+        cout<<arr.data->branchCode<<endl;
+        cout<<arr.data->IBAN<<endl;
+        cout<<arr.data->ID<<endl;
+        Loan CustLoan=arr.data[i].loans;
+        displayLoans(arr.data->loans);
+        cout<<arr.data->name<<endl;
+        cout<<arr.data<<endl;
+    }
+}
+*/
+
+Array CustArray=createCustomerArray<Customer>();
+
+string getDateJS(const string& dateInfoJSON){
+    string dateInfo=unJSON(dateInfoJSON);
+    string day;
+    string month;
+    string year;
+    string daymonth;
+    splitStr(dateInfo,'&',daymonth,year);
+    splitStr(daymonth,'*',day,month);
+    int iday=stoi(day);
+    int imonth=stoi(month);
+    int iyear=stoi(year);
+    CurrentDate={iday,imonth,iyear};
+    return "\"Date confirmed .\"";
+}
+
+string createNewCustomer(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    string acc_type;
+    string name;
+    splitStr(info,'*',acc_type,name);
+    Customer Cus;
+    Cus.type=acc_type;
+    Cus.branchCode=globalSessBank.ID;
+    Cus.ID=IDGenCustomer();
+    Cus.IBAN=IBANGen(Cus);
+    Cus.name=name;
+    Cus.openingDate=CurrentDate;
+    Cus.status=1;
+    Cus.balance=0;
+    Cus.loans=Loans;
+    Cus.transactions=transactions;
+    //addElement(CustArray,Cus,CustArray.size);
+    cout<<endl;
+    cout<<"ID : "<<Cus.ID<<endl;
+    cout<<"type : "<<Cus.type<<endl;
+    cout<<"IBAN : "<<Cus.IBAN<<"("<<Cus.IBAN.size()<<")"<<endl;
+    cout<<"branch code : "<<Cus.branchCode<<endl;
+    cout<<"name : "<<Cus.name<<endl;
+    cout<<"opening date : "<<Cus.openingDate.day<<"-"<<Cus.openingDate.month<<"-"<<Cus.openingDate.year<<endl;
+    cout<<"status : "<<Cus.status<<endl;
+    cout<<"balance : "<<Cus.balance<<endl;
+
+    //displayCusts(CustArray);
+    return "\"Customer created .\"";
+}
+string getRegInfo(const string& msg) {
+    cout<<msg;
+
+    return "\"ok\"";
+}
+string closeWindow(const string&) {
+    w.terminate();
+    return "\"Closed\"";
+}
+string goToPageCpp(const string& pageJSON) {
+    cout<<endl<<"test";
+    string page=unJSON(pageJSON);
+    cout<<pageJSON<<" "<<page;
+    w.navigate(path(page));
+    return "\"page changed\"";
+}
+string getfromcpp(const string&) {
+    return lastJsValue; // valid JSON string
+}
+/*
+void getDate(const string& dateJSON){
+    string datestr=unJSON(dateJSON);
+    // datestr format "day-month*year"
+    string dayMonth;
+    string day;
+    string month;
+    string year;
+    splitStr(datestr,'*',dayMonth,year);
+    splitStr(dayMonth,'-',day,month);
+}
+*/
+
+string getInfo(const string&) {
+    string sDate=to_string(CurrentDate.day)+'-'+to_string(CurrentDate.month)+'-'+to_string(CurrentDate.year);
+    string combined = globalSessBank.branchName + "*" + globalSessBank.ID+'*'+sDate;
+    return "{\"data\":\"" + combined + "\"}";
+}
+
+// --- SETUP FUNCTIONS ---
+void setupBindings() {
+    w.bind("closeWindow", closeWindow);
+    w.bind("sendDate",getDateJS);
+    w.bind("getInfo", getInfo);
+    w.bind("getInfo", getRegInfo);
+    w.bind("getFromCpp", getfromcpp);
+    w.bind("goToPage", goToPageCpp);
+    w.bind("sendRegCusInfo",createNewCustomer);
+}
+
+
+
+
+void setupWebView() {
 
     w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
 
-    setupBindings(sess_bank);
+    setupBindings();
 
-    w.navigate(html_url);
+    w.navigate(path("index.html"));
+    
 }
 
+// --- MAIN ---
 int main() {
-    Bank bank = randomBank();
-    cout << "Loaded Bank: " << bank.branchName << " (" << bank.ID << ")" << endl;
+    //y7el lconsole
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+    freopen("CONIN$", "r", stdin);
 
-    setupWebView(bank);
+    cout << "[C++] Hello, console!" << endl;
+
+    globalSessBank = randomBank();
+    cout << "[C++] Loaded Bank: " << globalSessBank.branchName << " (" << globalSessBank.ID << ")" << endl;
+
+    setupWebView();
+   
     w.run();
     return 0;
 }

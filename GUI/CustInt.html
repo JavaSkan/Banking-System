@@ -8,6 +8,10 @@
     <script src="script.js"></script>
 </head>
 <body class="custIntBod">
+    <nav>
+        <h1>Banking System</h1>
+        <button class="quitbtn" onclick="closeWin()"><img src="../assets/exit.png" alt=""></button>
+    </nav>
     <form action="">
         <fieldset>
             <table>
@@ -23,7 +27,9 @@
                 </tr>
                 <tr>
                     <td>Don't have an account?</td>
-                    <td style="text-align: left;"><a target="Display" href="RegisterCustomer.html">Sign Up</a></td>
+                    <td style="text-align: left;">
+                        <button onclick="goToPage('RegisterCustomer.html')">Sign Up</button>
+                    </td>
                 </tr>
             </table>
            

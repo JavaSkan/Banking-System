@@ -6,9 +6,9 @@ using namespace std;
 
 struct Date
 {
-    unsigned int day;
-    unsigned int month;
-    unsigned int year;
+    int day;
+    int month;
+    int year;
 };
 
 /*

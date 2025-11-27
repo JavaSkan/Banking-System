@@ -3,15 +3,15 @@
 
 #include "Loans.hpp"
 
-struct Node{
+struct DNode{
     Loan data;
-    Node* next;
-    Node* prev;
+    DNode* next;
+    DNode* prev;
 };
 
 struct DList {
-    Node* head;
-    Node* tail;
+    DNode* head;
+    DNode* tail;
     int size;
 };
 
