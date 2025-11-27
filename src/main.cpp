@@ -45,6 +45,50 @@ SList<Bank> BranchesList() {
     return BL;
 }
 
+//COMMENT FOR SKANDER BELOW
+
+int AddToCsvCustomer(const Customer& Cus){
+    ofstream file("assets/Customers.csv",ios::app);
+    if (!file.is_open()){
+        cerr<<"Cannot open file : assets/"<<endl;
+        return -1;
+    }
+    //Customer contains pointers to a stack/list of transactions/loans respectively,SKANDER convert them to string to put in the csv file
+    string line = Cus.ID +","+ Cus.type +","+ Cus.IBAN +","+ Cus.branchCode +","+ Cus.name +","+ to_string(Cus.openingDate.day) +","+ to_string(Cus.openingDate.month) +","+ to_string(Cus.openingDate.year) +","+ to_string(Cus.status) +","+ to_string(Cus.balance) + ",";
+    file<<line<<endl;
+    return 1;
+
+}
+//COMMENT FOR SAKNDER (1)ABOVE AND (1)BELOW
+
+Array<Customer> customerArray() {
+    ifstream file("assets/Customers.csv"); 
+    Array<Customer> CA = createArray<Customer>(10);
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/BankBranches.csv" << endl;
+        return CA;
+    }
+    string line;
+    int pos = 0;
+    string temp_day;
+    string temp_month;
+    string temp_year;
+    string temp_status;
+    string temp_balance;
+    while(getline(file, line)){
+        stringstream ss(line);
+        Customer data;
+        //SKANDER please update this line after fixing the conversion part
+        if(!getline(ss, data.ID, ',') || !getline(ss, data.type, ',') || !getline(ss, data.IBAN, ',') || !getline(ss, data.branchCode, ',') || !getline(ss, data.name, ',') || !getline(ss, temp_day, ',') || !getline(ss, temp_month, ',') || !getline(ss, temp_year, ',') || !getline(ss, temp_status, ',') || !getline(ss, temp_balance, ',')) continue;
+        
+    }
+    return CA;
+}
+
+//COMMENT FOR SKANDER ABOVE
+
+
+
 Bank randomBank() {
     SList<Bank> BL = BranchesList();
     int size = listSize<Bank>(BL);
@@ -160,8 +204,8 @@ string createNewCustomer(const string& infoJSON){
     Cus.openingDate=CurrentDate;
     Cus.status=1;
     Cus.balance=0;
-    Cus.loans=Loans;
-    Cus.transactions=transactions;
+    Cus.loans=&Loans;
+    Cus.transactions=&transactions;
     //addElement(CustArray,Cus,CustArray.size);
     cout<<endl;
     cout<<"ID : "<<Cus.ID<<endl;

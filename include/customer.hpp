@@ -23,8 +23,8 @@ struct Customer{
     Date openingDate;
     int status;
     float balance;
-    DList loans;
-    Stack transactions;
+    DList* loans;
+    Stack* transactions;
 
 };
 
