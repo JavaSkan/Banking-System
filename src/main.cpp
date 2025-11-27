@@ -47,7 +47,7 @@ SList<Bank> BranchesList() {
 
 //COMMENT FOR SKANDER BELOW
 
-int AddToCsvCustomer(const Customer& Cus){
+int addCustomerToCsv(const Customer& Cus){
     ofstream file("assets/Customers.csv",ios::app);
     if (!file.is_open()){
         cerr<<"Cannot open file : assets/"<<endl;
@@ -65,7 +65,7 @@ Array<Customer> customerArray() {
     ifstream file("assets/Customers.csv"); 
     Array<Customer> CA = createArray<Customer>(10);
     if(!file.is_open()){
-        cerr << "Cannot open file: assets/BankBranches.csv" << endl;
+        cerr << "Cannot open file: assets/Customers.csv" << endl;
         return CA;
     }
     string line;

@@ -15,3 +15,4 @@
 | | Added miscellaneous functions                                     | Aziz          |
 | 24-11-2025| Fixed GUI bugs + added interface hpp and tpp placeholders                                     | Aymen          |
 | 26-11-2025| Added icon to exe , added date functionalities                     | Aymen          |
+| 27-11-2025| Added addCustomerToCsv and customerArray                      | Melik          |
