@@ -25,7 +25,7 @@ struct Customer{
     float balance;
     DList* loans;
     Stack* transactions;
-
+    
 };
 
 #endif
