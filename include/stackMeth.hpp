@@ -8,6 +8,7 @@ void push(Stack& s, int value);
 Transaction pop(Stack& s);
 Transaction top(const Stack& s);
 bool isEmpty(const Stack& s);
+bool isFull(const Stack& s);
 
 
 #endif

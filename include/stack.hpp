@@ -3,6 +3,7 @@
 #include "transaction.hpp"
 struct Stack {
     Transaction* data = nullptr;
+    int top;
     int size = 0;
     int capacity = 1;
 };

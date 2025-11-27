@@ -64,3 +64,7 @@ Transaction top(const Stack& s) {
 bool isEmpty(const Stack& s) {
     return s.size == 0;
 }
+
+bool isFull(const Stack& s){
+    return(s.size == s.capacity);
+}
