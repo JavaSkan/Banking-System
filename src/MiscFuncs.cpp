@@ -1,15 +1,58 @@
+#include <webview.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <string>
-#include <cctype>
-#include <cstdlib> // For rand() and srand()
-#include <ctime>   // For time()
-#include "SinglyLinkedList.hpp"
-#include "arrayMeth.hpp"
-#include "customer.hpp"
+#include <ctime>
+#include <cstdlib>
+
+#include <MiscFuncs.hpp>
+#include <SinglyLinkedListMeth.hpp>
+#include <customer.hpp>
+#define TEMPLATE template <typename T>
 using namespace std;
 
-//do u remember , the 21st night of september?♫♪♫♪
+string unJSON(const string& input) {
+    string result;
+    for(char c : input){
+        if(c!='['&&c!='"'&&c!=']'){
+            result+=c;
+        }
+    }
+    return result;
+}
+//tesna3lek absolute path b variable file name ( faza bech nbadel men page l page)
 
+string path(string togoto) {
+    char fullPath[MAX_PATH];
+    string combined = "gui\\" + togoto;           // concatenate strings properly
+    GetFullPathNameA(combined.c_str(), MAX_PATH, fullPath, nullptr); 
+    string html_url = "file:///" + string(fullPath);
+    return html_url;
+}
+
+void splitStr(const string& s, char splitter, string& left, string& right) {
+    int pos = s.find(splitter);
+    if (pos != string::npos) {
+        left = s.substr(0, pos);
+        right = s.substr(pos + 1);
+    } else {
+        left = s;
+        right = "";
+    }
+}
+
+bool createSmallTestFile(const string& filename, const string& str1, const string& str2) {
+    ofstream file(filename, ios::out); 
+    if (!file.is_open()) {
+        cerr << "FAILED to create file: " << filename << endl;
+        return false;
+    }
+    cout << "[C++] SUCCESS: File created at: " << filename << endl;
+    file << str1 << "\n" << str2 << "\n";
+    file.close();
+    return true;
+}
 bool isValidEmail(const string& email) {
     int atPos = -1; // index to search for @
     for (int i = 0; i < (int)email.size(); i++) {
@@ -81,18 +124,7 @@ bool isValidEmail(const string& email) {
 
     return true;
 }
-TEMPLATE
 
-bool isUnique(const SList<T>& L, string value) {
-    SNode<T>* current = L.head;
-    while (current != nullptr) {
-        if (current->data.ID == value) {
-            return false;
-        }
-        current = current->next;
-    }
-    return true; 
-}
 
 int random(int min, int max) {
     static bool SEEDED = false; //constant to not reseed (faza comme quoi)
@@ -103,27 +135,7 @@ int random(int min, int max) {
     int randomNumber = min + rand() % (max - min + 1);
     return randomNumber;
 }
-string IDGenCustomer(){
-    // THIS DOESNT CHECK FOR UNIQUE , TO FIX LATER
-    bool test=false;
-    string ID="1";
-    for(int i=0;i<12;i++){
-        ID+= to_string(random(0,9));
-    }
-    return ID;
-}
-/*
-void IDGenCustomer(const Array<T>& arr,T& e){
-    bool test=false;
-    while (!test){
-        int temp = random(1000000000,1999999999);
-        long long ID = temp*1000+random(0,999);
-        string sID = to_string(ID);
-        e.ID = sID;
-        test = isUniqueInArray(arr,e);
-    }
-}
-*/
+
 
 long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
     long long result = 0;
@@ -137,20 +149,5 @@ long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
 
     return result;
 }
-string RIBGen(Customer Cus){
-    string RIB = "67"+Cus.branchCode+Cus.ID;
-    long long temp = stoll(RIB);
-    int key=(97 - (temp%97));
-    string skey=to_string(key);
-    if(key<10){
-        string skey="0"+skey;
-    }
-    RIB = RIB + skey;
-    return(RIB);
-}
 
-string IBANGen(Customer Cus){
-    string IBAN = "TN59" + RIBGen(Cus);
-    return(IBAN);
-}
 

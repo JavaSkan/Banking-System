@@ -17,3 +17,4 @@
 | 26-11-2025| Added icon to exe , added date functionalities                     | Aymen          |
 | 27-11-2025| Added addCustomerToCsv and customerArray                      | Melik          |
 | 29-11-2025 | Modified Stack Structure, Renamed Stack files correctly, Separated compile.bat into compile.bat & compiletest.bat, Added folder tests to .gitignore, Added String representation for Stack, Transaction and Date |  Skander |
+| 29-11-2025| Organized all functions into different .cpp or .tpp and .hpp file types                      | Aymen          |

@@ -1,6 +1,5 @@
 #ifndef DATES_H
 #define DATES_H
-
 #include <iostream>
 #include <sstream>
 
@@ -12,6 +11,8 @@ struct Date
     int month = 1;
     int year = 1970;
 };
+extern Date CurrentDate;
+
 
 //Displays a date struct without a \n
 void displayDate(const Date& d);
@@ -35,6 +36,8 @@ returns -1 if d1 < d2
 returns 0  if d1 == d2
 returns 1  if d1 > d2
 */
+
 int compareDates(Date& d1, Date& d2);
+string getDateJS(const string& dateInfoJSON);
 
 #endif //DATES_H

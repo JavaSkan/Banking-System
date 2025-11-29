@@ -1,4 +1,4 @@
-#include "../include/DoublyLinkedListMeth.hpp"
+#include <DoublyLinkedListMeth.hpp>
 
 DList createList() {
     return DList{ nullptr, nullptr, 0 };

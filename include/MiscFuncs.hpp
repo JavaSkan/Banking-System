@@ -1,0 +1,21 @@
+#ifndef MISCFUNCS_H
+#define MISCFUNCS_H
+#define TEMPLATE template <typename T>
+#include <SinglyLinkedListMeth.hpp>
+#include <customer.hpp>
+#include <string>
+using namespace std;
+
+
+
+string unJSON(const string& input);
+string path(string togoto) ;
+void splitStr(const string& s, char splitter, string& left, string& right);
+bool createSmallTestFile(const string& filename, const string& str1, const string& str2);
+TEMPLATE bool isUnique(const SList<T>& L, int value);
+bool isValidEmail(const string& email);
+int random(int min, int max);
+
+
+
+#endif //MISCFUNCS_H

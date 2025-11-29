@@ -1,6 +1,6 @@
 #ifndef ARRAYMETH_H
 #define ARRAYMETH_H
-#include "Array.hpp"
+#include <array.hpp>
 #include <iostream>
 using namespace std;
 

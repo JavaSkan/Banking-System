@@ -1,4 +1,5 @@
-#include "../include/StackMeth.hpp"
+#include <stackMeth.hpp>
+#include <iostream>
 
 Stack createStack() {
     return {};
