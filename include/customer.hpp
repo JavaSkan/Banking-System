@@ -4,7 +4,7 @@
 #include "Dates.hpp"
 #include <string>
 #include "DoublyLinkedList.hpp"
-#include "stack.hpp"
+#include "Stack.hpp"
 using namespace std;
 
 //Account Status
@@ -25,7 +25,6 @@ struct Customer{
     float balance;
     DList* loans;
     Stack* transactions;
-
 };
 
 #endif

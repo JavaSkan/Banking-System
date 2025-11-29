@@ -1,70 +1,75 @@
-#include "include/stackMeth.hpp"
-#include <iostream>
+#include "../include/StackMeth.hpp"
 
-Stack createStack(int capacity) {
-    Stack s;
-    s.capacity = capacity;
-    s.data = new Transaction[capacity];
-    return s;
-}
-
-
-void push(Stack& s, Transaction t) {
-    if (s.size == s.capacity) {
-        Transaction* newData = new Transaction[s.capacity * 2];
-        for (int i = 0; i < s.size; i++)
-            newData[i] = s.data[i];
-        delete[] s.data;
-        s.data = newData;
-        s.capacity = 2*(s.capacity);
-    }
-    s.data[s.size] = t;
-    s.size++;
+Stack createStack() {
+    return {};
 }
 
 void destroyStack(Stack& s) {
-    delete[] s.data;
-    s.data = nullptr;
-    s.size = 0;
-    s.capacity = 0;
+    s.top = -1;
 }
 
 void push(Stack& s, Transaction t) {
-    if (s.size == s.capacity) {
-        Transaction* newData = new Transaction[s.capacity * 2];
-        for (int i = 0; i < s.size; i++)
-            newData[i] = s.data[i];
-        delete[] s.data;
-        s.data = newData;
-        s.capacity *= 2;
+    if (isFull(s)) {
+        std::cerr << "Stack is full\n";
+    }else{
+        s.data[++s.top] = t;
     }
-    s.data[s.size] = t;
-    s.size++;
 }
 
 
 Transaction pop(Stack& s) {
-    if (s.size == 0) {
+    if (isEmpty(s)) {
         std::cerr << "Stack underflow!\n";
-        return Transaction{}; 
+        return Transaction{};
     }
-    s.size--;
-    return s.data[s.size];
+    return s.data[s.top--];
 }
 
 
 Transaction top(const Stack& s) {
-    if (s.size == 0) {
+    if (isEmpty(s)) {
         std::cerr << "Stack is empty!\n";
         return Transaction{};
     }
-    return s.data[s.size - 1];
+    return s.data[s.top];
 }
 
 bool isEmpty(const Stack& s) {
-    return s.size == 0;
+    return s.top == -1;
 }
 
 bool isFull(const Stack& s){
-    return(s.size == s.capacity);
+    return s.top == MAX_STACK_ELEMENTS-1;
+}
+
+string stackToString(const Stack& s){
+    if(isEmpty(s))
+        return "STACK[]";
+    stringstream ss;
+    ss << "STACK[" << s.top+1 << "/";
+    for(int i = 0; i < s.top; i++){
+        ss << transactionToString(s.data[i]) << "/";
+    }
+    ss << transactionToString(s.data[s.top]); //To avoid adding the last redundant '/';
+    ss << "]";
+    return ss.str();
+}
+
+Stack stringToStack(string s){
+    Stack res = createStack();
+    string sub = "";
+    for(int i = 6; i < s.size()-1; i++){
+        if(s[i] == '/') sub += ' '; else sub += s[i];
+    }
+    if(sub == "") return {};
+    stringstream ss;
+    ss << sub;
+    int num_elements;
+    ss >> num_elements;
+    string cur_tr_str; //current transaction string
+    for(int i = 1; i <= num_elements; i++){
+        ss >> cur_tr_str;
+        push(res,stringToTransaction(cur_tr_str));
+    }
+    return res;
 }

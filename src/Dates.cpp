@@ -1,7 +1,27 @@
-#include "../include/Dates.hpp"
+#include <Dates.hpp>
 
 void displayDate(const Date& d){
     cout << d.day << "-" << d.month << "-" << d.year;
+}
+
+string dateToString(const Date& d){
+    stringstream s;
+    s << d.day << "-" << d.month << "-" << d.year;
+    return s.str();
+}
+
+Date stringToDate(string s){
+    //Reminder, Date format : day-month-year
+    int d, m, y;
+    stringstream strs;
+    //replaces '-' with ' ' to use string streams for string to value conversion
+    string new_str = "";
+    for(int i = 0; i < s.size(); i++){
+        new_str += s[i] == '-' ? ' ' : s[i];
+    }
+    strs << new_str;
+    strs >> d >> m >> y;
+    return {d,m,y};
 }
 
 int compareDates(Date& d1, Date& d2){
