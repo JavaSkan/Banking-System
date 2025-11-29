@@ -16,3 +16,4 @@
 | 24-11-2025| Fixed GUI bugs + added interface hpp and tpp placeholders                                     | Aymen          |
 | 26-11-2025| Added icon to exe , added date functionalities                     | Aymen          |
 | 27-11-2025| Added addCustomerToCsv and customerArray                      | Melik          |
+| 29-11-2025| Organized all functions into different .cpp or .tpp and .hpp file types                      | Aymen          |
