@@ -12,6 +12,6 @@ struct employee{
     string Adress;
     float Salary;
     Date HireDate;
-    int bankBranch;
+    string bankBranch;
 };
 #endif

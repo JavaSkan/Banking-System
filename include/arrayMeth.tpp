@@ -5,7 +5,7 @@ using namespace std;
 TEMPLATE
 Array<T> createArray(int capacity) {
     if (capacity < 1){
-        cerr<<"Error : the array`s capacity must be at least 1.The provided capacity is :"<<capacity<<endl;
+        cerr<<"Error : the array's capacity must be at least 1.The provided capacity is :"<<capacity<<endl;
         return Array<T>{nullptr,0,1};
     }
     else{
@@ -34,24 +34,25 @@ bool isFull(const Array<T>& p) {
 
 
 TEMPLATE
-
-int addElement(Array<T>* p,T e,int pos){
-    if (pos<0 || pos> p->size+1){
-        cout<<"invalid position"<<endl;
-        return (-1);
+int addElement(Array<T>* p, T e, int pos) {
+    if (pos < 0 || pos > p->size) {
+        cout << "invalid position" << endl;
+        return -1;
     }
-    if (isFull(*p)){
-            resizeArray(*p,(p->capacity)*2);
-        }
 
-    for(int i = p->size; i>pos;i--){
-                p->data[i]=p->data[i-1];
-            }
-    p->data[pos]=e;
+    if (isFull(*p)) {
+        resizeArray(*p, p->capacity * 2); // make sure resizeArray works correctly
+    }
+
+    for (int i = p->size; i > pos; i--) {
+        p->data[i] = p->data[i - 1];
+    }
+
+    p->data[pos] = e;
     p->size++;
     return 1;
-
 }
+
 
 
 

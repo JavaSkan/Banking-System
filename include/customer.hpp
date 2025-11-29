@@ -1,11 +1,20 @@
 //Defining the customer structure
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
-#include "Dates.hpp"
+
+#include <sstream>
 #include <string>
-#include "DoublyLinkedList.hpp"
-#include "stack.hpp"
+#include <cstdlib>
+#include <SinglyLinkedListMeth.hpp>
+#include <stackMeth.hpp>
+#include <DoublyLinkedListMeth.hpp>
+#include <arrayMeth.hpp>
+#include <Loans.hpp>
+#include <transaction.hpp>
+#include <Branches.hpp>
+#include <MiscFuncs.hpp>
 using namespace std;
+#define TEMPLATE template <typename T>
 
 //Account Status
 constexpr int CST_INACTIVE = 0;
@@ -27,5 +36,17 @@ struct Customer{
     Stack* transactions;
     
 };
+
+
+int addCustomerToCsv(const Customer& Cus);
+int init_customerArray(Array<Customer>& Cusarr);
+TEMPLATE Array<T> createCustomerArray();
+string createNewCustomer(const string& infoJSON);
+string RIBGen(const Customer& Cus);
+string IBANGen(const Customer& Cus);
+string IDGenCustomer();
+TEMPLATE bool isUnique(const SList<T>& L, string value);
+
+
 
 #endif

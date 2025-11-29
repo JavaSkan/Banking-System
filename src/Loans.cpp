@@ -1,4 +1,4 @@
-#include "../include/Loans.hpp"
+#include <Loans.hpp>
 
 string loanTypeStr(int t){
     switch (t){

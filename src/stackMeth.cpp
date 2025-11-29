@@ -1,4 +1,4 @@
-#include "include/stackMeth.hpp"
+#include <stackMeth.hpp>
 #include <iostream>
 
 Stack createStack(int capacity) {
@@ -27,19 +27,6 @@ void destroyStack(Stack& s) {
     s.data = nullptr;
     s.size = 0;
     s.capacity = 0;
-}
-
-void push(Stack& s, Transaction t) {
-    if (s.size == s.capacity) {
-        Transaction* newData = new Transaction[s.capacity * 2];
-        for (int i = 0; i < s.size; i++)
-            newData[i] = s.data[i];
-        delete[] s.data;
-        s.data = newData;
-        s.capacity *= 2;
-    }
-    s.data[s.size] = t;
-    s.size++;
 }
 
 
