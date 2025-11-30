@@ -21,5 +21,17 @@ int removeAt(DList* L, int pos);
 Loan getElement(const DList& L, int pos);
 void displayList(const DList& L);
 
+/* 
+Returns a string representation of a DoublyLinkedList
+in the form of DLL[size$Loan1$...$LoanN]
+*/
+string DLToString(const DList& dl);
+
+/*
+Return a DoublyLinkedList of Loans from a string
+NOTE: PARAMETER 's' MUST RESPECT THE FORMAT
+OF DLToString !!
+*/
+DList stringToDL(string s);
 
 #endif // DOUBLYLINKEDLISTMETH_H

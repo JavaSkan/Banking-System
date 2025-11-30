@@ -1,4 +1,4 @@
-#include <LoansMeth.hpp>
+#include <DoublyLinkedListMeth.hpp>
 
 int main(int argc, char const *argv[])
 {
@@ -13,9 +13,14 @@ int main(int argc, char const *argv[])
         {1,1,2025},
         {1,1,2026}
     };
-    string repr = loanToString(l);
-    std::cout << repr << endl;
-    Loan lm = stringToLoan(repr);
-    displayLoan(lm);
+    DList d = createList();
+    insert(&d,l,d.size+1);
+    //displayList(d);
+    string repr = DLToString(d);
+    std::cout << "DLIST REPR: " << repr << endl;
+    DList lm = stringToDL(repr);
+    displayList(lm);
+    destroyList(&lm);
+    destroyList(&d);
     return 0;
 }
