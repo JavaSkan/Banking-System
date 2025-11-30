@@ -150,4 +150,56 @@ long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
     return result;
 }
 
+string trim(string s){
+    string out;
+    int b = 0, e = s.size()-1;
+    while(b < s.size() && s[b] == ' ') b++;
+    while(e >= 0 && s[e] == ' ') e--;
+    for(int i = b; i <= e; i++){
+        if(s[i] == ' ' && s[i+1] == ' ') continue;
+        out += s[i];
+    }
+    return out;
+}
 
+bool isAlpha(string s) {
+    int i = 0;
+    while(i < s.size() && (s[i] == ' ' || (s[i] >= 65 && s[i] <= 90) || (s[i] >= 97 && s[i] <= 122))) i++;
+    return i == s.size();
+}
+
+bool checkName(string name){
+    name = trim(name);
+    return name != "" && isAlpha(name);
+}
+
+bool isSub(const string& org, const string& sub, int beg, string& buf){
+    int i = beg; buf = "";
+    while(i < org.size() && i-beg < sub.size() && org[i] == sub[i-beg]){
+        buf += org[i];
+        i++;
+    }
+    return (i-beg) == sub.size();
+}
+
+string replace(string input, string rep, string repw){
+    if(rep == "") return input;
+    string out = "";
+    string buf = "";
+    int i = 0;
+    while(i < input.size()){
+        if(input[i] != rep[0]){
+            out += input[i];
+            i++;
+            continue;
+        }
+        if(isSub(input,rep,i,buf)){
+            out += repw;
+            i += rep.size();
+        }else{
+            out += buf;
+            i += buf.size();
+        }
+    }
+    return out;
+}

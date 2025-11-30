@@ -19,4 +19,4 @@
 | 29-11-2025 | Modified Stack Structure, Renamed Stack files correctly, Separated compile.bat into compile.bat & compiletest.bat, Added folder tests to .gitignore, Added String representation for Stack, Transaction and Date |  Skander |
 | 29-11-2025| Organized all functions into different .cpp or .tpp and .hpp file types                      | Aymen          |
 | 30-11-2025 | Added the statistics part's .h file and .cpp file              | Aziz       |
-|30-11-2025| Implemented string conversions for Loans, Separated Loan Methods from the Loan header file | Skander |
+|30-11-2025| * Implemented string conversions for Loans, Separated Loan Methods from the Loan header file * Added String serialization for DoublyLinkedLists of Loans * Added Misc functions : trim, isAlpha, checkName and replace | Skander |
