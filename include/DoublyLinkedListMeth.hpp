@@ -1,8 +1,8 @@
 #ifndef DOUBLYLINKEDLISTMETH_H
 #define DOUBLYLINKEDLISTMETH_H
 
-#include "DoublyLinkedList.hpp"
 #include <iostream>
+#include <DoublyLinkedList.hpp>
 using namespace std;
 
 DList createList();

@@ -1,8 +1,9 @@
 #ifndef LOANS_H
 #define LOANS_H
 
-#include "Dates.hpp"
 #include <iostream>
+#include <Dates.hpp>
+
 using namespace std;
 
 //Loan Types
@@ -19,17 +20,13 @@ constexpr int LNS_OVERDUE = 7;
 struct Loan{
     string ID;
     int type;
+    int status;
     float pr_amount; //principle amount
     float it_rate; //interest rate
     float am_paid; //amount paid
     float rm_balance; //remaining balance
     Date start_date;
     Date end_date;
-    int status;
 };
-
-string loanTypeStr(int t);
-string loanStatusStr(int s);
-void displayLoan(const Loan& l);
 
 #endif

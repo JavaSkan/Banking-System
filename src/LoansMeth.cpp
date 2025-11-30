@@ -1,4 +1,4 @@
-#include <Loans.hpp>
+#include <LoansMeth.hpp>
 
 string loanTypeStr(int t){
     switch (t){
@@ -50,4 +50,38 @@ void displayLoan(const Loan& l){
     cout << "\n";
 
     cout << "\tstatus: " << loanStatusStr(l.status) << "\n";
+}
+
+string loanToString(const Loan& ln){
+    stringstream out;
+    out << "LOAN[";
+    out << ln.ID << "*"
+        << ln.type << "*"
+        << ln.status << "*"
+        << ln.pr_amount << "*"
+        << ln.it_rate << "*"
+        << ln.am_paid << "*"
+        << ln.rm_balance << "*"
+        << dateToString(ln.start_date) << "*"
+        << dateToString(ln.end_date)
+        << "]";
+    return out.str();
+}
+
+Loan stringToLoan(string s){
+    Loan res;
+    string sub = "";
+    for(int i = 5; i < s.size()-1; i++){
+        if(s[i] == '*') sub += ' '; else sub += s[i];
+    }
+    if(sub == "") return {};
+    stringstream ss;
+    ss << sub;
+    ss >> res.ID >> res.type >> res.status >> res.pr_amount >> res.it_rate >> res.am_paid >> res.rm_balance;
+    string buf;
+    ss >> buf;
+    res.start_date = stringToDate(buf);
+    ss >> buf;
+    res.end_date = stringToDate(buf);
+    return res;
 }
