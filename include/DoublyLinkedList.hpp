@@ -1,7 +1,7 @@
 #ifndef DOUBLYLINKEDLIST_H
 #define DOUBLYLINKEDLIST_H
 
-#include "Loans.hpp"
+#include <LoansMeth.hpp>
 
 struct DNode{
     Loan data;

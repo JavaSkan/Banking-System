@@ -215,3 +215,37 @@ int removeAt(DList* L, int pos) {
     L->size--;
     return 1;
 }
+
+string DLToString(const DList& dl){
+    if(isEmpty(dl)) return "DLL[]";
+    stringstream ss;
+    ss << "DLL[" << dl.size << "$";
+    DNode* cur = dl.head;
+    while(cur){
+        //if it's the last node, the ternary expr ensure that the separator '$'
+        //is not added at the end
+        ss << loanToString(cur->data) << (cur != dl.tail ? "$" : "]");
+        cur = cur->next;
+    }
+    return ss.str();
+}
+
+DList stringToDL(string s){
+    DList res = createList();
+    string sub = "";
+    for(int i = 4; i < s.size()-1; i++){
+        //replace '$' separator with a space, useful for string stream
+        //manipulation
+        sub += (s[i] == '$' ? ' ' : s[i]);
+    }
+    stringstream ss;
+    ss << sub;
+    int size;
+    ss >> size;
+    string cur_loan_str;
+    for(int i = 1; i <= size; i++){
+        ss >> cur_loan_str;
+        insert(&res,stringToLoan(cur_loan_str),res.size+1);
+    }
+    return res;
+}
