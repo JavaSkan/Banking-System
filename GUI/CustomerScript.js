@@ -10,23 +10,21 @@ function table() {
         let row = document.createElement("tr");
         let cell = document.createElement("td");
         cell.id = `Loan${i}`;
-
         let innerTable = document.createElement("table");
-
-        getLoansLine().then((LoanString) => {
+        getLoansLine(i.toString()).then((LoanString) => {
 
             // Parse the incoming string
-            const list = LoanString.split("*");   // list[0]..list[9]
+            const list = LoanString.data.split("*");   // list[0]..list[9]
             const celltext=[
-                "Loan ID=",
-                "Loan Type=",
-                "Loan Status=",
-                "Loan Primary Amount=",
-                "Loan Interest Rate=",
-                "Loan Amount paid=",
-                "Loan Remaining Balance=",
-                "Loan Start Date=",
-                "Loan End DateID=",
+                "Loan ID : ",
+                "Loan Type : ",
+                "Loan Status : ",
+                "Loan Primary Amount : ",
+                "Loan Interest Rate : ",
+                "Loan Amount paid : ",
+                "Loan Remaining Balance : ",
+                "Loan Start Date : ",
+                "Loan End DateID : ",
             ]
             // [Id,type,lstatus,pr_amnt,ir,ap,rb,sd,ed]
 

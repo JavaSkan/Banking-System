@@ -14,6 +14,7 @@
 #include <Dates.hpp>
 #include <MiscFuncs.hpp>
 #include <Customer.tpp>
+#include <LoansMeth.hpp>
 
 using namespace std;
 
@@ -23,6 +24,20 @@ webview::webview w(true, nullptr);
 string lastJsValue;
 string Cus_acc_type;
 string Cus_name;
+
+string getSpecificLoan(const DList& Loans,int pos){
+    int i=0;
+    Loan current;
+    string LoansString;
+    while(i<pos){
+        current=getElement(Loans,i+1);
+        LoansString=loanToString(current);
+        LoansString=LoansString.substr(5,LoansString.size()-6);
+    }
+    return LoansString ;
+}
+Customer GlobalCust;
+string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(GlobalCust.loans,stoi(i))+ "\"}";}
 
 string closeWindow(const string&) {
     w.terminate();
@@ -48,6 +63,7 @@ void setupBindings() {
     w.bind("getInfo", getInfo);
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
+    w.bind("getLoansLine",sendLoanInfo);
 }
 void setupWebView() {
     w.set_title("Banking System");
@@ -55,8 +71,6 @@ void setupWebView() {
     setupBindings();
     w.navigate(path("index.html"));
 }
-
-
 
 // --- MAIN ---
 int main() {
