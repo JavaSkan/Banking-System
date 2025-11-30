@@ -125,7 +125,6 @@ bool isValidEmail(const string& email) {
     return true;
 }
 
-
 int random(int min, int max) {
     static bool SEEDED = false; //constant to not reseed (faza comme quoi)
     if (!SEEDED) {
@@ -149,5 +148,7 @@ long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
 
     return result;
 }
+
+
 
 

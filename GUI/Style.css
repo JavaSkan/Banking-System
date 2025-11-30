@@ -11,16 +11,12 @@ body {
     margin: 0;
     padding: 0;
 }
-iframe{
-    width: 100%;
-    height: 100%;
-}
 
 h1 {
     color: rgb(117, 114, 10);
     margin: 20px 0;
     text-align: center;
-    
+
 }
 .loginBtn{
     width:30%;

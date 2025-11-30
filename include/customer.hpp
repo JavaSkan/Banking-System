@@ -34,6 +34,7 @@ struct Customer{
     float balance;
     DList* loans;
     Stack* transactions;
+    string password;
 };
 
 
@@ -45,6 +46,8 @@ string RIBGen(const Customer& Cus);
 string IBANGen(const Customer& Cus);
 string IDGenCustomer();
 TEMPLATE bool isUnique(const SList<T>& L, string value);
+string passwordGen(int size);
+
 
 
 

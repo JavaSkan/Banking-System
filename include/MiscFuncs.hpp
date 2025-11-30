@@ -15,6 +15,7 @@ bool createSmallTestFile(const string& filename, const string& str1, const strin
 TEMPLATE bool isUnique(const SList<T>& L, int value);
 bool isValidEmail(const string& email);
 int random(int min, int max);
+int checkName(const string& name);
 
 
 
