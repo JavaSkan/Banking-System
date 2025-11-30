@@ -1,3 +1,8 @@
+html,body{
+    width: 100%;
+    height: 100%;
+    overflow: show;
+}
 aside{
     background-color:rgb(245, 242, 238);
     padding:1%;
@@ -5,6 +10,8 @@ aside{
     float:left;
     margin-left:5%;
     text-align: left;
+    position: sticky;
+    top:17%;
 }
 aside p{
     color:rgb(60, 58, 4);
