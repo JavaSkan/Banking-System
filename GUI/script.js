@@ -34,33 +34,6 @@ function BranchInfo() {
         .catch(err => console.error("Error getting branch info:", err));
 }
 
-// ---- SIMPLE BOOLEAN CHECK FUNCTION (NO ASYNC) ----
-//BECH NHEZHA LEL CPP §§§§§§§§§§§§§§§§§§§§§§§§§§§§§ 
-/*function checkName() {
-    let name=document.getElementById("nameInput");
-    let test=true;
-    let acc_type = document.getElementById("AccType").value;
-    // Trim and remove double spaces
-    name = name.trim().replace(/\s+/g, ' ');
-    // Empty?
-    if (name === "") {
-        alert("Name cannot be empty.");
-        test= false;
-    }
-    for (let i = 0; i < name.length; i++) {
-        const c = name[i];
-        if (!((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c === ' ')) {
-            alert("Name can only contain letters and single spaces.");
-            test =false;
-        }
-    }
-    if(test){
-        sendRegCusInfo(acc_type+'*'+name);
-        console.log("b3athna lel c++")
-    }
-    return test;
-}*/
-
 function sendNow() {
 let name = document.getElementById('nameInput').value;
 let acc_type = document.getElementById('AccType').value;

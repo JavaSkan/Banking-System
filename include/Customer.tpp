@@ -32,6 +32,14 @@ string IBANGen(const Customer& Cus){
     string IBAN = "TN59" + RIBGen(Cus);
     return(IBAN);
 }
+string passwordGen(int size){
+    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>/?";
+    string password;
+    for(int i=0;i<size;i++){
+        password+=chars[random(0,chars.size())];
+    }
+    return password;
+}
 int addCustomerToCsv(const Customer& Cus){
     ofstream file("assets/Customers.csv",ios::app);
     if (!file.is_open()){
@@ -50,7 +58,8 @@ int addCustomerToCsv(const Customer& Cus){
     to_string(Cus.openingDate.month) +","+
     to_string(Cus.openingDate.year) +","+
     to_string(Cus.status) +","+
-     to_string(Cus.balance);
+    to_string(Cus.balance)+","+
+    Cus.password;
     file<<line<<endl;
     file.close();
     return 1;
@@ -86,6 +95,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
         getline(ss, temp, ','); data.openingDate.year = stoi(temp);
         getline(ss, temp, ','); data.status = stoi(temp);
         getline(ss, temp, ','); data.balance = stod(temp);
+        getline(ss, data.password, ',');
         addElement(&Cusarr,data,Cusarr.size);
     }
     file.close();
@@ -106,11 +116,10 @@ bool isUnique(const SList<T>& L, string value) {
 //COMMENT FOR SKANDER ABOVE
 
 
-//PLACEHOLDERRRRRRRRRRRRRR
 
 TEMPLATE
 Array<T> createCustomerArray(){
-    Array<Customer> CustArray=createArray<Customer>(1); // initial value must bu != 0
+    Array<Customer> CustArray=createArray<Customer>(1); // initial value must be != 0
     return CustArray;
 }
 string createNewCustomer(const string& infoJSON){
@@ -129,6 +138,7 @@ string createNewCustomer(const string& infoJSON){
     Cus.balance=0;
     Cus.loans=nullptr; //PLACEHOLDER;
     Cus.transactions=nullptr; //PLACEHOLDER;
+    Cus.password=passwordGen(12);
     addCustomerToCsv(Cus);
     //addElement(CustArray,Cus,CustArray.size);
     cout<<endl;
@@ -140,6 +150,7 @@ string createNewCustomer(const string& infoJSON){
     cout<<"opening date : "<<Cus.openingDate.day<<"-"<<Cus.openingDate.month<<"-"<<Cus.openingDate.year<<endl;
     cout<<"status : "<<Cus.status<<endl;
     cout<<"balance : "<<Cus.balance<<endl;
+    cout<<"balance : "<<Cus.password<<endl;
 
     //displayCusts(CustArray);
     return "\"Customer created .\"";
