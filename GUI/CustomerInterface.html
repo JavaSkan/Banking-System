@@ -6,9 +6,9 @@
     <title>Document</title>
     <link rel="stylesheet"  href="Style.css">
     <link rel="stylesheet"  href="StyleCustomerInterface.css">
-    <script src="script.js"></script>
+    <script src="CustomerScript.js"></script>
 </head>
-<body>
+<body onload="table()">
     <header>
         <nav>
             <h1>Banking System</h1>
@@ -16,11 +16,11 @@
         </nav>
     </header>
     <aside>
-        <p>Account Holder :</p>
-        <p>Balance:</p>
+        <p id="CustomerName">Account Holder :</p>
+        <p id="CustomerBalance">Balance:</p>
     </aside>
     <main>
-        main 
+        <table id="LoansTable"></table>
     </main>
     
 </body>

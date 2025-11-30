@@ -1,9 +1,12 @@
 aside{
+    background-color:rgb(245, 242, 238);
+    padding:1%;
+    border-radius: 12px;
     float:left;
     margin-left:5%;
     text-align: left;
 }
 aside p{
-    color:rgb(117, 114, 10);
-    text-decoration: underline;
+    color:rgb(60, 58, 4);
+    text-decoration: underline overline;
 }
