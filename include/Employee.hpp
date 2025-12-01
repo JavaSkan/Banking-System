@@ -11,7 +11,7 @@ struct Employee{
     string LastName;
     string Adress;
     float Salary;
-    Date HireDate;
+    Date HireDate; //constant ??
     string bankBranch;
 };
 #endif

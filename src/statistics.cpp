@@ -2,10 +2,11 @@
 #include <iostream>
 #include "DoublyLinkedListMeth.hpp"
 
-int getTotalLoans(Customer* Cus, int nCus) {
+//aziz fix u
+int getTotalLoans(const Array<Customer>& Cus) {
     int total = 0;
-    for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+    for (int i = 0; i < Cus.size; i++) {
+        DNode* current = Cus.data[i].loans.head;
         while (current) {
             total++;
             current = current->next;
