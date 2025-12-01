@@ -26,10 +26,10 @@ Customer* CustomerHighestBalance(Customer Cus[], int nCus);
 //akther Customer mnatef
 Customer* CustomerLowestBalance(Customer Cus[], int nCus);
 
-//9dech famma min employee
-int totalEmp(employee Emp[], int nEmp);
+//9dech famma min Employee
+int totalEmp(Employee Emp[], int nEmp);
 
-//9dch famma min employee fi kol branch
-int countEmpByBranch(employee Emp[], int nEmp, int branchCode);
+//9dch famma min Employee fi kol branch
+int countEmpByBranch(Employee Emp[], int nEmp, int branchCode);
 
 #endif

@@ -1,4 +1,4 @@
-#include "Queue.hpp"
+#include <QueueMeth.hpp>
 using namespace std;
 
 Queue* createQueue(){

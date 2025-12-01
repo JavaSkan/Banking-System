@@ -95,11 +95,11 @@ Customer* customerLowestBalance(Customer* Cus, int nCus) {
     return best;
 }
 
-int totalEmp(employee* Emp, int nEmp) {
+int totalEmp(Employee* Emp, int nEmp) {
     return nEmp;
 }
 
-int countEmpByBranch(employee* Emp, int nEmp, int branchCode) {
+int countEmpByBranch(Employee* Emp, int nEmp, int branchCode) {
     int count = 0;
     for (int i = 0; i < nEmp; i++) {
         if (stoi(Emp[i].bankBranch) == branchCode)
