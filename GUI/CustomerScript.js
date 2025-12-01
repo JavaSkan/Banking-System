@@ -1,10 +1,15 @@
-let LoanCount=4;
+LoanCount=parseInt(getLoanCount());
 
 function table() {
     let table = document.getElementById("LoansTable");
     if (!table) return;
 
     table.classList.add("LoansTab");
+    if(LoanCount==0){
+        let zeroROW= document.createElement("tr");
+        let zeroCELL= document.createElement("td");
+        
+    }
     
     for (let i = 0; i < LoanCount; i++) { 
         let row = document.createElement("tr");

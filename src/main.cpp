@@ -23,14 +23,10 @@ using namespace std;
 webview::webview w(true, nullptr);
 // --- GLOBAL VARIABLES ---
 string lastJsValue;
-string Cus_acc_type;
-string Cus_name;
 Customer LoggedInCustomer;
-
-
+Array custArray=createCustomerArray<Customer>();
 
 string getSpecificLoan(int pos){
-    
     Loan current;
     string LoansString;
     current=getElement(LoggedInCustomer.loans,pos);
@@ -42,6 +38,28 @@ string getSpecificLoan(int pos){
    //return "test"+to_string(pos);
 }
 
+string LoginCpp(const string& LoginInfoJSON){
+    string LoginInfo=unJSON(LoginInfoJSON);
+    string accNum;
+    string password;
+    splitStr(LoginInfo,'*',accNum,password);
+    int CustomerPos=searchByID<Customer>(custArray,accNum);
+    if( CustomerPos==-1){
+        return "\"false\"";
+    }else{
+        cout<<password<<"/"<<custArray.data[CustomerPos].password;
+        if(custArray.data[CustomerPos].password==password){
+            LoggedInCustomer=custArray.data[CustomerPos];
+            return LoggedInCustomer.ID;
+        }else{
+            return "\"falseP\"";
+        }
+    }
+}
+
+string sendLoanCountJS(){
+    return to_string(LoggedInCustomer.loans.size);
+}
 
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
@@ -70,6 +88,7 @@ void setupBindings() {
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
+    w.bind("LoginCPP",LoginCpp);
 }
 void setupWebView() {
     w.set_title("Banking System");
@@ -84,14 +103,7 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
-    LoggedInCustomer.loans=createList();
-    insert(&LoggedInCustomer.loans,{"L001", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    insert(&LoggedInCustomer.loans,{"L002", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    insert(&LoggedInCustomer.loans,{"L003", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    insert(&LoggedInCustomer.loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    Array CustArray=createCustomerArray<Customer>();
-    
-    //init_customerArray(CustArray);
+    init_customerArray(custArray);
 
 
     cout << "[C++] Hello, console!" << endl;
@@ -102,5 +114,6 @@ int main() {
     setupWebView();
 
     w.run();
+    //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }

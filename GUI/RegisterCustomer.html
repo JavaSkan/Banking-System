@@ -11,9 +11,9 @@
         <h1>Banking System</h1>
         <button class="quitbtn" onclick="closeWin()"><img src="../assets/exit.png" alt=""></button>
     </nav>
-        <div id="output"></div>
+    <main>
+        
         <form action="">
-
             <fieldset>
                 <table>
                     <tr>
@@ -21,28 +21,29 @@
                             <td style="text-align: center; text-decoration: underline overline rgb;" colspan="2"><h1>Customer Register </h1></td>
                         </tr>
                         <td><label for="">Account Type : </label></td> 
-                    <td>
-                        <select name="type" id="AccType">
-                            <option value="current">Current Account</option>
-                            <option value="savings">Savings Account</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label for="">Name : </label></td>
-                    <td><input type="text" name="name" id="nameInput"></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;">
-                        <button onclick="sendNow();">Create Acount</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align: center;"><p id="errorMsg"></p></td>
-                </tr>
+                        <td>
+                            <select name="type" id="AccType">
+                                <option value="current">Current Account</option>
+                                <option value="savings">Savings Account</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="">Name : </label></td>
+                        <td><input type="text" name="name" id="nameInput"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button onclick="sendNow();">Create Acount</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;"><p id="errorMsg"></p></td>
+                    </tr>
             </table>
         </fieldset>
     </form>
-        <script src="script.js"></script>
+</main>        
+    <script src="script.js"></script>
 </body>
 </html>
