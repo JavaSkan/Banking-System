@@ -1,4 +1,5 @@
 #include <EmployeeTasks.hpp>
+#include <MiscFuncs.hpp>
 using namespace std;
 
 void addEmployee(Array<Employee>* eArr){
@@ -80,10 +81,12 @@ int modifyEmployee(Employee& e){
 }
 
 int displayAlpha(const Array<Employee>& eArr){
+    //making all last names lower case
     Array<Employee> temp = copyArray<Employee>(eArr);
     for (int i = 0; i<temp.size;i++){
         temp.data[i].LastName = toLower(temp.data[i].LastName);
     }
+    //sorting (bubble sort)
 
      for (int i = 0; i < temp.size - 1; i++){
         for (int j = 0; j < temp.size - i - 1; j++){
@@ -94,6 +97,21 @@ int displayAlpha(const Array<Employee>& eArr){
             }
         }
     }
+    //clean display 
+    for (int i = 0; i < temp.size; i++){
+        cout << "ID: " << temp.data[i].ID << endl;
+        cout << "Name: " << temp.data[i].Name << endl;
+        cout << "Last Name: " << temp.data[i].LastName << endl;
+        cout << "Address: " << temp.data[i].Adress << endl;
+        cout << "Salary: " << temp.data[i].Salary << endl;
+        cout << "Hire Date: "
+             << temp.data[i].HireDate.day << "/"
+             << temp.data[i].HireDate.month << "/"
+             << temp.data[i].HireDate.year << endl;
+        cout << "Bank Branch: " << temp.data[i].bankBranch << endl;
+        cout << "------------------------" << endl;
+    }
+    return 1;
 
 
 }
