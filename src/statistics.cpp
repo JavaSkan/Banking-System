@@ -2,7 +2,7 @@
 #include <iostream>
 #include "DoublyLinkedListMeth.hpp"
 
-//aziz fix u
+//sybau melik
 int getTotalLoans(const Array<Customer>& Cus) {
     int total = 0;
     for (int i = 0; i < Cus.size; i++) {
@@ -15,10 +15,10 @@ int getTotalLoans(const Array<Customer>& Cus) {
     return total;
 }
 
-int countLoansByType(Customer* Cus, int nCus, int type) {
+int countLoansByType(const Array<Customer>& Cus, int nCus, int type) {
     int count = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus.data[i].loans.head;
         while (current) {
             if (current->data.type == type)
                 count++;
@@ -28,10 +28,10 @@ int countLoansByType(Customer* Cus, int nCus, int type) {
     return count;
 }
 
-int countLoansByStatus(Customer* Cus, int nCus, int status) {
+int countLoansByStatus(const Array<Customer>& Cus, int nCus, int status) {
     int count = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus.data[i].loans.head;
         while (current) {
             if (current->data.status == status)
                 count++;
@@ -41,10 +41,10 @@ int countLoansByStatus(Customer* Cus, int nCus, int status) {
     return count;
 }
 
-int countActiveLoansInRange(Customer* Cus, int nCus, Date& startDate, Date& endDate) {
+int countActiveLoansInRange(const Array<Customer>& Cus, int nCus, Date& startDate, Date& endDate) {
     int counter = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus.data[i].loans.head;
         while (current) {
             Loan& loan = current->data;
             if (loan.status == LNS_ACTIVE &&
@@ -58,49 +58,49 @@ int countActiveLoansInRange(Customer* Cus, int nCus, Date& startDate, Date& endD
     return counter;
 }
 
-Customer* customerMostLoans(Customer* Cus, int nCus) {
+Customer* customerMostLoans(const Array<Customer>& Cus, int nCus) {
     if (nCus == 0) return nullptr;
 
-    Customer* best = &Cus[0];
-    int maxLoans = listSize(*Cus[0].loans);
+    Customer* best = &Cus.data[0];
+    int maxLoans = listSize(Cus.data[0].loans);
 
     for (int i = 1; i < nCus; i++) {
-        int loanCount = listSize(*Cus[i].loans);
+        int loanCount = listSize(Cus.data[i].loans);
         if (loanCount > maxLoans) {
             maxLoans = loanCount;
-            best = &Cus[i];
+            best = &Cus.data[i];
         }
     }
     return best;
 }
 
-Customer* customerHighestBalance(Customer* Cus, int nCus) {
+Customer* customerHighestBalance(const Array<Customer>& Cus, int nCus) {
     if (nCus == 0) return nullptr;
 
-    Customer* best = &Cus[0];
+    Customer* best = &Cus.data[0];
     for (int i = 1; i < nCus; i++) {
-        if (Cus[i].balance > best->balance)
-            best = &Cus[i];
+        if (Cus.data[i].balance > best->balance)
+            best = &Cus.data[i];
     }
     return best;
 }
 
-Customer* customerLowestBalance(Customer* Cus, int nCus) {
+Customer* customerLowestBalance(const Array<Customer>& Cus, int nCus) {
     if (nCus == 0) return nullptr;
 
-    Customer* best = &Cus[0];
+    Customer* best = &Cus.data[0];
     for (int i = 1; i < nCus; i++) {
-        if (Cus[i].balance < best->balance)
-            best = &Cus[i];
+        if (Cus.data[i].balance < best->balance)
+            best = &Cus.data[i];
     }
     return best;
 }
 
-int totalEmp(employee* Emp, int nEmp) {
+int totalEmp(Employee* Emp, int nEmp) {
     return nEmp;
 }
 
-int countEmpByBranch(employee* Emp, int nEmp, int branchCode) {
+int countEmpByBranch(Employee* Emp, int nEmp, int branchCode) {
     int count = 0;
     for (int i = 0; i < nEmp; i++) {
         if (stoi(Emp[i].bankBranch) == branchCode)
