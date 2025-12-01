@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include <SinglyLinkedListMeth.hpp>
 #include <DoublyLinkedListMeth.hpp>
@@ -9,6 +10,8 @@
 #include <MiscFuncs.hpp>
 #include <customerMeth.hpp>
 #include <LoansMeth.hpp>
+#include <EmployeeTasks.hpp>
+#include <stackMeth.hpp>
 #define TEMPLATE template <typename T>
 
 
@@ -41,7 +44,7 @@ string IBANGen(const Customer& Cus){
     return(IBAN);
 }
 string passwordGen(int size){
-    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{}|;:,.<>/?";
+    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&()-_=+[]{}|;:.<>/?";
     string password;
     for(int i=0;i<size;i++){
         password+=chars[random(0,chars.size())];

@@ -1,5 +1,5 @@
 //Defining the customer structure
-#ifndef Employee_H
+#ifndef EMPLOYEE_H
 #define EMPLOYEE_H
 #include "Dates.hpp"
 #include <string>

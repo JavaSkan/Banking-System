@@ -51,3 +51,15 @@ window.getFromCpp().then((answer)=>{
         "CPP says: " + answer);
 });
 }
+
+function Login(){
+    let AccNum=document.getElementById("customer_account_number").value;
+    let password=document.getElementById("password").value;
+    LoginCPP(AccNum+"*"+password).then((answer)=>{
+        if(answer=="false"){
+            alert("moch mawjoud");
+        }else{
+        goToPage('CustomerInterface.html');
+        }
+    });
+}
