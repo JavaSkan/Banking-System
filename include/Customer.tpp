@@ -68,12 +68,11 @@ int addCustomerToCsv(const Customer& Cus){
     to_string(Cus.balance)          +","+
     DLToString(Cus.loans)           +","+
     stackToString(Cus.transactions) +","+
-    Cus.password;
+    Cus.password + ",";
     cout << line << endl; //For debugging purposes
     file << line << endl;
     file.close();
     return 1;
-
 }
 
 int init_customerArray(Array<Customer>& Cusarr) {
@@ -84,8 +83,8 @@ int init_customerArray(Array<Customer>& Cusarr) {
     }
     stringstream buf;
     string line;
-    string value;
     Customer c;
+    string value = "";
     while(getline(file, line)){
         buf << line;
         getline(buf, c.ID, ',');
@@ -103,8 +102,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
         c.loans = stringToDL(value);
         getline(buf, value, ',');
         c.transactions = stringToStack(value);
-        getline(buf, value, ',');
-        c.password = value;
+        getline(buf, c.password, ',');
         addElement(&Cusarr, c, Cusarr.size);
     }
     file.close();
@@ -159,7 +157,7 @@ string createNewCustomer(const string& infoJSON){
     cout<<"opening date : "<<Cus.openingDate.day<<"-"<<Cus.openingDate.month<<"-"<<Cus.openingDate.year<<endl;
     cout<<"status : "<<Cus.status<<endl;
     cout<<"balance : "<<Cus.balance<<endl;
-    cout<<"balance : "<<Cus.password<<endl;
+    cout<<"password : "<<Cus.password<<endl;
 
     //displayCusts(CustArray);
     return "\"Customer created .\"";

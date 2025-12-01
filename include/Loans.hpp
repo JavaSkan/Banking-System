@@ -18,13 +18,13 @@ constexpr int LNS_COMPLETED = 6;
 constexpr int LNS_OVERDUE = 7;
 
 struct Loan{
-    string ID;
-    int type;
-    int status;
-    float pr_amount; //principle amount
-    float it_rate; //interest rate
-    float am_paid; //amount paid
-    float rm_balance; //remaining balance
+    string ID = "";
+    int type = LNT_CAR;
+    int status = LNS_ACTIVE;
+    float pr_amount = 0.0; //principle amount
+    float it_rate = 0.0; //interest rate
+    float am_paid = 0.0; //amount paid
+    float rm_balance = 0.0; //remaining balance
     Date start_date;
     Date end_date;
 };

@@ -75,7 +75,7 @@ void setupWebView() {
     w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
     setupBindings();
-    w.navigate(path("CustomerInterface.html"));
+    w.navigate(path("index.html"));
 }
 
 // --- MAIN ---
@@ -91,7 +91,7 @@ int main() {
     insert(&LoggedInCustomer.loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
     Array CustArray=createCustomerArray<Customer>();
     
-    init_customerArray(CustArray);
+    //init_customerArray(CustArray);
 
 
     cout << "[C++] Hello, console!" << endl;
