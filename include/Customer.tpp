@@ -14,10 +14,8 @@
 #include <stackMeth.hpp>
 #define TEMPLATE template <typename T>
 
-
-
-
 using namespace std;
+
 string IDGenCustomer(){
     // THIS DOESNT CHECK FOR UNIQUE , TO FIX LATER
     bool test=false;
@@ -27,6 +25,7 @@ string IDGenCustomer(){
     }
     return ID;
 }
+
 string RIBGen(const Customer& Cus){
     string RIB = "67"+Cus.branchCode+Cus.ID;
     long long temp = stoll(RIB);
@@ -43,6 +42,7 @@ string IBANGen(const Customer& Cus){
     string IBAN = "TN59" + RIBGen(Cus);
     return(IBAN);
 }
+
 string passwordGen(int size){
     string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&()-_=+[]{}|;:.<>/?";
     string password;
@@ -51,70 +51,69 @@ string passwordGen(int size){
     }
     return password;
 }
+
 int addCustomerToCsv(const Customer& Cus){
     ofstream file("assets/Customers.csv",ios::app);
     if (!file.is_open()){
-        cerr<<"Cannot open file : assets/"<<endl;
+        cerr << "Cannot open file : assets/Customers.csv" << endl;
         file.close();
         return -1;
     }
     //Customer contains pointers to a stack/list of transactions/loans respectively,SKANDER convert them to string to put in the csv file
     string line =
-    Cus.ID +","+
-    Cus.type +","+
-    Cus.IBAN +","+
-    Cus.branchCode +","+
-    Cus.name +","+
-    to_string(Cus.openingDate.day) +","+
-    to_string(Cus.openingDate.month) +","+
-    to_string(Cus.openingDate.year) +","+
-    to_string(Cus.status) +","+
-    to_string(Cus.balance)+","+
-    DLToString(Cus.loans)+","+
-    stackToString(Cus.transactions)+","+
+    Cus.ID                          +","+
+    Cus.type                        +","+
+    Cus.IBAN                        +","+
+    Cus.branchCode                  +","+
+    Cus.name                        +","+
+    dateToString(Cus.openingDate)   +","+
+    to_string(Cus.status)           +","+
+    to_string(Cus.balance)          +","+
+    DLToString(Cus.loans)           +","+
+    stackToString(Cus.transactions) +","+
     Cus.password;
-    file<<line<<endl;
+    cout << line << endl; //For debugging purposes
+    file << line << endl;
     file.close();
     return 1;
 
 }
-//COMMENT FOR SAKNDER (1)ABOVE AND (1)BELOW
+
 int init_customerArray(Array<Customer>& Cusarr) {
     ifstream file("assets/Customers.csv"); 
     if(!file.is_open()){
         cerr << "Cannot open file: assets/Customers.csv" << endl;
         return 0;
     }
+    stringstream buf;
     string line;
-    int pos = 0;
-    string temp_day;
-    string temp_month;
-    string temp_year;
-    string temp_status;
-    string temp_balance;
+    string value;
+    Customer c;
     while(getline(file, line)){
-        stringstream ss(line);
-        cout<<line<<endl;
-        Customer data;
-        //SKANDER please update this line after fixing the conversion part
-        string temp;
-        getline(ss, data.ID, ',');
-        getline(ss, data.type, ',');
-        getline(ss, data.IBAN, ',');
-        getline(ss, data.branchCode, ',');
-        getline(ss, data.name, ',');
-        getline(ss, temp, ','); data.openingDate.day = stoi(temp);
-        getline(ss, temp, ','); data.openingDate.month = stoi(temp);
-        getline(ss, temp, ','); data.openingDate.year = stoi(temp);
-        getline(ss, temp, ','); data.status = stoi(temp);
-        getline(ss, temp, ','); data.balance = stod(temp);
-
-        getline(ss, data.password, ',');
-        addElement(&Cusarr,data,Cusarr.size);
+        buf << line;
+        getline(buf, c.ID, ',');
+        getline(buf, c.type, ',');
+        getline(buf, c.IBAN, ',');
+        getline(buf, c.branchCode, ',');
+        getline(buf, c.name, ',');
+        getline(buf, value, ',');
+        c.openingDate = stringToDate(value);
+        getline(buf, value, ',');
+        c.status = stoi(value);
+        getline(buf, value, ',');
+        c.balance = stof(value);
+        getline(buf, value, ',');
+        c.loans = stringToDL(value);
+        getline(buf, value, ',');
+        c.transactions = stringToStack(value);
+        getline(buf, value, ',');
+        c.password = value;
+        addElement(&Cusarr, c, Cusarr.size);
     }
     file.close();
     return 1;
 }
+
 TEMPLATE
 bool isUnique(const SList<T>& L, string value) {
     SNode<T>* current = L.head;
@@ -127,15 +126,12 @@ bool isUnique(const SList<T>& L, string value) {
     return true; 
 }
 
-//COMMENT FOR SKANDER ABOVE
-
-
-
 TEMPLATE
 Array<T> createCustomerArray(){
     Array<Customer> CustArray=createArray<Customer>(1); // initial value must be != 0
     return CustArray;
 }
+
 string createNewCustomer(const string& infoJSON){
     string info=unJSON(infoJSON);
     string acc_type;
