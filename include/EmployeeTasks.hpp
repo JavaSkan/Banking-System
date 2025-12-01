@@ -7,10 +7,10 @@
 #include "Queue.hpp"
 #include <iostream>
 
-int addEmployee(Array<Employee>* eArr);
-int deleteEmployee(Array<Employee>*  eArr);
-int modifyEmployee(Employee e);
-int displayAlphaconst (Array<Employee>& eArr);
+void addEmployee(Array<Employee>* eArr);
+int deleteEmployee(Array<Employee>* eArr);
+int modifyEmployee(Employee& e);
+int displayAlpha(const Array<Employee>& eArr);
 int displayEarliest(const Array<Employee>& eArr);
 int displayMostRecently(const Array<Employee>& eArr);
 int addCustomer(Array<Customer>* cArr);
@@ -21,8 +21,11 @@ int deleteCustomer(Array<Customer>* cArr, Customer c);
 int displayLoans()
 */
 int changeStatusLoan(Loan* L);
-int deleteLoan(DList* Dlist,SList<Loan>* clist,Loan L);
-int acceptLoan();
+int deleteLoan(DList* Dl,SList<Loan>* Sl,Loan L);
+int acceptLoan(Queue* q,DList* Dl);
+int declineLoan(Loan* L);
+//leaving managing transaction logs for later cuw dunno how to do that
+int finalizeDay(Array<Customer>, SList<Transaction> Sl);
 
 
 

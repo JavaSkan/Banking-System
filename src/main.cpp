@@ -13,31 +13,37 @@
 #include <Branches.hpp>
 #include <Dates.hpp>
 #include <MiscFuncs.hpp>
-#include <Customer.tpp>
+#include <customerMeth.hpp>
 #include <LoansMeth.hpp>
+#include <Employee.hpp>
 
 using namespace std;
 
-// --- GLOBAL VARIABLES ---
-webview::webview w(true, nullptr);
 // --- GUI SETUP ---
+webview::webview w(true, nullptr);
+// --- GLOBAL VARIABLES ---
 string lastJsValue;
 string Cus_acc_type;
 string Cus_name;
+Customer LoggedInCustomer;
 
-string getSpecificLoan(const DList& Loans,int pos){
-    int i=0;
+
+
+string getSpecificLoan(int pos){
+    
     Loan current;
     string LoansString;
-    while(i<pos){
-        current=getElement(Loans,i+1);
-        LoansString=loanToString(current);
-        LoansString=LoansString.substr(5,LoansString.size()-6);
-    }
+    current=getElement(LoggedInCustomer.loans,pos);
+    LoansString=loanToString(current);
+    cout<<endl<<LoansString;
+    LoansString=LoansString.substr(5,LoansString.size()-6);
+    cout<<LoansString;
     return LoansString ;
+   //return "test"+to_string(pos);
 }
-Customer GlobalCust;
-string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(GlobalCust.loans,stoi(i))+ "\"}";}
+
+
+string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string closeWindow(const string&) {
     w.terminate();
@@ -69,7 +75,7 @@ void setupWebView() {
     w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
     setupBindings();
-    w.navigate(path("index.html"));
+    w.navigate(path("CustomerInterface.html"));
 }
 
 // --- MAIN ---
@@ -78,7 +84,13 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    LoggedInCustomer.loans=createList();
+    insert(&LoggedInCustomer.loans,{"L001", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
+    insert(&LoggedInCustomer.loans,{"L002", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
+    insert(&LoggedInCustomer.loans,{"L003", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
+    insert(&LoggedInCustomer.loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
     Array CustArray=createCustomerArray<Customer>();
+    
     init_customerArray(CustArray);
 
 

@@ -4,15 +4,9 @@
 
 #include <sstream>
 #include <string>
-#include <cstdlib>
 #include <SinglyLinkedListMeth.hpp>
 #include <stackMeth.hpp>
 #include <DoublyLinkedListMeth.hpp>
-#include <arrayMeth.hpp>
-#include <Loans.hpp>
-#include <transaction.hpp>
-#include <Branches.hpp>
-#include <MiscFuncs.hpp>
 using namespace std;
 #define TEMPLATE template <typename T>
 
@@ -23,32 +17,18 @@ constexpr int CST_CLOSED = -1;
 //Status values can only be one of the 3 above
 
 struct Customer{
-    string ID;
+    string ID="";
     //is the account number
-    string type;
-    string IBAN;
-    string branchCode;
-    string name;
-    Date openingDate;
-    int status;
-    float balance;
+    string type="";
+    string IBAN="";
+    string branchCode="";
+    string name="";
+    Date openingDate={0,0,0};
+    int status=2;
+    float balance=0;
     DList loans;
     Stack transactions;
-    string password;
+    string password="";
 };
-
-
-int addCustomerToCsv(const Customer& Cus);
-int init_customerArray(Array<Customer>& Cusarr);
-TEMPLATE Array<T> createCustomerArray();
-string createNewCustomer(const string& infoJSON);
-string RIBGen(const Customer& Cus);
-string IBANGen(const Customer& Cus);
-string IDGenCustomer();
-TEMPLATE bool isUnique(const SList<T>& L, string value);
-string passwordGen(int size);
-
-
-
 
 #endif

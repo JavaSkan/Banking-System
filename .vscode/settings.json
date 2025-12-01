@@ -78,6 +78,7 @@
         "numeric": "cpp",
         "queue": "cpp",
         "set": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "*.rh": "cpp"
     }
 }

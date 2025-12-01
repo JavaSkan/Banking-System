@@ -1,7 +1,14 @@
 #include <iostream>
 #include <fstream>
-#include <customer.hpp>
 
+#include <SinglyLinkedListMeth.hpp>
+#include <DoublyLinkedListMeth.hpp>
+#include <arrayMeth.hpp>
+#include <Branches.hpp>
+#include <Dates.hpp>
+#include <MiscFuncs.hpp>
+#include <customerMeth.hpp>
+#include <LoansMeth.hpp>
 #define TEMPLATE template <typename T>
 
 using namespace std;
@@ -136,8 +143,10 @@ string createNewCustomer(const string& infoJSON){
     Cus.openingDate=CurrentDate;
     Cus.status=1;
     Cus.balance=0;
-    Cus.loans={}; //PLACEHOLDER;
-    Cus.transactions={}; //PLACEHOLDER;
+    DList Loans=createList();
+    Stack Transactions=createStack();
+    Cus.loans=Loans;
+    Cus.transactions=Transactions; 
     Cus.password=passwordGen(12);
     addCustomerToCsv(Cus);
     //addElement(CustArray,Cus,CustArray.size);
@@ -154,4 +163,5 @@ string createNewCustomer(const string& infoJSON){
 
     //displayCusts(CustArray);
     return "\"Customer created .\"";
+
 }

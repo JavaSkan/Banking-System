@@ -91,7 +91,6 @@ form,fieldset{
     justify-content: center;
 }
 td{
-    text-align: right;
 }
 td input{
     color:black;
