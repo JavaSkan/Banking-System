@@ -71,7 +71,7 @@ int addCustomerToCsv(const Customer& Cus){
     to_string(Cus.balance)          +","+
     DLToString(Cus.loans)           +","+
     stackToString(Cus.transactions) +","+
-    Cus.password;
+    Cus.password+",";
     cout << line << endl; //For debugging purposes
     file << line << endl;
     file.close();
@@ -85,30 +85,37 @@ int init_customerArray(Array<Customer>& Cusarr) {
         cerr << "Cannot open file: assets/Customers.csv" << endl;
         return 0;
     }
-    stringstream buf;
     string line;
-    string value;
-    Customer c;
+    int pos = 0;
+    string temp_day;
+    string temp_month;
+    string temp_year;
+    string temp_status;
+    string temp_balance;
     while(getline(file, line)){
-        buf << line;
-        getline(buf, c.ID, ',');
-        getline(buf, c.type, ',');
-        getline(buf, c.IBAN, ',');
-        getline(buf, c.branchCode, ',');
-        getline(buf, c.name, ',');
-        getline(buf, value, ',');
-        c.openingDate = stringToDate(value);
-        getline(buf, value, ',');
-        c.status = stoi(value);
-        getline(buf, value, ',');
-        c.balance = stof(value);
-        getline(buf, value, ',');
-        c.loans = stringToDL(value);
-        getline(buf, value, ',');
-        c.transactions = stringToStack(value);
-        getline(buf, value, ',');
-        c.password = value;
-        addElement(&Cusarr, c, Cusarr.size);
+        stringstream ss(line);
+        cout<<line<<endl;
+        Customer data;
+        //SKANDER please update this line after fixing the conversion part
+        string temp;
+        string loanstemp;
+        string stacktemp;
+        getline(ss, data.ID, ',');
+        getline(ss, data.type, ',');
+        getline(ss, data.IBAN, ',');
+        getline(ss, data.branchCode, ',');
+        getline(ss, data.name, ',');
+
+        getline(ss, temp, ','); data.openingDate.day = stoi(temp);
+        getline(ss, temp, ','); data.openingDate.month = stoi(temp);
+        getline(ss, temp, ','); data.openingDate.year = stoi(temp);
+
+        getline(ss, temp, ','); data.status = stoi(temp);
+        getline(ss, temp, ','); data.balance = stof(temp);
+        getline(ss, loanstemp, ','); data.loans = stringToDL(loanstemp);
+        getline(ss, stacktemp, ','); data.transactions = stringToStack(stacktemp);
+        getline(ss, data.password, ',');
+        addElement(&Cusarr,data,Cusarr.size);
     }
     file.close();
     return 1;

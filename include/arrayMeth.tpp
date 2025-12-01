@@ -62,7 +62,7 @@ int addElement(Array<T>* p, T e, int pos) {
 
 TEMPLATE
 Array<T> copyArray(const Array<T>& p){
-    Array<T> copy = createArray(p.capacity);
+    Array<T> copy = createArray<T>(p.capacity);
     copy.size = p.size;
 
     for (int i = 0; i<p.size; i++){

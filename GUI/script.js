@@ -58,8 +58,10 @@ function Login(){
     LoginCPP(AccNum+"*"+password).then((answer)=>{
         if(answer=="false"){
             alert("moch mawjoud");
+        }else if(answer=="falseP"){
+            alert("mdp ghlt");
         }else{
-        goToPage('CustomerInterface.html');
+            goToPage('CustomerInterface.html');
         }
     });
 }

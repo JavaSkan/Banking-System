@@ -47,8 +47,13 @@ string LoginCpp(const string& LoginInfoJSON){
     if( CustomerPos==-1){
         return "\"false\"";
     }else{
-        LoggedInCustomer=custArray.data[CustomerPos];
-        return LoggedInCustomer.ID;
+        cout<<password<<"/"<<custArray.data[CustomerPos].password;
+        if(custArray.data[CustomerPos].password==password){
+            LoggedInCustomer=custArray.data[CustomerPos];
+            return LoggedInCustomer.ID;
+        }else{
+            return "\"falseP\"";
+        }
     }
 }
 
@@ -98,12 +103,6 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
-    LoggedInCustomer.loans=createList();
-    insert(&LoggedInCustomer.loans,{"L001", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    insert(&LoggedInCustomer.loans,{"L002", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    insert(&LoggedInCustomer.loans,{"L003", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-    insert(&LoggedInCustomer.loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
-
     init_customerArray(custArray);
 
 
