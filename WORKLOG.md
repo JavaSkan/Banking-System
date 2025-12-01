@@ -10,7 +10,7 @@
 | 16-11-2025 | Added Loans, Dates, DoublyLinkedLists and their methods               | Skander        |
 | 22-11-2025 | Added custom array ( & Method ).Re-organized tpp files in include.    | Melik          |
 |            | Added a working GUI                                                   | Aymen          |
-|            | Added stack ( & Method )                                              | Melik          |
+|            | Added stack & its´methods (used dynamic arrays, later changed by skander to match the course )                                              | Melik          |
 | 23-11-2025 | Added ID, RIB and IBAN generation                                     | Melik          |
 | | Added miscellaneous functions                                     | Aziz          |
 | 24-11-2025| Fixed GUI bugs + added interface hpp and tpp placeholders                                     | Aymen          |
