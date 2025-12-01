@@ -25,19 +25,22 @@ string lastJsValue;
 string Cus_acc_type;
 string Cus_name;
 
-string getSpecificLoan(const DList& Loans,int pos){
-    int i=0;
+string getSpecificLoan(int pos){
+    DList Loans = createList();
+    insert(&Loans,{"L001", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
+    insert(&Loans,{"L002", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
+    insert(&Loans,{"L003", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
+    insert(&Loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
     Loan current;
     string LoansString;
-    while(i<pos){
-        current=getElement(Loans,i+1);
-        LoansString=loanToString(current);
-        LoansString=LoansString.substr(5,LoansString.size()-6);
-    }
+    current=getElement(Loans,pos);
+    LoansString=loanToString(current);
+    LoansString=LoansString.substr(5,LoansString.size()-6);
+    cout<<LoansString;
     return LoansString ;
+   //return "test"+to_string(pos);
 }
-Customer GlobalCust;
-string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(GlobalCust.loans,stoi(i))+ "\"}";}
+string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string closeWindow(const string&) {
     w.terminate();
@@ -69,7 +72,7 @@ void setupWebView() {
     w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
     setupBindings();
-    w.navigate(path("index.html"));
+    w.navigate(path("CustomerInterface.html"));
 }
 
 // --- MAIN ---

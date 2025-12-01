@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <customer.hpp>
+#include <DoublyLinkedListMeth.hpp>
+#include <stackMeth.hpp>
 #define TEMPLATE template <typename T>
 
 
@@ -59,6 +61,8 @@ int addCustomerToCsv(const Customer& Cus){
     to_string(Cus.openingDate.year) +","+
     to_string(Cus.status) +","+
     to_string(Cus.balance)+","+
+    DLToString(Cus.loans)+","+
+    stackToString(Cus.transactions)+","+
     Cus.password;
     file<<line<<endl;
     file.close();
@@ -95,6 +99,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
         getline(ss, temp, ','); data.openingDate.year = stoi(temp);
         getline(ss, temp, ','); data.status = stoi(temp);
         getline(ss, temp, ','); data.balance = stod(temp);
+
         getline(ss, data.password, ',');
         addElement(&Cusarr,data,Cusarr.size);
     }
@@ -136,8 +141,10 @@ string createNewCustomer(const string& infoJSON){
     Cus.openingDate=CurrentDate;
     Cus.status=1;
     Cus.balance=0;
-    Cus.loans=nullptr; //PLACEHOLDER;
-    Cus.transactions=nullptr; //PLACEHOLDER;
+    DList Loans=createList();
+    Stack Transactions=createStack();
+    Cus.loans=Loans;
+    Cus.transactions=Transactions; 
     Cus.password=passwordGen(12);
     addCustomerToCsv(Cus);
     //addElement(CustArray,Cus,CustArray.size);
