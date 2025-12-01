@@ -19,5 +19,6 @@ string trim(string s);
 bool isAlpha(string s);
 bool checkName(string name);
 string replace(string input, string replaced, string replacedWith);
+string toLower(string s);
 
 #endif //MISCFUNCS_H

@@ -6,6 +6,7 @@
 #include "Loans.hpp"
 #include "Queue.hpp"
 #include <iostream>
+#include <cstring>
 
 void addEmployee(Array<Employee>* eArr);
 int deleteEmployee(Array<Employee>* eArr);

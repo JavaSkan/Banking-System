@@ -5,6 +5,7 @@
 #include <string>
 #include <ctime>
 #include <cstdlib>
+#include <cstring>
 
 #include <MiscFuncs.hpp>
 #include <SinglyLinkedListMeth.hpp>
@@ -201,4 +202,16 @@ string replace(string input, string rep, string repw){
         }
     }
     return out;
+}
+
+string toLower(string s) {
+    string res = "";  
+    for (int i = 0; i < s.length(); i++) {
+        char c = s[i];
+        if (c >= 'A' && c <= 'Z') {
+            c = c + ('a' - 'A');
+        }
+        res = res + c;
+    }
+    return res;
 }

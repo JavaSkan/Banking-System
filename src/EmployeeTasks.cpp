@@ -1,4 +1,4 @@
-#include "EmployeeTasks.hpp"
+#include <EmployeeTasks.hpp>
 using namespace std;
 
 void addEmployee(Array<Employee>* eArr){
@@ -80,6 +80,21 @@ int modifyEmployee(Employee& e){
 }
 
 int displayAlpha(const Array<Employee>& eArr){
-    
+    Array<Employee> temp = copyArray<Employee>(eArr);
+    for (int i = 0; i<temp.size;i++){
+        temp.data[i].LastName = toLower(temp.data[i].LastName);
+    }
+
+     for (int i = 0; i < temp.size - 1; i++){
+        for (int j = 0; j < temp.size - i - 1; j++){
+            if (temp.data[j].LastName > temp.data[j + 1].LastName){
+                Employee aux = temp.data[j];
+                temp.data[j] = temp.data[j + 1];
+                temp.data[j + 1] = aux;
+            }
+        }
+    }
+
+
 }
 
