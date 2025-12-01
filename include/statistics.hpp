@@ -4,6 +4,7 @@
 #include "Customer.hpp"
 #include "Employee.hpp"
 #include "Loans.hpp"
+#include "arrayMeth.hpp"
 
 //9adech famma min loan
 int getTotalLoans(Customer Cus[], int nCus);

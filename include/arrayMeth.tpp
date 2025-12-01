@@ -15,12 +15,16 @@ Array<T> createArray(int capacity) {
 }
 
 TEMPLATE
-void destroyArray(Array<T> p) {
-    delete[] p.data;
-    p.size = 0;
-    p.capacity = 0;
+void destroyArray(Array<T>* p) {
+    delete[] p->data;
+    delete p;
 }
 
+TEMPLATE
+int arraySize(const Array<T>& p){
+    return p.size;
+
+}
 
 TEMPLATE
 bool isEmpty(const Array<T>& p) {
@@ -82,16 +86,16 @@ void resizeArray(Array<T>& p, int newCapacity) {
 }
 
 TEMPLATE
-void removeAtArray(Array<T>& p, int pos) {
-    if (pos < 0 || pos >= p.size) {
+void removeAtArray(Array<T>* p, int pos) {
+    if (pos < 0 || pos >= p->size) {
         cout << "invalid position" <<endl;
     }
 
-    for (int i = pos; i < p.size - 1; i++) {
-        p.data[i] = p.data[i + 1];
+    for (int i = pos; i < p->size - 1; i++) {
+        p->data[i] = p->data[i + 1];
     }
 
-    p.size--;
+    p->size--;
 }
 
 TEMPLATE
@@ -105,4 +109,17 @@ bool isUniqueInArray(const Array<T>& p, T e){
     };
     return(i==p.size);
 
+}
+
+TEMPLATE
+int searchByID(const Array<T>& p,string ID){
+    int i = 0;
+    while(i<p.size && ID != p.data[i].ID){
+        i++;
+    }
+    if (i==p.size){
+        cout<<"element matching the ID not found"<<endl;
+        return -1;
+    }
+    return i;
 }

@@ -5,13 +5,13 @@
 #include <string>
 using namespace std;
 
-struct employee{
+struct Employee{
     string ID;
     string Name;
     string LastName;
     string Adress;
     float Salary;
-    Date HireDate;
+    Date HireDate; //constant ??
     string bankBranch;
 };
 #endif
