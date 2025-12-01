@@ -5,6 +5,7 @@
 #include "Employee.hpp"
 #include "Loans.hpp"
 #include "Queue.hpp"
+#include "arrayMeth.hpp"
 #include <iostream>
 #include <cstring>
 
