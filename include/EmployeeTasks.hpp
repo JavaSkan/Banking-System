@@ -9,8 +9,8 @@
 
 void addEmployee(Array<Employee>* eArr);
 int deleteEmployee(Array<Employee>* eArr);
-int modifyEmployee(Employee e);
-int displayAlphaconst (Array<Employee>& eArr);
+int modifyEmployee(Employee& e);
+int displayAlpha(const Array<Employee>& eArr);
 int displayEarliest(const Array<Employee>& eArr);
 int displayMostRecently(const Array<Employee>& eArr);
 int addCustomer(Array<Customer>* cArr);

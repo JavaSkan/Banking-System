@@ -40,14 +40,46 @@ int deleteEmployee(Array<Employee>* eArr){
     return 1;
 }
 
-int modifyEmployee(Employee e){
+int modifyEmployee(Employee& e){
     char c;
     cout<<"chet7eb tbadel ?"<<endl;
     cout<<"1 : change ID(in case of a misinput)"<<endl;
     cout<<"2 : change name"<<endl;
     cout<<"3 : change last name"<<endl;
     cout<<"4 : change adress"<<endl;
-    cout<<"5 : change slary"<<endl;
+    cout<<"5 : change salary"<<endl;
     cout<<"6 : change branch code"<<endl;
+    cin>>c;
+    switch (c){
+        case '1' :
+            cout<<"What´s the new value ?"<<endl;
+            cin>>e.ID;
+            break;
+        case '2' :
+            cout<<"What´s the new value ?"<<endl;
+            cin>>e.Name;
+            break;
+        case '3' :
+            cout<<"What´s the new value ?"<<endl;
+            cin>>e.LastName;
+            break;
+        case '4' :
+            cout<<"What´s the new value ?"<<endl;
+            cin>>e.Adress;
+            break;
+        case '5' :
+            cout<<"What´s the new value ?"<<endl;
+            cin>>e.Salary;
+            break;
+        case '6' :
+            cout<<"What´s the new value ?"<<endl;
+            cin>>e.bankBranch;
+            break;
+    }
+    return 1;
+}
+
+int displayAlpha(const Array<Employee>& eArr){
+    
 }
 

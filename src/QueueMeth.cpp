@@ -13,6 +13,12 @@ Queue* createQueue(){
     return q;
 }
 
+bool isEmpty(const Queue& q){
+    return(q.front==-1);
+
+}
+
+
 int queueSize(const Queue& q){
     if (isEmpty(q)){
         return 0;
@@ -20,10 +26,6 @@ int queueSize(const Queue& q){
     return(q.tail-q.front+1);
 }
 
-bool isEmpty(const Queue& q){
-    return(q.front==-1);
-
-}
 
 bool isFull(const Queue& q){
     return(q.tail == 99);
