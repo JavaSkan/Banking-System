@@ -13,33 +13,36 @@
 #include <Branches.hpp>
 #include <Dates.hpp>
 #include <MiscFuncs.hpp>
-#include <Customer.tpp>
+#include <customerMeth.hpp>
 #include <LoansMeth.hpp>
+#include <Employee.hpp>
 
 using namespace std;
 
-// --- GLOBAL VARIABLES ---
-webview::webview w(true, nullptr);
 // --- GUI SETUP ---
+webview::webview w(true, nullptr);
+// --- GLOBAL VARIABLES ---
 string lastJsValue;
 string Cus_acc_type;
 string Cus_name;
+Customer LoggedInCustomer;
+
+
 
 string getSpecificLoan(int pos){
-    DList Loans = createList();
-    insert(&Loans,{"L001", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
-    insert(&Loans,{"L002", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
-    insert(&Loans,{"L003", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
-    insert(&Loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},Loans.size+1);
+    
     Loan current;
     string LoansString;
-    current=getElement(Loans,pos);
+    current=getElement(LoggedInCustomer.loans,pos);
     LoansString=loanToString(current);
+    cout<<endl<<LoansString;
     LoansString=LoansString.substr(5,LoansString.size()-6);
     cout<<LoansString;
     return LoansString ;
    //return "test"+to_string(pos);
 }
+
+
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string closeWindow(const string&) {
@@ -81,7 +84,13 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    LoggedInCustomer.loans=createList();
+    insert(&LoggedInCustomer.loans,{"L001", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
+    insert(&LoggedInCustomer.loans,{"L002", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
+    insert(&LoggedInCustomer.loans,{"L003", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
+    insert(&LoggedInCustomer.loans,{"L004", 1, 5, 200, 0.2, 100, 100, {1,1,2025},{2,2,2027}},LoggedInCustomer.loans.size+1);
     Array CustArray=createCustomerArray<Customer>();
+    
     init_customerArray(CustArray);
 
 

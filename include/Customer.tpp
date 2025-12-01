@@ -1,8 +1,14 @@
 #include <iostream>
 #include <fstream>
-#include <customer.hpp>
+
+#include <SinglyLinkedListMeth.hpp>
 #include <DoublyLinkedListMeth.hpp>
-#include <stackMeth.hpp>
+#include <arrayMeth.hpp>
+#include <Branches.hpp>
+#include <Dates.hpp>
+#include <MiscFuncs.hpp>
+#include <customerMeth.hpp>
+#include <LoansMeth.hpp>
 #define TEMPLATE template <typename T>
 
 
@@ -161,4 +167,5 @@ string createNewCustomer(const string& infoJSON){
 
     //displayCusts(CustArray);
     return "\"Customer created .\"";
+
 }

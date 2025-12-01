@@ -5,13 +5,14 @@ function table() {
     if (!table) return;
 
     table.classList.add("LoansTab");
-
+    
     for (let i = 0; i < LoanCount; i++) { 
         let row = document.createElement("tr");
         let cell = document.createElement("td");
         cell.id = `Loan${i}`;
         let innerTable = document.createElement("table");
-        getLoansLine(i.toString()).then((LoanString) => {
+        innerTable.classList.add("InnerLoansTab");
+        getLoansLine((i+1).toString()).then((LoanString) => {
             
             const list = LoanString.data.split("*");   // list[0]..list[9]
             // Parse the incoming string
@@ -37,35 +38,6 @@ function table() {
                innerRow.appendChild(innerCell);
                innerTable.appendChild(innerRow);
                }
-              /*
-              LoanString=getLoansLine(i.toString());
-              const list = LoanString.split("*");   // list[0]..list[9]
-            const celltext=[
-                "ID : ",
-                "Type : ",
-                "Status : ",
-                "Primary Amount : ",
-                "Interest Rate : ",
-                "Amount paid : ",
-                "Remaining Balance : ",
-                "Start Date : ",
-                "End DateID : ",
-                ]
-                // [Id,type,lstatus,pr_amnt,ir,ap,rb,sd,ed]
-                
-                
-               for (let j = 0; j < 9; j++) {
-                   let innerRow = document.createElement("tr");
-                   let innerCell = document.createElement("td");
-                   innerCell.innerText = LoanString ??"oops";  // safe fallback
-
-                   innerCell.id = `Loan${i}_${j}`
-                   //innerCell.innerText = celltext[j]+list[j];  // safe fallback
-                   
-                   innerRow.appendChild(innerCell);
-                   innerTable.appendChild(innerRow);
-                }
-                */
             });
         cell.append(innerTable);
         row.appendChild(cell);
@@ -73,12 +45,3 @@ function table() {
     }
 }
 
-/*function  getLoansLine(i){
-    loans=[
-        "L001*1*5*200*0.2*100*100*1-1-2025*2-2-2027",
-        "L002*1*5*200*0.2*100*100*1-1-2025*2-2-2027",
-        "L003*1*5*200*0.2*100*100*1-1-2025*2-2-2027",
-        "L004*1*5*200*0.2*100*100*1-1-2025*2-2-2027"
-    ]
-    return loans[i];
-}*/
