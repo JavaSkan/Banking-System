@@ -1,5 +1,5 @@
 #include <EmployeeTasks.hpp>
-#include <MiscFuncs.hpp>
+#include <arrayMeth.hpp>
 using namespace std;
 
 void addEmployee(Array<Employee>* eArr){
@@ -80,39 +80,62 @@ int modifyEmployee(Employee& e){
     return 1;
 }
 
-int displayAlpha(const Array<Employee>& eArr){
-    //making all last names lower case
-    Array<Employee> temp = copyArray<Employee>(eArr);
-    for (int i = 0; i<temp.size;i++){
-        temp.data[i].LastName = toLower(temp.data[i].LastName);
-    }
-    //sorting (bubble sort)
+//int displayAlpha(const Array<Employee>& eArr){
+    
+//}
 
-     for (int i = 0; i < temp.size - 1; i++){
-        for (int j = 0; j < temp.size - i - 1; j++){
-            if (temp.data[j].LastName > temp.data[j + 1].LastName){
-                Employee aux = temp.data[j];
-                temp.data[j] = temp.data[j + 1];
-                temp.data[j + 1] = aux;
-            }
+int displayAlpha(const Array<Employee>& eArr){
+    if(isEmpty(eArr)){
+    cout<<"No employees to display"<<endl;
+    return 0;
+}
+    Array<Employee> temp = copyArray(eArr);
+    for(int i=0; i<temp.size-1; i++){
+    for(int j=i+1; j<temp.size; j++){
+    if(temp.data[i].LastName > temp.data[j].LastName){
+    Employee swap = temp.data[i];
+    temp.data[i] = temp.data[j];
+    temp.data[j] = swap;
+}
+}}
+    for(int i=0; i<temp.size; i++){
+    cout<<temp.data[i].ID<<" "<<temp.data[i].Name<<" "<<temp.data[i].LastName<<" "
+    <<temp.data[i].Adress<<" "<<temp.data[i].Salary<<" "
+    <<temp.data[i].HireDate.day<<"/"<<temp.data[i].HireDate.month<<"/"<<temp.data[i].HireDate.year
+    <<" Branch:"<<temp.data[i].bankBranch<<endl;
+}
+    return 1;
+}
+
+
+
+int displayEarliest(const Array<Employee>& eArr){
+    if(isEmpty(eArr)){
+        cout<<"No employees to display"<<endl;
+        return 0;
+    }
+    int earliest = 0;
+    int latest = 0;
+    for(int i=1; i<eArr.size; i++){
+        Date d1 = eArr.data[i].HireDate;
+        Date dEarliest = eArr.data[earliest].HireDate;
+        Date dLatest = eArr.data[latest].HireDate;
+        if( (d1.year < dEarliest.year) || 
+            (d1.year == dEarliest.year && d1.month < dEarliest.month) || 
+            (d1.year == dEarliest.year && d1.month == dEarliest.month && d1.day < dEarliest.day)){
+            earliest = i;
+        }
+        if( (d1.year > dLatest.year) || 
+            (d1.year == dLatest.year && d1.month > dLatest.month) || 
+            (d1.year == dLatest.year && d1.month == dLatest.month && d1.day > dLatest.day)){
+            latest = i;
         }
     }
-    //clean display 
-    for (int i = 0; i < temp.size; i++){
-        cout << "ID: " << temp.data[i].ID << endl;
-        cout << "Name: " << temp.data[i].Name << endl;
-        cout << "Last Name: " << temp.data[i].LastName << endl;
-        cout << "Address: " << temp.data[i].Adress << endl;
-        cout << "Salary: " << temp.data[i].Salary << endl;
-        cout << "Hire Date: "
-             << temp.data[i].HireDate.day << "/"
-             << temp.data[i].HireDate.month << "/"
-             << temp.data[i].HireDate.year << endl;
-        cout << "Bank Branch: " << temp.data[i].bankBranch << endl;
-        cout << "------------------------" << endl;
-    }
+    cout<<"Earliest recruited: "<<eArr.data[earliest].ID<<" "<<eArr.data[earliest].Name<<" "<<eArr.data[earliest].LastName
+        <<" "<<eArr.data[earliest].HireDate.day<<"/"<<eArr.data[earliest].HireDate.month<<"/"<<eArr.data[earliest].HireDate.year<<endl;
+    cout<<"Most recently recruited: "<<eArr.data[latest].ID<<" "<<eArr.data[latest].Name<<" "<<eArr.data[latest].LastName
+        <<" "<<eArr.data[latest].HireDate.day<<"/"<<eArr.data[latest].HireDate.month<<"/"<<eArr.data[latest].HireDate.year<<endl;
     return 1;
-
-
 }
+
 
