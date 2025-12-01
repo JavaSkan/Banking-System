@@ -5,7 +5,7 @@
 int getTotalLoans(Customer* Cus, int nCus) {
     int total = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus[i].loans.head;
         while (current) {
             total++;
             current = current->next;
@@ -17,7 +17,7 @@ int getTotalLoans(Customer* Cus, int nCus) {
 int countLoansByType(Customer* Cus, int nCus, int type) {
     int count = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus[i].loans.head;
         while (current) {
             if (current->data.type == type)
                 count++;
@@ -30,7 +30,7 @@ int countLoansByType(Customer* Cus, int nCus, int type) {
 int countLoansByStatus(Customer* Cus, int nCus, int status) {
     int count = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus[i].loans.head;
         while (current) {
             if (current->data.status == status)
                 count++;
@@ -43,7 +43,7 @@ int countLoansByStatus(Customer* Cus, int nCus, int status) {
 int countActiveLoansInRange(Customer* Cus, int nCus, Date& startDate, Date& endDate) {
     int counter = 0;
     for (int i = 0; i < nCus; i++) {
-        DNode* current = Cus[i].loans->head;
+        DNode* current = Cus[i].loans.head;
         while (current) {
             Loan& loan = current->data;
             if (loan.status == LNS_ACTIVE &&
@@ -61,10 +61,10 @@ Customer* customerMostLoans(Customer* Cus, int nCus) {
     if (nCus == 0) return nullptr;
 
     Customer* best = &Cus[0];
-    int maxLoans = listSize(*Cus[0].loans);
+    int maxLoans = listSize(Cus[0].loans);
 
     for (int i = 1; i < nCus; i++) {
-        int loanCount = listSize(*Cus[i].loans);
+        int loanCount = listSize(Cus[i].loans);
         if (loanCount > maxLoans) {
             maxLoans = loanCount;
             best = &Cus[i];
