@@ -3,7 +3,7 @@ let date=new Date;
 let day=date.getDate();
 let month=date.getMonth()+1;
 let year=date.getFullYear();
-window.sendDate(day+"*"+month+"&"+year).then((r)=>{
+window.sendDate(day+"*"+month+"*"+year).then((r)=>{
     console.log(
         "CPP replied: " + r);
 });

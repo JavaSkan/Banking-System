@@ -10,11 +10,10 @@
 #include <MiscFuncs.hpp>
 #include <customerMeth.hpp>
 #include <LoansMeth.hpp>
-#include <EmployeeTasks.hpp>
 #include <stackMeth.hpp>
 #define TEMPLATE template <typename T>
-
 using namespace std;
+Array custArray=createCustomerArray<Customer>();
 
 string IDGenCustomer(){
     // THIS DOESNT CHECK FOR UNIQUE , TO FIX LATER
@@ -43,14 +42,6 @@ string IBANGen(const Customer& Cus){
     return(IBAN);
 }
 
-string passwordGen(int size){
-    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&()-_=+[]{}|;:.<>/?";
-    string password;
-    for(int i=0;i<size;i++){
-        password+=chars[random(0,chars.size())];
-    }
-    return password;
-}
 
 int addCustomerToCsv(const Customer& Cus){
     ofstream file("assets/Customers.csv",ios::app);
@@ -89,21 +80,17 @@ int init_customerArray(Array<Customer>& Cusarr) {
     string value = "";
     while(getline(file, line)){
         buf << line;
+        cout<<line<<endl;
         getline(buf, c.ID, ',');
         getline(buf, c.type, ',');
         getline(buf, c.IBAN, ',');
         getline(buf, c.branchCode, ',');
         getline(buf, c.name, ',');
-        getline(buf, value, ',');
-        c.openingDate = stringToDate(value);
-        getline(buf, value, ',');
-        c.status = stoi(value);
-        getline(buf, value, ',');
-        c.balance = stof(value);
-        getline(buf, value, ',');
-        c.loans = stringToDL(value);
-        getline(buf, value, ',');
-        c.transactions = stringToStack(value);
+        getline(buf, value, ',');c.openingDate = stringToDate(value);
+        getline(buf, value, ',');c.status = stoi(value);
+        getline(buf, value, ',');c.balance = stof(value);
+        getline(buf, value, ',');c.loans =stringToDL(value);
+        getline(buf, value, ',');c.transactions = stringToStack(value);
         getline(buf, c.password, ',');
         addElement(&Cusarr, c, Cusarr.size);
     }
@@ -133,13 +120,16 @@ string createNewCustomer(const string& infoJSON){
     string info=unJSON(infoJSON);
     string acc_type;
     string name;
-    splitStr(info,'*',acc_type,name);
+    string infoParts[2];
+    int n = splitStr(info, '*',infoParts,2);
+// Now parts[0..n-1] contain the substrings.
+
     Customer Cus;
-    Cus.type=acc_type;
+    Cus.type=acc_type=infoParts[0];
     Cus.branchCode=globalSessBank.ID;
     Cus.ID=IDGenCustomer();
     Cus.IBAN=IBANGen(Cus);
-    Cus.name=name;
+    Cus.name=name=infoParts[1];
     Cus.openingDate=CurrentDate;
     Cus.status=1;
     Cus.balance=0;
@@ -149,6 +139,8 @@ string createNewCustomer(const string& infoJSON){
     Cus.transactions=Transactions; 
     Cus.password=passwordGen(12);
     addCustomerToCsv(Cus);
+    addElement(&custArray,Cus,custArray.size);
+    
     //addElement(CustArray,Cus,CustArray.size);
     cout<<endl;
     cout<<"ID : "<<Cus.ID<<endl;

@@ -1,6 +1,6 @@
 ## WorkLog
 
-| Date       | Task                                                                  | Contributor(s) |
+| Date              | Task                                                                  | Contributor(s) |
 |------------|-----------------------------------------------------------------------|----------------|
 | 13-11-2025 | Set up GitHub                                                         | Skander        |
 | 14-11-2025 | Created advanced `README.md` file                                     | Aymen          |
@@ -17,7 +17,9 @@
 | 26-11-2025| Added icon to exe , added date functionalities                     | Aymen          |
 | 27-11-2025| Added addCustomerToCsv and customerArray                      | Melik          |
 | 29-11-2025 | Modified Stack Structure, Renamed Stack files correctly, Separated compile.bat into compile.bat & compiletest.bat, Added folder tests to .gitignore, Added String representation for Stack, Transaction and Date |  Skander |
-| 29-11-2025| Organized all functions into different .cpp or .tpp and .hpp file types                      | Aymen          |
+| | Organized all functions into different .cpp or .tpp and .hpp file types                      | Aymen          |
 | 30-11-2025 | Added the statistics part's .h file and .cpp file              | Aziz       |
-|30-11-2025| * Implemented string conversions for Loans, Separated Loan Methods from the Loan header file * Added String serialization for DoublyLinkedLists of Loans * Added Misc functions : trim, isAlpha, checkName and replace | Skander |
+|| * Implemented string conversions for Loans, Separated Loan Methods from the Loan header file * Added String serialization for DoublyLinkedLists of Loans * Added Misc functions : trim, isAlpha, checkName and replace | Skander |
 | 01-12-2025 | Added queue and queue methods for requested loans   | Melik          |
+|  | Added Customer Login functionality   | Aymen          |
+|02-12-2025| Added some employee tasks | Melik

@@ -16,6 +16,7 @@
 #include <customerMeth.hpp>
 #include <LoansMeth.hpp>
 #include <Employee.hpp>
+#include <EmployeeTasks.hpp>
 
 using namespace std;
 
@@ -24,7 +25,8 @@ webview::webview w(true, nullptr);
 // --- GLOBAL VARIABLES ---
 string lastJsValue;
 Customer LoggedInCustomer;
-Array custArray=createCustomerArray<Customer>();
+Employee LoggedInEmployee;
+
 
 string getSpecificLoan(int pos){
     Loan current;
@@ -38,11 +40,34 @@ string getSpecificLoan(int pos){
    //return "test"+to_string(pos);
 }
 
-string LoginCpp(const string& LoginInfoJSON){
+string EmplLoginCpp(const string& LoginInfoJSON){
+    string LoginInfo=unJSON(LoginInfoJSON);
+    string ID;
+    string password;
+    string infoParts[2];
+    int n = splitStr(LoginInfo, '*',infoParts,2);
+    ID=infoParts[0];
+    password=infoParts[1];
+    int EmployeePos=searchByID<Employee>(EmplArray,ID);
+    if( EmployeePos==-1){
+        return "\"false\"";
+    }else{
+        if(EmplArray.data[EmployeePos].password==password){
+            LoggedInEmployee=EmplArray.data[EmployeePos];
+            return LoggedInEmployee.ID;
+        }else{
+            return "\"falseP\"";
+        }
+    }
+}
+string CustLoginCpp(const string& LoginInfoJSON){
     string LoginInfo=unJSON(LoginInfoJSON);
     string accNum;
     string password;
-    splitStr(LoginInfo,'*',accNum,password);
+    string infoParts[2];
+    int n = splitStr(LoginInfo, '*',infoParts,2);
+    accNum=infoParts[0];
+    password=infoParts[1];
     int CustomerPos=searchByID<Customer>(custArray,accNum);
     if( CustomerPos==-1){
         return "\"false\"";
@@ -57,8 +82,8 @@ string LoginCpp(const string& LoginInfoJSON){
     }
 }
 
-string sendLoanCountJS(){
-    return to_string(LoggedInCustomer.loans.size);
+string sendLoanCountJS(const string&){
+    return "{\"data\":\"" + to_string(LoggedInCustomer.loans.size)+ "\"}";
 }
 
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
@@ -95,8 +120,12 @@ void setupBindings() {
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
-    w.bind("LoginCPP",LoginCpp);
     w.bind("sendLoanToCPP",receiveLoanFromJS);
+    w.bind("CustLoginCPP",CustLoginCpp);
+    w.bind("EmplLoginCPP",EmplLoginCpp);
+    w.bind("getLoanCount",sendLoanCountJS);
+    w.bind("sendRegEmplInfo",addEmployee);
+
 }
 void setupWebView() {
     w.set_title("Banking System");
@@ -112,7 +141,8 @@ int main() {
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
     init_customerArray(custArray);
-
+    cout<<"*********************************"<<endl;
+    init_employeeArray(EmplArray);
 
     cout << "[C++] Hello, console!" << endl;
 

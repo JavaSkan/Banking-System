@@ -13,8 +13,11 @@ string getDateJS(const string& dateInfoJSON){
     string month;
     string year;
     string daymonth;
-    splitStr(dateInfo,'&',daymonth,year);
-    splitStr(daymonth,'*',day,month);
+    string infoParts[3];
+    int n = splitStr(dateInfo, '*',infoParts,3);
+    day=infoParts[0];
+    month=infoParts[1];
+    year=infoParts[2];
     int iday=stoi(day);
     int imonth=stoi(month);
     int iyear=stoi(year);

@@ -1,31 +1,64 @@
 #include <EmployeeTasks.hpp>
 #include <arrayMeth.hpp>
-using namespace std;
+#include <MiscFuncs.hpp>
+#include <Branches.hpp>
+#include <Dates.hpp>
+#include <fstream>
 
-void addEmployee(Array<Employee>* eArr){
-    //na9es controle de saisie (to be added)
+using namespace std;
+Array EmplArray=createEmployeeArray<Employee>();
+
+TEMPLATE
+Array<T> createEmployeeArray(){
+    Array<Employee> EmplArray=createArray<Employee>(1); // initial value must be != 0
+    return EmplArray;
+}
+int init_employeeArray(Array<Employee>& EmplArray){
+    ifstream file("assets/Employees.csv"); 
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/Employees.csv" << endl;
+        return 0;
+    }
+    stringstream buf;
+    string line;
+    string temp;
     Employee e;
-    cout<<"Provide his ID"<<endl;
-    cin>>e.ID;
-    cout<<"Provide his name"<<endl;
-    cin>>e.ID;
-    cout<<"Provide his last name"<<endl;
-    cin>>e.LastName;
-    cout<<"Provide his Adress"<<endl;
-    cin>>e.Adress;
-    cout<<"Provide his Salary"<<endl;
-    cin>>e.Salary;
-    cout<<"Year of hiring ?"<<endl;
-    cin>>e.HireDate.year;
-    cout<<"Month of hiring ?"<<endl;
-    cin>>e.HireDate.month;
-    cout<<"Day of hiring ?"<<endl;
-    cin>>e.HireDate.day;
-    //Bank branch should probably be auto added
-    cout<<"Provide his bank branch code"<<endl;
-    cin>>e.bankBranch;
-    //@Aymen_the_interface_guy pls replace this with wtvr u need
-    addElement(eArr, e, eArr->size);
+    string value = "";
+    while(getline(file, line)){
+        buf << line;
+        cout<<line<<endl;
+        getline(buf, e.ID, ',');
+        getline(buf, e.Name, ',');
+        getline(buf, e.LastName, ',');
+        getline(buf, e.Adress, ',');
+        getline(buf, temp, ',');e.Salary=stof(temp);
+        getline(buf, temp, ',');e.HireDate = stringToDate(value);
+        getline(buf, e.bankBranch, ',');
+        getline(buf, e.password, ',');
+        addElement(&EmplArray, e, EmplArray.size);
+    }
+    file.close();
+    return 1;
+}
+
+string addEmployee(const string& infoJSON){
+    //na9es controle de saisie (to be added)
+    string EmplInfo=unJSON(infoJSON);
+    string infoPart[7];
+    int n=splitStr(EmplInfo,'*',infoPart,7);
+    //array format is [ID*name*lastName*Adress*Salary]
+    Employee e;
+    e.ID=infoPart[0];
+    e.Name=infoPart[1];
+    e.LastName=infoPart[2];
+    e.Adress=infoPart[3];
+    e.Salary=stof(infoPart[4]);
+    e.HireDate=CurrentDate;
+    e.bankBranch=globalSessBank.ID;
+    e.password=passwordGen(12);
+    addEmployeeToCsv(e);
+    addElement(&EmplArray,e,EmplArray.size);
+    return "\"Employee Added\"";
 }
 
 int deleteEmployee(Array<Employee>* eArr){
@@ -136,6 +169,27 @@ int displayEarliest(const Array<Employee>& eArr){
     cout<<"Most recently recruited: "<<eArr.data[latest].ID<<" "<<eArr.data[latest].Name<<" "<<eArr.data[latest].LastName
         <<" "<<eArr.data[latest].HireDate.day<<"/"<<eArr.data[latest].HireDate.month<<"/"<<eArr.data[latest].HireDate.year<<endl;
     return 1;
+}
+int addEmployeeToCsv(const Employee& e){
+    ofstream file("assets/Employees.csv",ios::app);
+    if (!file.is_open()){
+        cerr << "Cannot open file : assets/Employees.csv" << endl;
+        file.close();
+        return -1;
+    }else{
+        string line =
+        e.ID+","+
+        e.Name+","+
+        e.LastName+","+
+        e.Adress+","+
+        to_string(e.Salary)+","+
+        dateToString(e.HireDate)   +","+
+        e.bankBranch+","+
+        e.password+",";
+        file << line << endl;
+        file.close();
+        return 1;
+    }
 }
 
 
