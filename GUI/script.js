@@ -52,10 +52,10 @@ window.getFromCpp().then((answer)=>{
 });
 }
 
-function Login(){
+function CustLogin(){
     let AccNum=document.getElementById("customer_account_number").value;
     let password=document.getElementById("password").value;
-    LoginCPP(AccNum+"*"+password).then((answer)=>{
+    CustLoginCPP(AccNum+"*"+password).then((answer)=>{
         if(answer=="false"){
             alert("moch mawjoud");
         }else if(answer=="falseP"){
@@ -67,12 +67,11 @@ function Login(){
 }
 
 function sendLoanReq(){
-    let loanType = document.getElementById("loanType").value;
+    let loanType = document.getElementById("loanType").selectedIndex+1;
     let loanAmount = document.getElementById("loanAmount").value;
     let loanDuration = document.getElementById("loanDuration").value;
     //Start date and End date will be calculated in CPP
-
-    sendLoanToCPP(loanType+"*"+loanAmount+"*"+loanDuration).then(
+    sendLoanToCPP(loanType.toString()+"*"+loanAmount+"*"+loanDuration).then(
         (reply) => {
             console.log(reply);
         }

@@ -9,7 +9,7 @@
     <script src="CustomerScript.js"></script>
     <script src="script.js"></script>
 </head>
-<body onload="table()">
+<body>
     <header>
         <nav>
             <h1>Banking System</h1>
@@ -18,32 +18,32 @@
     </header>
     <main>
         <section>
-            <datalist id="loanTypeOptions">
-                <option value="Car">Car</option>
-                <option value="Home">Home</option>
-                <option value="Student">Student</option>
-                <option value="Business">Business</option>
-            </datalist>
-            <form action="" onsubmit="">
+            <form>
                 <table>
                     <tr>
                         <td><label>Loan Type:</label></td>
                         <td>
-                            <input type="text" id="loanType" name="loanType" list="loanTypeOptions" required>
+                            <!--<input type="text" id="loanType" name="loanType" list="loanTypeOptions" required> -->
+                            <select id="loanType">
+                                <option value="Car">Car</option>
+                                <option value="Home">Home</option>
+                                <option value="Student">Student</option>
+                                <option value="Business">Business</option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Amount:</label></td>
                         <td>
                             <!-- In TND -->
-                            <input type="number" id="loanAmount" name="loanAmount" min="1000" step="50" required>
+                            <input type="number" id="loanAmount" name="loanAmount" value="1000" min="1000" step="100" required>
                         </td>
                     </tr>
                     <tr>
                         <td><label>Duration:</label></td>
                         <td>
                             <!-- In years -->
-                            <input type="number" name="loanDuration" id="loanDuration" min="1" required>
+                            <input type="number" name="loanDuration" id="loanDuration" value="1" min="1" required>
                         </td>
                     </tr>
                 </table>
