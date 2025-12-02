@@ -88,6 +88,12 @@ string sendLoanCountJS(const string&){
     return "{\"data\":\"" + to_string(LoggedInCustomer.loans.size)+ "\"}";
 }
 
+string sendLoggedInfoJS(const string&){
+    string info = LoggedInCustomer.name + "*" + to_string(LoggedInCustomer.balance);
+    return "{\"data\":\"" + info + "\"}";
+
+}
+
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string closeWindow(const string&) {
@@ -161,14 +167,21 @@ void setupBindings() {
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoanCount",sendLoanCountJS);
     w.bind("sendRegEmplInfo",addEmployee);
+    w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm variable challenge
 
 }
 void setupWebView() {
     w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
+    HWND h = (HWND) w.window().value();
+    RemoveMenu(GetSystemMenu(h, FALSE), SC_CLOSE, MF_BYCOMMAND);
+    SetWindowLong(h, GWL_STYLE, GetWindowLong(h, GWL_STYLE) & ~(WS_SIZEBOX | WS_MAXIMIZEBOX));
+    SetWindowPos(h, 0, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOZORDER|SWP_FRAMECHANGED);
+
     setupBindings();
     w.navigate(path("index.html"));
 }
+
 
 // --- MAIN ---
 int main() {

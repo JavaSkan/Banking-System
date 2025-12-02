@@ -12,12 +12,13 @@ aside{
     text-align: left;
     position: sticky;
     top:17%;
+    width:25%;
 }
 aside p{
     color:rgb(60, 58, 4);
-    text-decoration: underline overline;
 }
 .LoansTab{
     text-align: left;
+    width:72%;
     
 }
