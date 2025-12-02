@@ -1,6 +1,6 @@
 ## WorkLog
 
-| Date       | Task                                                                  | Contributor(s) |
+| Date              | Task                                                                  | Contributor(s) |
 |------------|-----------------------------------------------------------------------|----------------|
 | 13-11-2025 | Set up GitHub                                                         | Skander        |
 | 14-11-2025 | Created advanced `README.md` file                                     | Aymen          |
