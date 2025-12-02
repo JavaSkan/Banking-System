@@ -52,10 +52,10 @@ window.getFromCpp().then((answer)=>{
 });
 }
 
-function Login(){
+function CustLogin(){
     let AccNum=document.getElementById("customer_account_number").value;
     let password=document.getElementById("password").value;
-    LoginCPP(AccNum+"*"+password).then((answer)=>{
+    CustLoginCPP(AccNum+"*"+password).then((answer)=>{
         if(answer=="false"){
             alert("moch mawjoud");
         }else if(answer=="falseP"){
