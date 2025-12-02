@@ -238,6 +238,7 @@ DList stringToDL(string s){
         //manipulation
         sub += (s[i] == '$' ? ' ' : s[i]);
     }
+    if(sub == "") return {};
     stringstream ss;
     ss << sub;
     int size;

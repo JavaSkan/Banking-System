@@ -44,7 +44,7 @@ string IBANGen(const Customer& Cus){
 }
 
 string passwordGen(int size){
-    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&()-_=+[]{}|;:.<>/?";
+    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&-_=+:?";
     string password;
     for(int i=0;i<size;i++){
         password+=chars[random(0,chars.size())];
@@ -89,21 +89,17 @@ int init_customerArray(Array<Customer>& Cusarr) {
     string value = "";
     while(getline(file, line)){
         buf << line;
+        cout<<line<<endl;
         getline(buf, c.ID, ',');
         getline(buf, c.type, ',');
         getline(buf, c.IBAN, ',');
         getline(buf, c.branchCode, ',');
         getline(buf, c.name, ',');
-        getline(buf, value, ',');
-        c.openingDate = stringToDate(value);
-        getline(buf, value, ',');
-        c.status = stoi(value);
-        getline(buf, value, ',');
-        c.balance = stof(value);
-        getline(buf, value, ',');
-        c.loans = stringToDL(value);
-        getline(buf, value, ',');
-        c.transactions = stringToStack(value);
+        getline(buf, value, ',');c.openingDate = stringToDate(value);
+        getline(buf, value, ',');c.status = stoi(value);
+        getline(buf, value, ',');c.balance = stof(value);
+        getline(buf, value, ',');c.loans =stringToDL(value);
+        getline(buf, value, ',');c.transactions = stringToStack(value);
         getline(buf, c.password, ',');
         addElement(&Cusarr, c, Cusarr.size);
     }

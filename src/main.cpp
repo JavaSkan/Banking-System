@@ -38,7 +38,7 @@ string getSpecificLoan(int pos){
    //return "test"+to_string(pos);
 }
 
-string LoginCpp(const string& LoginInfoJSON){
+string CustLoginCpp(const string& LoginInfoJSON){
     string LoginInfo=unJSON(LoginInfoJSON);
     string accNum;
     string password;
@@ -57,8 +57,8 @@ string LoginCpp(const string& LoginInfoJSON){
     }
 }
 
-string sendLoanCountJS(){
-    return to_string(LoggedInCustomer.loans.size);
+string sendLoanCountJS(const string&){
+    return "{\"data\":\"" + to_string(LoggedInCustomer.loans.size)+ "\"}";
 }
 
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
@@ -88,7 +88,8 @@ void setupBindings() {
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
-    w.bind("LoginCPP",LoginCpp);
+    w.bind("CustLoginCPP",CustLoginCpp);
+    w.bind("getLoanCount",sendLoanCountJS);
 }
 void setupWebView() {
     w.set_title("Banking System");
