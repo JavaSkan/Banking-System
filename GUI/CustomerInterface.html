@@ -9,16 +9,16 @@
     <script src="CustomerScript.js"></script>
     <script src="script.js"></script>
 </head>
-<body onload="table()">
+<body onload="table();getloggedinfo();">
     <header>
         <nav>
             <h1>Banking System</h1>
             <button class="quitbtn" onclick="closeWin()"><img src="../assets/exit.png" alt=""></button>
         </nav>
     </header>
-    <aside>
-        <p id="CustomerName">Account Holder :</p>
-        <p id="CustomerBalance">Balance:</p>
+    <aside id="aside">
+        <p> Account Holder :</p> <p id="CustomerName"></p>
+        <p>Balance:</p> <p id="CustomerName"></p>
     </aside>
     <main id="mainCustInt">
         <table id="LoansTable"></table>

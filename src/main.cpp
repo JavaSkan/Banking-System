@@ -86,6 +86,12 @@ string sendLoanCountJS(const string&){
     return "{\"data\":\"" + to_string(LoggedInCustomer.loans.size)+ "\"}";
 }
 
+string sendLoggedInfoJS(const string&){
+    string info = LoggedInCustomer.name + "*" + to_string(LoggedInCustomer.balance);
+    return "{\"data\":\"" + info + "\"}";
+
+}
+
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string closeWindow(const string&) {
@@ -125,6 +131,7 @@ void setupBindings() {
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoanCount",sendLoanCountJS);
     w.bind("sendRegEmplInfo",addEmployee);
+    w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm variable challenge
 
 }
 void setupWebView() {

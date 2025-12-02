@@ -16,11 +16,13 @@ using namespace std;
 Array custArray=createCustomerArray<Customer>();
 
 string IDGenCustomer(){
-    // THIS DOESNT CHECK FOR UNIQUE , TO FIX LATER
     bool test=false;
     string ID="1";
-    for(int i=0;i<12;i++){
-        ID+= to_string(random(0,9));
+    while(!test){
+        for(int i=0;i<12;i++){
+            ID+= to_string(random(0,9));
+        }
+        test=searchByID(custArray,ID)==-1;
     }
     return ID;
 }
