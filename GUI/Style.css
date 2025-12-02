@@ -90,8 +90,6 @@ form,fieldset{
     display: flex;
     justify-content: center;
 }
-td{
-}
 td input{
     color:black;
 }

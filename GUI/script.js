@@ -65,3 +65,16 @@ function Login(){
         }
     });
 }
+
+function sendLoanReq(){
+    let loanType = document.getElementById("loanType").value;
+    let loanAmount = document.getElementById("loanAmount").value;
+    let loanDuration = document.getElementById("loanDuration").value;
+    //Start date and End date will be calculated in CPP
+
+    sendLoanToCPP(loanType+"*"+loanAmount+"*"+loanDuration).then(
+        (reply) => {
+            console.log(reply);
+        }
+    )
+}

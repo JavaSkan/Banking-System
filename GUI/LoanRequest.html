@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit A Loan</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="LoanRequestsStyle.css">
+    <script src="CustomerScript.js"></script>
+    <script src="script.js"></script>
+</head>
+<body onload="table()">
+    <header>
+        <nav>
+            <h1>Banking System</h1>
+            <button class="quitbtn" onclick="closeWin()"><img src="../assets/exit.png" alt=""></button>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <datalist id="loanTypeOptions">
+                <option value="Car">Car</option>
+                <option value="Home">Home</option>
+                <option value="Student">Student</option>
+                <option value="Business">Business</option>
+            </datalist>
+            <form action="" onsubmit="">
+                <table>
+                    <tr>
+                        <td><label>Loan Type:</label></td>
+                        <td>
+                            <input type="text" id="loanType" name="loanType" list="loanTypeOptions" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Amount:</label></td>
+                        <td>
+                            <!-- In TND -->
+                            <input type="number" id="loanAmount" name="loanAmount" min="1000" step="50" required>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Duration:</label></td>
+                        <td>
+                            <!-- In years -->
+                            <input type="number" name="loanDuration" id="loanDuration" min="1" required>
+                        </td>
+                    </tr>
+                </table>
+                <button id="SubLoanReq" type="button" class="loginBtn" onclick="sendLoanReq()">Submit Loan Request</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

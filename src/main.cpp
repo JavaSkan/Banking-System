@@ -80,6 +80,13 @@ string getInfo(const string&) {
     return "{\"data\":\"" + combined + "\"}";
 }
 
+string receiveLoanFromJS(const string& infoJSON){
+    string info = unJSON(infoJSON);
+    string infoPart[3];
+    //int n = splitStr(info,'*',infoPart,3);
+    return "\"received loan data successfully\"";
+}
+
 // --- SETUP FUNCTIONS ---
 void setupBindings() {
     w.bind("closeWindow", closeWindow);
@@ -89,6 +96,7 @@ void setupBindings() {
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
     w.bind("LoginCPP",LoginCpp);
+    w.bind("sendLoanToCPP",receiveLoanFromJS);
 }
 void setupWebView() {
     w.set_title("Banking System");
