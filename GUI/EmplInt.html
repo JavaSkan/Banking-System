@@ -6,6 +6,8 @@
     <title>Document</title>
     <link rel="stylesheet" href="Style.css">
     <script src="script.js"></script>
+    <script src="EmployeeScript.js"></script>
+    
 </head>
 <body>
      <nav>
@@ -20,14 +22,14 @@
                     <td colspan="2"><h1>Employee Login </h1></td>
                 </tr>
                 <tr>
-                    <td><label for="">Account Number : </label></td> <td><input type="text" name="account_number" id="employee_account_number"></td>
+                    <td><label for="">ID : </label></td> <td><input type="text" name="account_number" id="employee_ID"></td>
                 </tr>
                 <tr>
                     <td><label for="">Password : </label></td>
                     <td><input type="text" name="password" id="password"></td>
                 </tr>
                  <tr>
-                    <td colspan="2" style="text-align: center;"><button class="loginBtn" type="button">Login</button></td>
+                    <td colspan="2" style="text-align: center;"><button class="loginBtn" type="button" onclick="EmplLogin()">Login</button></td>
                 </tr>
             </table>
            

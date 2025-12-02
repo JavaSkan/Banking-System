@@ -32,16 +32,27 @@ string path(string togoto) {
     return html_url;
 }
 
-void splitStr(const string& s, char splitter, string& left, string& right) {
-    int pos = s.find(splitter);
-    if (pos != string::npos) {
-        left = s.substr(0, pos);
-        right = s.substr(pos + 1);
-    } else {
-        left = s;
-        right = "";
+int splitStr(const string& s,char splitter,string out[],int maxParts) {
+    int idx = 0;
+    string current = "";
+
+    for (char c : s) {
+        if (c == splitter) {
+            if (idx < maxParts)
+                out[idx++] = current;
+
+            current = "";
+        } else {
+            current += c;
+        }
     }
+
+    if (idx < maxParts)
+        out[idx++] = current;
+
+    return idx; // number of filled parts
 }
+
 
 bool createSmallTestFile(const string& filename, const string& str1, const string& str2) {
     ofstream file(filename, ios::out); 
@@ -214,4 +225,12 @@ string toLower(string s) {
         res = res + c;
     }
     return res;
+}
+string passwordGen(int size){
+    string chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&-_=+:?";
+    string password;
+    for(int i=0;i<size;i++){
+        password+=chars[random(0,chars.size())];
+    }
+    return password;
 }

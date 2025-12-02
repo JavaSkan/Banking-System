@@ -1,15 +1,18 @@
 #ifndef EMPLOYEETASKS_H
 #define EMPLOYEETASKS_H
-#include "customer.hpp"
-#include "array.hpp"
-#include "Employee.hpp"
-#include "Loans.hpp"
-#include "Queue.hpp"
-#include "arrayMeth.hpp"
+#include <customer.hpp>
+#include <array.hpp>
+#include <Employee.hpp>
+#include <Loans.hpp>
+#include <Queue.hpp>
+#include <arrayMeth.hpp>
 #include <iostream>
 #include <cstring>
 
-void addEmployee(Array<Employee>* eArr);
+TEMPLATE Array<T> createEmployeeArray();
+int init_employeeArray(Array<Employee>& EmplArray);
+string addEmployee(const string& infoJSON);
+int addEmployeeToCsv(const Employee& e);
 int deleteEmployee(Array<Employee>* eArr);
 int modifyEmployee(Employee& e);
 int displayAlpha(const Array<Employee>& eArr);
@@ -30,5 +33,5 @@ int declineLoan(Loan* L);
 int finalizeDay(Array<Customer>, SList<Transaction> Sl);
 
 
-
+#include "EmployeeTasks.tpp"
 #endif

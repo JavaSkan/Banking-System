@@ -3,7 +3,7 @@ let date=new Date;
 let day=date.getDate();
 let month=date.getMonth()+1;
 let year=date.getFullYear();
-window.sendDate(day+"*"+month+"&"+year).then((r)=>{
+window.sendDate(day+"*"+month+"*"+year).then((r)=>{
     console.log(
         "CPP replied: " + r);
 });
@@ -52,10 +52,10 @@ window.getFromCpp().then((answer)=>{
 });
 }
 
-function CustLogin(){
+function Login(){
     let AccNum=document.getElementById("customer_account_number").value;
     let password=document.getElementById("password").value;
-    CustLoginCPP(AccNum+"*"+password).then((answer)=>{
+    LoginCPP(AccNum+"*"+password).then((answer)=>{
         if(answer=="false"){
             alert("moch mawjoud");
         }else if(answer=="falseP"){
