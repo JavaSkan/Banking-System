@@ -71,6 +71,7 @@ main {
     color: #d4c34c;
     transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    z-index: 20;
 }
 
 .intbtns:hover,
