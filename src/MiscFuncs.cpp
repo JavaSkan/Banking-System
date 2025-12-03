@@ -30,6 +30,18 @@ string path(string togoto) {
     GetFullPathNameA(combined.c_str(), MAX_PATH, fullPath, nullptr); 
     string html_url = "file:///" + string(fullPath);
     return html_url;
+
+}
+
+int findIn(const string& hay,const char needle){
+    int i=0;
+    int pos=-1;
+    while(i<hay.size()&& pos==-1){
+        if(hay[i]==needle){
+            pos=i;
+        }
+    }
+    return pos;
 }
 
 int splitStr(const string& s,char splitter,string out[],int maxParts) {
