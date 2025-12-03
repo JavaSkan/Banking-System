@@ -25,12 +25,12 @@ int deleteCustomer(Array<Customer>* cArr, Customer c);
 /*probably was alread made;
 int displayLoans()
 */
-int changeStatusLoan(Loan* L);
-int deleteLoan(DList* Dl,SList<Loan>* Sl,Loan L);
-int acceptLoan(Queue* q,DList* Dl);
-int declineLoan(Loan* L);
+int changeStatusLoan(Loan* L);   //melik
+int deleteLoan(DList* Dl,SList<Loan>* Sl,Loan L);   //melik
+int acceptLoan(Queue* q,DList* Dl);  //melik
+int declineLoan(Loan* L);     //melik
 //leaving managing transaction logs for later cuw dunno how to do that
-int finalizeDay(Array<Customer>, SList<Transaction> Sl);
+int finalizeDay(Array<Customer>, SList<Transaction> Sl);   //melik
 
 
 #include "EmployeeTasks.tpp"
