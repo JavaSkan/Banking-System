@@ -22,4 +22,4 @@
 || * Implemented string conversions for Loans, Separated Loan Methods from the Loan header file * Added String serialization for DoublyLinkedLists of Loans * Added Misc functions : trim, isAlpha, checkName and replace | Skander |
 | 01-12-2025 | Added queue and queue methods for requested loans   | Melik          |
 |  | Added Customer Login functionality   | Aymen          |
-|02-12-2025| Added some employee tasks | Melik
+|02-12-2025| Added some employee tasks | Melik |
