@@ -77,7 +77,7 @@ aside p {
 
 /* Loan Card ------------------------------------------------- */
 
-.LoanCard {
+.Card {
     background: #1c1c1e;
     border-radius: 12px;
     padding: 18px 20px;
@@ -88,7 +88,7 @@ aside p {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.LoanCard:hover {
+.Card:hover {
     transform: translateY(-4px);
     box-shadow: 0 0 18px rgba(255,255,255,0.10);
 }

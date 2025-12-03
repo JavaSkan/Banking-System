@@ -45,7 +45,7 @@ string addEmployee(const string& infoJSON){
     //na9es controle de saisie (to be added)
     string EmplInfo=unJSON(infoJSON);
     string infoPart[7];
-    int n=splitStr(EmplInfo,'*',infoPart,7);
+    splitStr(EmplInfo,'*',infoPart,7);
     //array format is [ID*name*lastName*Adress*Salary]
     Employee e;
     e.ID=infoPart[0];

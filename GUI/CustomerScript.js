@@ -17,7 +17,7 @@ function requestLoan(){
     main.innerHTML = "";
 
     const formCard = document.createElement("div");
-    formCard.className = "LoanCard";
+    formCard.className = "Card";
 
     formCard.innerHTML = `
         <div class="LoanHeader">Request a New Loan</div>
@@ -68,7 +68,7 @@ function showLoans() {
     
         for (let i = 0; i < LoanCount; i++) {
             const card = document.createElement("div");
-            card.classList.add("LoanCard");
+            card.classList.add("Card");
     
             const header = document.createElement("div");
             header.classList.add("LoanHeader");
@@ -131,13 +131,13 @@ function withdrawMoney() {
     main.innerHTML = "";
 
     const card = document.createElement("div");
-    card.className = "LoanCard"; // reuse styling
+    card.className = "Card"; // reuse styling
 
     card.innerHTML = `
         <div class="LoanHeader">Withdraw Money</div>
         <div class="LoanInfoGrid" style="grid-template-columns:1fr">
             <div class="LoanField">
-                <label class="LoanLabel">Select Denomination:</label>
+                <label class="LoanLabel">Select Amount:</label>
                 <input type="number" min="0" step="10"id="withdrawAmount">
             </div>
         </div>
@@ -153,7 +153,7 @@ function depositMoney() {
     main.innerHTML = "";
 
     const card = document.createElement("div");
-    card.className = "LoanCard";
+    card.className = "Card";
 
     card.innerHTML = `
         <div class="LoanHeader">Deposit Money</div>
@@ -175,5 +175,18 @@ function deposit(){
         }
     })
 }
+function withdraw(){
+    let amount=document.getElementById("withdrawAmount").value;
+    withdrawCPP(amount).then((reply) => {
+
+        if(reply="false"){
+            document.getElementsByClassName("Card").classList.add("Failed");
+            location.reload();
+        }else{
+
+        }
+    })
+}
+
 
 

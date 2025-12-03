@@ -62,12 +62,13 @@ string EmplLoginCpp(const string& LoginInfoJSON){
         }
     }
 }
+
 string CustLoginCpp(const string& LoginInfoJSON){
     string LoginInfo=unJSON(LoginInfoJSON);
     string accNum;
     string password;
     string infoParts[2];
-    int n = splitStr(LoginInfo, '*',infoParts,2);
+    splitStr(LoginInfo, '*',infoParts,2);
     accNum=infoParts[0];
     password=infoParts[1];
     int CustomerPos=searchByID<Customer>(custArray,accNum);
@@ -98,7 +99,17 @@ string deposit(const string& amountJSON){
     LoggedInCustomer.balance+=amount;
     return "\"Amount Added\"";
 }
+string withdraw(const string& amountJSON){
+    int amount=stoi(unJSON(amountJSON));
+    if(LoggedInCustomer.balance<amount){
+        return "\"false\"";
+    }else{
+        LoggedInCustomer.balance-=amount;
+        return "\"true\"";
+    }
+}
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
+
 
 string closeWindow(const string&) {
     w.terminate();
@@ -173,6 +184,7 @@ void setupBindings() {
     w.bind("sendRegEmplInfo",addEmployee);
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
+    w.bind("withdrawCPP",withdraw);
 
 }
 void setupWebView() {
