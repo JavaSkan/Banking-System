@@ -11,6 +11,7 @@ using namespace std;
 string unJSON(const string& input);
 string path(string togoto) ;
 int splitStr(const string& s, char splitter, string out[], int maxParts);
+int findIn(const string& hay,const char needle);
 bool createSmallTestFile(const string& filename, const string& str1, const string& str2);
 TEMPLATE bool isUnique(const SList<T>& L, int value);
 bool isValidEmail(const string& email);

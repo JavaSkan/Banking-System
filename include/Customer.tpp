@@ -61,7 +61,8 @@ int addCustomerToCsv(const Customer& Cus){
     Cus.name                        +","+
     dateToString(Cus.openingDate)   +","+
     to_string(Cus.status)           +","+
-    to_string(Cus.balance)          +","+
+    to_string(Cus.balance).substr(0,findIn(to_string(Cus.balance),'.')+4)+","+ 
+    //Ugly line ik ama it removes the extra 0s fel csv file , snn twali 123.000000
     DLToString(Cus.loans)           +","+
     stackToString(Cus.transactions) +","+
     Cus.password + ",";

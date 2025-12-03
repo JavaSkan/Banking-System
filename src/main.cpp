@@ -93,7 +93,11 @@ string sendLoggedInfoJS(const string&){
     return "{\"data\":\"" + info + "\"}";
 
 }
-
+string deposit(const string& amountJSON){
+    int amount=stoi(unJSON(amountJSON));
+    LoggedInCustomer.balance+=amount;
+    return "\"Amount Added\"";
+}
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string closeWindow(const string&) {
@@ -128,7 +132,7 @@ string receiveLoanFromJS(const string& infoJSON){
         file << loanRequestLine << endl;
     }
     file.close();
-    return "\"received loan data successfully\"";
+    return "\"true\"";
 }
 
 //Load loans requests from csv files
@@ -167,7 +171,8 @@ void setupBindings() {
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoanCount",sendLoanCountJS);
     w.bind("sendRegEmplInfo",addEmployee);
-    w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm variable challenge
+    w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
+    w.bind("depositCPP",deposit);
 
 }
 void setupWebView() {

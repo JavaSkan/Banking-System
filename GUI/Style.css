@@ -31,7 +31,7 @@ h1 {
 /* Login Button -------------------------------------------------- */
 
 .loginBtn {
-    width: 30%;
+    width: 45%;
     height: 6vh;
     background: #d4c34c;
     border: none;
@@ -146,4 +146,7 @@ button {
     background: #fff;
     border-radius: 6px;
     padding: 6px;
+}
+input{
+    color: black;
 }

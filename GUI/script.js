@@ -73,7 +73,11 @@ function sendLoanReq(){
     //Start date and End date will be calculated in CPP
     sendLoanToCPP(loanType.toString()+"*"+loanAmount+"*"+loanDuration).then(
         (reply) => {
-            console.log(reply);
+            if(reply=="true"){
+                document.getElementById("loanType").value="";
+                document.getElementById("loanAmount").value="";
+                document.getElementById("loanDuration").value="";
+            }
         }
     )
 }
