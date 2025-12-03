@@ -9,12 +9,11 @@ int queueSize(const Queue& q);
 bool isEmpty(const Queue& q);
 bool isFull(const Queue& q);
 
-int enqueue(Queue* q, Loan L);
-Loan dequeue(Queue* q);
-Loan front(const Queue& q);
+
+int enqueue(Queue* q, LoanRequest L);
+LoanRequest dequeue(Queue* q);
+LoanRequest front(const Queue& q);
 
 void destroyQueue(Queue* q);
-
-
 
 #endif

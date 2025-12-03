@@ -25,9 +25,9 @@ bool isFull(const Queue& q){
     return q.tail == MAX_ELEM_QUEUE-1;
 }
 
-int enqueue(Queue* q, Loan L){
+int enqueue(Queue* q, LoanRequest L){
     if (isFull(*q)){
-        cout<<"The queue is full, could not enqueue your loan"<<endl;
+        cout<<"The queue is full, could not enqueue your LoanRequest"<<endl;
         return 0;
     }
     if (isEmpty(*q)){
@@ -40,12 +40,12 @@ int enqueue(Queue* q, Loan L){
     return 1;
 }
 
-Loan dequeue(Queue* q){
+LoanRequest dequeue(Queue* q){
     if (isEmpty(*q)){
         cout<<"The queue is empty, nothing to dequeue"<<endl;
-        return Loan{};
+        return LoanRequest{};
     }
-    Loan L = q->r_loans[q->front];
+    LoanRequest L = q->r_loans[q->front];
     if (q->front == q->tail){
         q->front = q->tail = 0;
     }
@@ -55,10 +55,10 @@ Loan dequeue(Queue* q){
     return(L);
 }
 
-Loan front(const Queue& q){
+LoanRequest front(const Queue& q){
     if((isEmpty(q))){
-        cout<<"queue is empty, no loan on the front"<<endl;
-        return Loan{};
+        cout<<"queue is empty, no LoanRequest on the front"<<endl;
+        return LoanRequest{};
     }
     return(q.r_loans[q.front]);
 }

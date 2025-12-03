@@ -17,6 +17,7 @@
 #include <LoansMeth.hpp>
 #include <Employee.hpp>
 #include <EmployeeTasks.hpp>
+#include <QueueMeth.hpp>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ webview::webview w(true, nullptr);
 string lastJsValue;
 Customer LoggedInCustomer;
 Employee LoggedInEmployee;
+Queue* currentLoanReqs = createQueue();
 
 
 string getSpecificLoan(int pos){
@@ -111,11 +113,45 @@ string getInfo(const string&) {
     return "{\"data\":\"" + combined + "\"}";
 }
 
-string receiveLoanFromJS(const string& infoJSON){
-    string info = unJSON(infoJSON);
-    string infoPart[3];
-    //int n = splitStr(info,'*',infoPart,3);
+string receiveLoanFromJS(const string& infoJSON){  
+    ofstream file("assets/LoanRequests.csv",ios::app);
+    if (!file.is_open()){
+        cerr << "Cannot open file : assets/LoanRequests.csv" << endl;
+    }else{
+        if(LoggedInCustomer.ID == ""){
+            cerr << "[ERROR-receiveLoanFromJS]: No logged in customer" << endl;
+            return "\"NOLOGCUS\"";
+        }
+        string info = unJSON(infoJSON);
+        cout << "[DEBUG-receiveLoanFromJS/rep]: " << LoggedInCustomer.ID << endl;
+        string loanRequestLine = LoggedInCustomer.ID + "," + replace(info,"*",",");
+        file << loanRequestLine << endl;
+    }
+    file.close();
     return "\"received loan data successfully\"";
+}
+
+//Load loans requests from csv files
+//Should be called when an employee logs in 
+void loadLoanReqs(){
+    ifstream file("assets/LoanRequests.csv"); 
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv" << endl;
+    }else{
+        string line;
+        string info[4];
+        LoanRequest current_loan_req = {};
+        while(getline(file,line)){
+            splitStr(line,',',info,4);
+            current_loan_req.ID_customer = info[0];
+            current_loan_req.loan.type = stoi(info[1]);
+            current_loan_req.loan.pr_amount = stof(info[2]);
+            current_loan_req.loan.start_date = CurrentDate;
+            current_loan_req.loan.end_date = {CurrentDate.day,CurrentDate.month,CurrentDate.year+stoi(info[3])};
+            enqueue(currentLoanReqs,current_loan_req);
+        }
+    }
+    file.close();
 }
 
 // --- SETUP FUNCTIONS ---
@@ -165,6 +201,7 @@ int main() {
     setupWebView();
 
     w.run();
+    destroyQueue(currentLoanReqs);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }

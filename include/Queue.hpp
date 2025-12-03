@@ -4,7 +4,7 @@
 
 constexpr int MAX_ELEM_QUEUE = 100;
 struct Queue {
-    Loan r_loans[MAX_ELEM_QUEUE];
+    LoanRequest r_loans[MAX_ELEM_QUEUE];
     int front = -1;
     int tail = -1;
 };

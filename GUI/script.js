@@ -67,12 +67,11 @@ function CustLogin(){
 }
 
 function sendLoanReq(){
-    let loanType = document.getElementById("loanType").value;
+    let loanType = document.getElementById("loanType").selectedIndex+1;
     let loanAmount = document.getElementById("loanAmount").value;
     let loanDuration = document.getElementById("loanDuration").value;
     //Start date and End date will be calculated in CPP
-
-    sendLoanToCPP(loanType+"*"+loanAmount+"*"+loanDuration).then(
+    sendLoanToCPP(loanType.toString()+"*"+loanAmount+"*"+loanDuration).then(
         (reply) => {
             console.log(reply);
         }
