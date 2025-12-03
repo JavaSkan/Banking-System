@@ -24,4 +24,5 @@
 |  | Added Customer Login functionality   | Aymen          |
 |02-12-2025| Added some employee tasks | Melik|
 |03-12-2025| Refined customer interface , simulated iframe functionality using JS | Aymen|
-|03-12-2025| Added searchByID in doubly linked lists | Melik
+|| Added searchByID in doubly linked lists | Melik|
+|| Added majority of customer task functionalities with CPP | Aymen|
