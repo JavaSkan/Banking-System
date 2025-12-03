@@ -1,98 +1,149 @@
-*{color: white;}
-.custIntBod{
+/* Universal ----------------------------------------------------- */
+
+* {
+    color: #e5e5e5;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0f0f10;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.custIntBod {
     width: 100%;
     height: 100%;
     overflow: hidden;
 }
-body {
-    background-color: black;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+
+/* Title --------------------------------------------------------- */
 
 h1 {
-    color: rgb(117, 114, 10);
-    margin: 20px 0;
-    text-align: center;
-
+    color: #d4c34c;                 /* elegant gold accent */
+    margin: 30px 0;
+    letter-spacing: 1px;
+    font-weight: 700;
 }
-.loginBtn{
-    width:30%;
-    height:6vh;
-    background-color:rgb(117, 114, 10);
+
+/* Login Button -------------------------------------------------- */
+
+.loginBtn {
+    width: 30%;
+    height: 6vh;
+    background: #d4c34c;
     border: none;
-    border-radius:15px;
+    border-radius: 12px;
     cursor: pointer;
     font-weight: bolder;
+    color: #0f0f10;
+    transition: transform 0.15s ease, filter 0.2s ease;
 }
-.loginBtn:hover{
-    transform: scale(1.1);  /* enlarge slightly on hover */
-    filter: brightness(1.1); /* brighten on hover */
+
+.loginBtn:hover {
+    transform: scale(1.06);
+    filter: brightness(1.15);
 }
+
+/* Main Button Section ------------------------------------------ */
 
 main {
     display: flex;
     justify-content: center;
-    width:100%;
-    gap: 50px; /* space between buttons */
     align-items: center;
-    margin-top: 50px;
+    width: 100%;
+    gap: 50px;
+    margin-top: 60px;
 }
 
-.intbtns,.quitbtn {
-    background: none;       /* no background */
-    border-style: double;
-    border-color: rgb(117, 114, 10);
-    border-radius: 15px;
-    font-weight: bolder;
-    color:rgb(117, 114, 10);
-    cursor: pointer;        /* make it look clickable */
-    padding: 10px;
-    transition: transform 0.2s, filter 0.2s; /* hover effect */
+/* Icon Buttons -------------------------------------------------- */
+
+.intbtns,
+.quitbtn {
+    background: #161618;
+    border: 2px solid #d4c34c;
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #d4c34c;
+    transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+    z-index: 20;
 }
 
-.intbtns img{
-    width: 150px;           /* smaller image */
-    height: 150px;
+.intbtns:hover,
+.quitbtn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.15);
+    box-shadow: 0 0 10px rgba(212,195,76,0.5);
+}
+
+.intbtns img {
+    width: 120px;
+    height: 120px;
     object-fit: contain;
-    border-bottom: solid rgb(117, 114, 10);
+    border-bottom: 2px solid #d4c34c;
+    padding-bottom: 8px;
 }
-.quitbtn img{
-    width: 50px;           /* smaller image */
-    height: 50px;
+
+.quitbtn img {
+    width: 48px;
+    height: 48px;
     object-fit: contain;
-    filter: invert() brightness(0.5);
+    filter: invert(0.9) brightness(0.55);
 }
-.intbtns:hover,.quitbtn:hover {
-    transform: scale(1.1);  /* enlarge slightly on hover */
-    filter: brightness(1.1); /* brighten on hover */
-}
-.quitbtn{
+
+/* Quit Button floating ------------------------------------------ */
+
+.quitbtn {
     float: right;
     margin-right: 4%;
     margin-top: -4%;
 }
-label{
+
+/* Form Elements -------------------------------------------------- */
+
+label {
     display: inline-block;
-    color:rgb(117, 114, 10);
+    color: #d4c34c;
+    margin-bottom: 6px;
 }
-fieldset{
-    border-color: rgb(117, 114, 10);
-    border-width: 5px;
-    border-radius: 15px;
-    border-style: double;
-    width:50%;
+
+fieldset {
+    border: 3px solid #d4c34c;
+    border-radius: 12px;
+    width: 50%;
+    background: #161618;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.35);
 }
-form,fieldset{
-    width:400px;
+
+form,
+fieldset {
+    width: 400px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
-td input{
-    color:black;
+
+/* Form Inputs ---------------------------------------------------- */
+
+td input {
+    color: #111;
+    background: #fff;
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
 }
-select,option,button{
-    color:black;
+
+select,
+option,
+button {
+    color: #111;
+    background: #fff;
+    border-radius: 6px;
+    padding: 6px;
 }

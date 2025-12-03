@@ -142,34 +142,71 @@ int displayAlpha(const Array<Employee>& eArr){
 
 
 
-int displayEarliest(const Array<Employee>& eArr){
-    if(isEmpty(eArr)){
-        cout<<"No employees to display"<<endl;
+int displayEarliest(const Array<Employee>& eArr) {
+    if (isEmpty(eArr)) {
+        cout << "No employees to display" << endl;
         return 0;
     }
+
     int earliest = 0;
-    int latest = 0;
-    for(int i=1; i<eArr.size; i++){
+    for (int i = 1; i < eArr.size; i++) {
         Date d1 = eArr.data[i].HireDate;
-        Date dEarliest = eArr.data[earliest].HireDate;
-        Date dLatest = eArr.data[latest].HireDate;
-        if( (d1.year < dEarliest.year) || 
-            (d1.year == dEarliest.year && d1.month < dEarliest.month) || 
-            (d1.year == dEarliest.year && d1.month == dEarliest.month && d1.day < dEarliest.day)){
+        Date dE = eArr.data[earliest].HireDate;
+
+        if ((d1.year < dE.year) ||
+            (d1.year == dE.year && d1.month < dE.month) ||
+            (d1.year == dE.year && d1.month == dE.month && d1.day < dE.day)) 
+        {
             earliest = i;
         }
-        if( (d1.year > dLatest.year) || 
-            (d1.year == dLatest.year && d1.month > dLatest.month) || 
-            (d1.year == dLatest.year && d1.month == dLatest.month && d1.day > dLatest.day)){
+    }
+
+    cout << "Earliest recruited: "
+         << eArr.data[earliest].ID << " "
+         << eArr.data[earliest].Name << " "
+         << eArr.data[earliest].LastName << " "
+         << eArr.data[earliest].HireDate.day << "/"
+         << eArr.data[earliest].HireDate.month << "/"
+         << eArr.data[earliest].HireDate.year << endl;
+
+    return 1;
+}
+
+
+int displayMostRecent(const Array<Employee>& eArr) {
+    if (isEmpty(eArr)) {
+        cout << "No employees to display" << endl;
+        return 0;
+    }
+
+    int latest = 0;
+    for (int i = 1; i < eArr.size; i++) {
+        Date d1 = eArr.data[i].HireDate;
+        Date dL = eArr.data[latest].HireDate;
+
+        if ((d1.year > dL.year) ||
+            (d1.year == dL.year && d1.month > dL.month) ||
+            (d1.year == dL.year && d1.month == dL.month && d1.day > dL.day)) 
+        {
             latest = i;
         }
     }
-    cout<<"Earliest recruited: "<<eArr.data[earliest].ID<<" "<<eArr.data[earliest].Name<<" "<<eArr.data[earliest].LastName
-        <<" "<<eArr.data[earliest].HireDate.day<<"/"<<eArr.data[earliest].HireDate.month<<"/"<<eArr.data[earliest].HireDate.year<<endl;
-    cout<<"Most recently recruited: "<<eArr.data[latest].ID<<" "<<eArr.data[latest].Name<<" "<<eArr.data[latest].LastName
-        <<" "<<eArr.data[latest].HireDate.day<<"/"<<eArr.data[latest].HireDate.month<<"/"<<eArr.data[latest].HireDate.year<<endl;
+
+    cout << "Most recently recruited: "
+         << eArr.data[latest].ID << " "
+         << eArr.data[latest].Name << " "
+         << eArr.data[latest].LastName << " "
+         << eArr.data[latest].HireDate.day << "/"
+         << eArr.data[latest].HireDate.month << "/"
+         << eArr.data[latest].HireDate.year << endl;
+
     return 1;
 }
+
+
+
+
+
 int addEmployeeToCsv(const Employee& e){
     ofstream file("assets/Employees.csv",ios::app);
     if (!file.is_open()){
@@ -190,6 +227,64 @@ int addEmployeeToCsv(const Employee& e){
         file.close();
         return 1;
     }
+}
+
+
+int addCustomer(Array<Customer>* cArr){
+    Customer c;
+    cout<<"Provide account number (ID)"<<endl;
+    cin>>c.ID;
+    cout<<"Provide account type"<<endl;
+    cin>>c.type;
+    cout<<"Provide IBAN"<<endl;
+    cin>>c.IBAN;
+    cout<<"Provide branch code"<<endl;
+    cin>>c.branchCode;
+    cout<<"Provide account holder name"<<endl;
+    cin>>c.name;
+    cout<<"Provide opening date (year month day)"<<endl;
+    cin>>c.openingDate.year>>c.openingDate.month>>c.openingDate.day;
+    cout<<"Provide status (0 = inactive, 1 = active, -1 = closed)"<<endl;
+    cin>>c.status;
+    cout<<"Provide balance"<<endl;
+    cin>>c.balance;
+    cout<<"Set password"<<endl;
+    cin>>c.password;
+    addElement(cArr,c,cArr->size);
+    return 1;
+}
+
+int displayAccounts(const Array<Customer>& cArr){
+    if(isEmpty(cArr)){
+        cout<<"No accounts to display"<<endl;
+        return 0;
+    }
+    for(int i=0;i<cArr.size;i++){
+        cout<<cArr.data[i].ID<<" "<<cArr.data[i].name<<" "<<cArr.data[i].type
+            <<" IBAN:"<<cArr.data[i].IBAN<<" Branch:"<<cArr.data[i].branchCode
+            <<" Status:"<<cArr.data[i].status<<" Balance:"<<cArr.data[i].balance
+            <<" Opened:"<<cArr.data[i].openingDate.day<<"/"<<cArr.data[i].openingDate.month<<"/"<<cArr.data[i].openingDate.year
+            <<endl;
+    }
+    return 1;
+}
+
+int changeStatus(Customer* c){
+    int newStatus;
+    cout<<"Enter new status (0 = inactive, 1 = active, -1 = closed)"<<endl;
+    cin>>newStatus;
+    c->status = newStatus;
+    return 1;
+}
+
+int deleteCustomer(Array<Customer>* cArr, Customer c){
+    int pos = searchByID(*cArr,c.ID);
+    if(pos==-1){
+        cout<<"Customer not found"<<endl;
+        return 0;
+    }
+    removeAtArray(cArr,pos);
+    return 1;
 }
 
 

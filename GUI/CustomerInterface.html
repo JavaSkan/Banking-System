@@ -9,7 +9,7 @@
     <script src="CustomerScript.js"></script>
     <script src="script.js"></script>
 </head>
-<body onload="table();getloggedinfo();">
+<body onload="getloggedinfo();">
     <header>
         <nav>
             <h1>Banking System</h1>
@@ -17,12 +17,21 @@
             <button onclick="goToPage('LoanRequest.html')">Submit Loan</button>
         </nav>
     </header>
-    <aside id="aside">
-        <p> Account Holder :</p> <p id="CustomerName"></p>
-        <p>Balance:</p> <p id="CustomerName"></p>
-    </aside>
-    <main id="mainCustInt">
-        <table id="LoansTable"></table>
-    </main>
+    <div id="layout">
+
+        <aside id="aside">
+            <p> Account Holder :</p> <p id="CustomerName"></p>
+            <p>Balance:</p> <p id="CustomerBalance"></p>
+            <div class="actionSidebar">
+                <button onclick="showLoans()">Show Loans</button>
+                <button onclick="requestLoan()">Request a New Loan</button>
+                <button onclick="withdrawMoney()">Withdraw</button>
+                <button onclick="showTransactions()">Show Transaction History</button>
+            </div>
+        </aside>
+        <main id="mainCustInt">
+            <div class="LoansTab" id="LoansTable"></div>
+        </main>
+    </div>
 </body>
 </html>
