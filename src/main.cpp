@@ -185,6 +185,7 @@ void setupBindings() {
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
     w.bind("withdrawCPP",withdraw);
+    w.bind("statusChangeCPP",changeStatusLoan);
 
 }
 void setupWebView() {

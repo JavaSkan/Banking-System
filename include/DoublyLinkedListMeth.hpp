@@ -21,6 +21,8 @@ int removeAt(DList* L, int pos);
 Loan getElement(const DList& L, int pos);
 void displayList(const DList& L);
 
+int searchByID(const DList& L, string ID);
+
 /* 
 Returns a string representation of a DoublyLinkedList
 in the form of DLL[size$Loan1$...$LoanN]

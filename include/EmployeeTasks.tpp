@@ -173,7 +173,7 @@ int displayEarliest(const Array<Employee>& eArr) {
 }
 
 
-int displayMostRecent(const Array<Employee>& eArr) {
+int displayMostRecently(const Array<Employee>& eArr) {
     if (isEmpty(eArr)) {
         cout << "No employees to display" << endl;
         return 0;
@@ -287,4 +287,26 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
     return 1;
 }
 
+Loan selectedLoan;
+DList Dl;
+SList Sl;
+Array customerArray;
+string changeStatusLoan(const string& infoJSON){
+    int temp =stoi(unJSON(infoJSON));
+    selectedLoan.status = temp;
+    return "\"Status changed\"";
+    
+}
+/*
+string deleteLoan(const string& infoJSON){
+    //info JSON should contain : selectedLoan´s ID, a selected customer´s ID
+    //and a singly linked for archived loans => has 2 members 
+    //for now info´s size is set to 4 for each element
+    string temp = unJSON(infoJSON);
+    string info[4];
+    int n = splitStr(temp,'*',info,4);
+    
+    
 
+}
+*/

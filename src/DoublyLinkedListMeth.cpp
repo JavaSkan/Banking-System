@@ -250,3 +250,20 @@ DList stringToDL(string s){
     }
     return res;
 }
+
+int searchByID(const DList& L,string ID){
+    if (isEmpty(L)) { 
+        cout<<"Cannot search in an empty list"<<endl;
+        return 0;
+    }
+    int pos = 1;
+    DNode* current = L.head;
+    while(pos<=L.size){
+        if (current->data.ID != ID){
+            current = current->next;
+        }
+    }
+    return (pos>L.size)? -1:pos;
+    //learned this today
+
+}

@@ -8,6 +8,7 @@
 #include <arrayMeth.hpp>
 #include <iostream>
 #include <cstring>
+#include <SinglyLinkedList.hpp>
 
 TEMPLATE Array<T> createEmployeeArray();
 int init_employeeArray(Array<Employee>& EmplArray);
@@ -25,8 +26,8 @@ int deleteCustomer(Array<Customer>* cArr, Customer c);
 /*probably was alread made;
 int displayLoans()
 */
-int changeStatusLoan(Loan* L);   //melik
-int deleteLoan(DList* Dl,SList<Loan>* Sl,Loan L);   //melik
+string changeStatusLoan(const string& infoJSON);   //left for melik
+string deleteLoan(const string& infoJSON);   //melik
 int acceptLoan(Queue* q,DList* Dl);  //melik
 int declineLoan(Loan* L);     //melik
 //leaving managing transaction logs for later cuw dunno how to do that
