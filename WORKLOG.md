@@ -15,7 +15,7 @@
 | | Added miscellaneous functions                                     | Aziz          |
 | 24-11-2025| Fixed GUI bugs + added interface hpp and tpp placeholders                                     | Aymen          |
 | 26-11-2025| Added icon to exe , added date functionalities                     | Aymen          |
-| 27-11-2025| Added addCustomerToCsv and customerArray                      | Melik          |
+| 27-11-2025| Added addCustomerToCsv and customerArray functions                     | Melik          |
 | 29-11-2025 | Modified Stack Structure, Renamed Stack files correctly, Separated compile.bat into compile.bat & compiletest.bat, Added folder tests to .gitignore, Added String representation for Stack, Transaction and Date |  Skander |
 | | Organized all functions into different .cpp or .tpp and .hpp file types                      | Aymen          |
 | 30-11-2025 | Added the statistics part's .h file and .cpp file              | Aziz       |
