@@ -173,6 +173,7 @@ void setupBindings() {
     w.bind("sendRegEmplInfo",addEmployee);
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
+    w.bind("statusChangeCPP",changeStatusLoan);
 
 }
 void setupWebView() {

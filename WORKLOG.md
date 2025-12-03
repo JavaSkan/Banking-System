@@ -23,3 +23,4 @@
 | 01-12-2025 | Added queue and queue methods for requested loans   | Melik          |
 |  | Added Customer Login functionality   | Aymen          |
 |02-12-2025| Added some employee tasks | Melik
+|03-12-2025| Added searchByID in doubly linked lists | Melik
