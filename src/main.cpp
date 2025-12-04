@@ -94,20 +94,47 @@ string sendLoggedInfoJS(const string&){
     return "{\"data\":\"" + info + "\"}";
 
 }
+// TRANSACTIONS
+bool existsID(const Stack& s, const string& id) {
+    for (int i = s.top; i >= 0; i--) {
+        if (s.data[i].ID == id) return true;
+    }
+    return false;
+}
+
+string TranIdGen(){
+    string id;
+    do {
+        id = to_string(random(0,9999));
+        while(id.size()<4){
+            id="0"+id;
+        } 
+    } while (existsID(LoggedInCustomer.transactions, id));
+    return "T"+id;
+}
+Transaction createNewTransaction(int type,float amount){
+    Transaction T;
+    T.accountNumber=LoggedInCustomer.ID;
+    T.ID=TranIdGen();
+    T.amount=amount;
+    T.type=type;
+    T.date=CurrentDate;
+    return T;
+}
 string deposit(const string& amountJSON){
     int amount=stoi(unJSON(amountJSON));
     LoggedInCustomer.balance+=amount;
-    return "\"Amount Added\"";
+    updateCustomerInCsv(LoggedInCustomer);
+    return "\"true\"";
 }
 string withdraw(const string& amountJSON){
     int amount=stoi(unJSON(amountJSON));
-    if(LoggedInCustomer.balance<amount){
-        return "\"false\"";
-    }else{
-        LoggedInCustomer.balance-=amount;
-        return "\"true\"";
-    }
+    LoggedInCustomer.balance-=amount;
+    push(LoggedInCustomer.transactions,createNewTransaction(0,amount));
+    updateCustomerInCsv(LoggedInCustomer);
+    return "\"true\"";
 }
+
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 
@@ -185,7 +212,7 @@ void setupBindings() {
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
     w.bind("withdrawCPP",withdraw);
-    w.bind("statusChangeCPP",changeStatusLoan);
+    //w.bind("statusChangeCPP",changeStatusLoan);
 
 }
 void setupWebView() {

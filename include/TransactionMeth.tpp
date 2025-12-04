@@ -1,4 +1,5 @@
-#include "../include/TransactionMeth.hpp"
+#include <TransactionMeth.hpp>
+#include <customer.hpp>
 
 string transactionToString(const Transaction& tr){
     stringstream s;
@@ -29,3 +30,4 @@ Transaction stringToTransaction(string s){
     res.date = stringToDate(date_str);
     return res;
 }
+

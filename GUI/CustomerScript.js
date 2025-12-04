@@ -170,7 +170,7 @@ function depositMoney() {
 function deposit(){
     let amount=document.getElementById("depositAmount").value;
     depositCPP(amount).then((reply) => {
-        if(reply="Amount Added"){
+        if(reply=="true"){
             location.reload(); //reload page to update the balance 3al isar
         }
     })
@@ -178,12 +178,8 @@ function deposit(){
 function withdraw(){
     let amount=document.getElementById("withdrawAmount").value;
     withdrawCPP(amount).then((reply) => {
-
-        if(reply="false"){
-            document.getElementsByClassName("Card").classList.add("Failed");
-            location.reload();
-        }else{
-
+        if(reply=="true"){
+            location.reload(); //reload page to update the balance 3al isar
         }
     })
 }

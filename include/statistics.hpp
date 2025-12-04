@@ -1,7 +1,7 @@
 #ifndef STATISTICS_H
 #define STATISTICS_H
 
-#include "Customer.hpp"
+#include <customer.hpp>
 #include "Employee.hpp"
 #include "Loans.hpp"
 #include "arrayMeth.hpp"

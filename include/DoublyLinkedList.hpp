@@ -2,6 +2,7 @@
 #define DOUBLYLINKEDLIST_H
 
 #include <LoansMeth.hpp>
+#include <stackMeth.hpp>
 
 struct DNode{
     Loan data;

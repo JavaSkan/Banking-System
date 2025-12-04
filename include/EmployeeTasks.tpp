@@ -287,7 +287,7 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
     return 1;
 }
 
-Loan selectedLoan;
+/*Loan selectedLoan;
 DList Dl;
 SList Sl;
 Array customerArray;
@@ -297,6 +297,7 @@ string changeStatusLoan(const string& infoJSON){
     return "\"Status changed\"";
     
 }
+    */
 /*
 string deleteLoan(const string& infoJSON){
     //info JSON should contain : selectedLoan´s ID, a selected customer´s ID

@@ -26,12 +26,14 @@ int deleteCustomer(Array<Customer>* cArr, Customer c);
 /*probably was alread made;
 int displayLoans()
 */
+/*
 string changeStatusLoan(const string& infoJSON);   //left for melik
 string deleteLoan(const string& infoJSON);   //melik
 int acceptLoan(Queue* q,DList* Dl);  //melik
 int declineLoan(Loan* L);     //melik
 //leaving managing transaction logs for later cuw dunno how to do that
 int finalizeDay(Array<Customer>, SList<Transaction> Sl);   //melik
+*/
 
 
 #include "EmployeeTasks.tpp"

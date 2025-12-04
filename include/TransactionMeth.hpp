@@ -2,7 +2,10 @@
 #define TRANSACTIONMETH_H
 
 #include <sstream>
-#include "Transaction.hpp"
+#include <arrayMeth.hpp>
+#include <stackMeth.hpp>
+#include <MiscFuncs.hpp>
+#include <Transaction.hpp>     // Include after Customer.hpp
 
 /*
 Returns a string representation of a Transaction
@@ -18,4 +21,6 @@ NOTE: PARAMETER 's' MUST RESPECT THE FORMAT
 OF transactionToString !!
 */
 Transaction stringToTransaction(string s);
+
+#include "TransactionMeth.tpp"
 #endif
