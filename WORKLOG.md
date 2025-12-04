@@ -26,3 +26,4 @@
 |03-12-2025| Refined customer interface , simulated iframe functionality using JS | Aymen|
 || Added searchByID in doubly linked lists | Melik|
 || Added majority of customer task functionalities with CPP | Aymen|
+|04-12-2025| Added deleteLoans, SLTostring, stringToSL and updateCompletedLoanToCsv | Melik |

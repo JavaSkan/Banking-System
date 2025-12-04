@@ -287,27 +287,25 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
     return 1;
 }
 
-/*Loan selectedLoan;
-DList Dl;
-SList Sl;
-Array customerArray;
-string changeStatusLoan(const string& infoJSON){
-    int temp =stoi(unJSON(infoJSON));
-    selectedLoan.status = temp;
-    return "\"Status changed\"";
-    
-}
-    */
+
 /*
-string deleteLoan(const string& infoJSON){
-    //info JSON should contain : selectedLoan´s ID, a selected customer´s ID
-    //and a singly linked for archived loans => has 2 members 
-    //for now info´s size is set to 4 for each element
-    string temp = unJSON(infoJSON);
-    string info[4];
-    int n = splitStr(temp,'*',info,4);
-    
-    
+string deleteLoan(const string&){
+    for (int i = 0; i<custArray.size;i++){
+        for (int j = 1; j<=custArray.data[i].loans.size;j++){
+
+            DNode* currentLoan = custArray.data[i].loans.head;
+            if (currentLoan->data.status == 6 )
+            {
+                string ID = currentLoan->data.ID;
+                bool T = insert(&completed_loans,currentLoan->data, completed_loans.size + 1);
+                removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,ID));
+                updateCustomerInCsv(custArray.data[i]);
+                
+
+            }
+
+        }
+    }
 
 }
 */

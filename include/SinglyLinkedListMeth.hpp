@@ -3,6 +3,9 @@
 
 #define TEMPLATE template <typename T>
 #include "SinglyLinkedList.hpp"
+#include <LoansMeth.hpp>
+#include <fstream>
+
 
 TEMPLATE SList<T> createList();
 TEMPLATE void destroyList(SList<T>* L);
@@ -17,6 +20,7 @@ TEMPLATE SNode<T>* createNode(T value);
 TEMPLATE void destroyNode(SNode<T>* node);
 TEMPLATE bool insert(SList<T>* L, T e, int pos);
 TEMPLATE bool removeAt(SList<T>* L, int pos);
+TEMPLATE SList<T> stringToSL(string s);
 
 #include "SinglyLinkedListMeth.tpp"
 #endif // SINGLYLINKEDLISTMETH_H
