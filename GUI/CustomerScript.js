@@ -183,6 +183,61 @@ function withdraw(){
         }
     })
 }
+function showTransactions() {
+    const main = document.getElementById("mainCustInt");
+    main.innerHTML = "";
+
+    getTransactionCPP().then((reply) => {
+        let Transactions = reply.data.split("/").filter(t => t.trim() !== "");
+        Transactions = Transactions.reverse();
+
+        if (Transactions.length === 0) {
+            main.innerHTML = `<p class="tx-no-transactions">No Transactions</p>`;
+            return;
+        }
+
+        // Start building HTML
+        let html = `
+            <div class="tx-container">
+                <div class="tx-btn-wrapper">
+                    <button class="tx-undo-btn" onclick="undoLastTransaction()">Undo Last Transaction</button>
+                </div>
+        `;
+
+        for (let i = 0; i < Transactions.length; i++) {
+            const tx = Transactions[i].split("*");
+            const type = tx[4] === "0" ? "Withdraw" : "Deposit";
+
+            html += `
+                <div class="tx-card">
+                    <div class="tx-info">
+                        <div class="tx-field"><span class="tx-label">Type:</span> <span class="tx-value">${type}</span></div>
+                        <div class="tx-field"><span class="tx-label">Amount:</span> <span class="tx-value">${tx[1]}</span></div>
+                        <div class="tx-field"><span class="tx-label">Date:</span> <span class="tx-value">${tx[2]}</span></div>
+                        <div class="tx-field"><span class="tx-label">ID:</span> <span class="tx-value">${tx[3]}</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        html += `</div>`; // close tx-container
+        main.innerHTML = html;
+    });
+}
+
+
+
+// Undo function with fade-out effect
+function undoTransaction(index, cardElement) {
+    cardElement.style.transition = "all 0.4s ease";
+    cardElement.style.opacity = "0";
+    cardElement.style.transform = "translateX(-100%)";
+
+    setTimeout(() => {
+        cardElement.remove();
+        deleteLastTransaction(index); // remove from your Transactions array or backend
+    }, 400);
+}
 
 
 

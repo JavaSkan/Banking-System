@@ -125,6 +125,7 @@ string deposit(const string& amountJSON){
     int amount=stoi(unJSON(amountJSON));
     LoggedInCustomer.balance+=amount;
     updateCustomerInCsv(LoggedInCustomer);
+    push(LoggedInCustomer.transactions,createNewTransaction(1,amount));
     return "\"true\"";
 }
 string withdraw(const string& amountJSON){
@@ -195,6 +196,27 @@ void loadLoanReqs(){
     }
     file.close();
 }
+string sendTransactionsJS(const string&){
+    string combined;
+    string info;
+    int count=LoggedInCustomer.transactions.top+1;
+    for (int i = 0; i <count; i++)
+    {
+    info=
+    LoggedInCustomer.transactions.data[i].accountNumber+"*"+
+    to_string(LoggedInCustomer.transactions.data[i].amount)+"*"+
+    dateToString(LoggedInCustomer.transactions.data[i].date)+"*"+
+    LoggedInCustomer.transactions.data[i].ID+"*"+
+    to_string(LoggedInCustomer.transactions.data[i].type);
+        if(i==count-1){
+            combined+=info;
+        }else{
+            combined+=info+"/";
+        }
+    }
+    return "{\"data\":\"" + combined + "\"}";
+}
+
 
 // --- SETUP FUNCTIONS ---
 void setupBindings() {
@@ -212,6 +234,7 @@ void setupBindings() {
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
     w.bind("withdrawCPP",withdraw);
+    w.bind("getTransactionCPP",sendTransactionsJS);
     //w.bind("statusChangeCPP",changeStatusLoan);
 
 }

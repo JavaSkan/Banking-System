@@ -80,7 +80,7 @@ int updateCustomerInCsv(const Customer& Cus) {
 
         if (id == Cus.ID) {
             // Replace line for this customer
-            line = customerToCsvLine(Cus);
+            line = customerToCsvLine(Cus)+",";
         }
 
         temp << line << "\n";
@@ -128,20 +128,22 @@ int init_customerArray(Array<Customer>& Cusarr) {
     string line;
     Customer c;
     string value = "";
-    while(getline(file, line)){
-        buf << line;
+    while (getline(file, line)) {
         cout<<line<<endl;
+        stringstream buf(line);
         getline(buf, c.ID, ',');
         getline(buf, c.type, ',');
         getline(buf, c.IBAN, ',');
         getline(buf, c.branchCode, ',');
         getline(buf, c.name, ',');
-        getline(buf, value, ',');c.openingDate = stringToDate(value);
-        getline(buf, value, ',');c.status = stoi(value);
-        getline(buf, value, ',');c.balance = stof(value);
-        getline(buf, value, ',');c.loans =stringToDL(value);
-        getline(buf, value, ',');c.transactions = stringToStack(value);
+        string value;
+        getline(buf, value, ','); c.openingDate = stringToDate(value);
+        getline(buf, value, ','); c.status = stoi(value);
+        getline(buf, value, ','); c.balance = stof(value);
+        getline(buf, value, ','); c.loans = stringToDL(value);
+        getline(buf, value, ','); c.transactions = stringToStack(value);
         getline(buf, c.password, ',');
+
         addElement(&Cusarr, c, Cusarr.size);
     }
     file.close();
