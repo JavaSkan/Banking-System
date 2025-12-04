@@ -5,15 +5,15 @@
 #include <stackMeth.hpp>
 
 struct DNode{
-    Loan data;
-    DNode* next;
-    DNode* prev;
+    Loan data={};
+    DNode* next=nullptr;
+    DNode* prev=nullptr;
 };
 
 struct DList {
-    DNode* head;
-    DNode* tail;
-    int size;
+    DNode* head=nullptr;
+    DNode* tail=nullptr;
+    int size=0;
 };
 
 #endif // DOUBLYLINKEDLIST_H

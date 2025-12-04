@@ -30,7 +30,7 @@ Employee LoggedInEmployee;
 Queue* currentLoanReqs = createQueue();
 
 
-string getSpecificLoan(int pos){
+string getSpecificLoan(int pos){ 
     Loan current;
     string LoansString;
     current=getElement(LoggedInCustomer.loans,pos);
@@ -39,7 +39,6 @@ string getSpecificLoan(int pos){
     LoansString=LoansString.substr(5,LoansString.size()-6);
     cout<<LoansString;
     return LoansString ;
-   //return "test"+to_string(pos);
 }
 
 string EmplLoginCpp(const string& LoginInfoJSON){
@@ -75,7 +74,6 @@ string CustLoginCpp(const string& LoginInfoJSON){
     if( CustomerPos==-1){
         return "\"false\"";
     }else{
-        cout<<password<<"/"<<custArray.data[CustomerPos].password;
         if(custArray.data[CustomerPos].password==password){
             LoggedInCustomer=custArray.data[CustomerPos];
             return LoggedInCustomer.ID;
@@ -143,10 +141,9 @@ string closeWindow(const string&) {
     w.terminate();
     return "\"Closed\"";
 }
-string goToPageCpp(const string& pageJSON) {
-    cout<<endl<<"test";
+string goToPageCpp(const string& pageJSON) { //ybadel el page eli ywari feha el webview
     string page=unJSON(pageJSON);
-    cout<<pageJSON<<" "<<page;
+    cout<<endl<<pageJSON<<" "<<page;
     w.navigate(path(page));
     return "\"page changed\"";
 }
@@ -216,13 +213,25 @@ string sendTransactionsJS(const string&){
     }
     return "{\"data\":\"" + combined + "\"}";
 }
+string undoTranCPP(const string&){
+    if(isEmpty(LoggedInCustomer.transactions)){
+        return "\"false\"";
+    }else{
+        Transaction val=pop(LoggedInCustomer.transactions);
+        updateCustomerInCsv(LoggedInCustomer);
+        return "\"true\"";
+    }
+
+}
 
 
 // --- SETUP FUNCTIONS ---
-void setupBindings() {
+
+
+void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
     w.bind("sendDate",getDateJS);
-    w.bind("getInfo", getInfo);
+    w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
@@ -235,15 +244,16 @@ void setupBindings() {
     w.bind("depositCPP",deposit);
     w.bind("withdrawCPP",withdraw);
     w.bind("getTransactionCPP",sendTransactionsJS);
+    w.bind("undoTranCPP",undoTranCPP);
     //w.bind("statusChangeCPP",changeStatusLoan);
-
 }
 void setupWebView() {
     w.set_title("Banking System");
-    w.set_size(800, 600, WEBVIEW_HINT_NONE);
+    w.set_size(960, 720, WEBVIEW_HINT_NONE);
 
     setupBindings();
-    w.navigate(path("index.html"));
+    w.navigate(path("index.html")); 
+    //path is required to get the absolute path and not relative , na3rech 3leh relative ma 5dmtech
 }
 
 
@@ -253,6 +263,7 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);

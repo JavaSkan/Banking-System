@@ -124,6 +124,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
         cerr << "Cannot open file: assets/Customers.csv" << endl;
         return 0;
     }
+
     stringstream buf;
     string line;
     Customer c;
@@ -136,7 +137,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
         getline(buf, c.IBAN, ',');
         getline(buf, c.branchCode, ',');
         getline(buf, c.name, ',');
-        string value;
+        
         getline(buf, value, ','); c.openingDate = stringToDate(value);
         getline(buf, value, ','); c.status = stoi(value);
         getline(buf, value, ','); c.balance = stof(value);
