@@ -241,10 +241,6 @@ void setupBindings() {
 void setupWebView() {
     w.set_title("Banking System");
     w.set_size(800, 600, WEBVIEW_HINT_NONE);
-    HWND h = (HWND) w.window().value();
-    RemoveMenu(GetSystemMenu(h, FALSE), SC_CLOSE, MF_BYCOMMAND);
-    SetWindowLong(h, GWL_STYLE, GetWindowLong(h, GWL_STYLE) & ~(WS_SIZEBOX | WS_MAXIMIZEBOX));
-    SetWindowPos(h, 0, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOZORDER|SWP_FRAMECHANGED);
 
     setupBindings();
     w.navigate(path("index.html"));
