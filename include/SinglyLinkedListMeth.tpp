@@ -1,5 +1,7 @@
 #include <iostream>
 #include "SinglyLinkedListMeth.hpp"
+
+
 using namespace std;
 #define TEMPLATE template <typename T>
 //---------------------------------------------------------------------------------------------------------
@@ -183,3 +185,25 @@ SNode<T>* createNode(T value) {
     }
     return Snode;
 }
+
+TEMPLATE
+
+SList<T> stringToSL(string s){
+    SList<Loan> res = createList<Loan>();
+    string sub = "";
+    for(int i = 4; i < s.size()-1; i++){
+        sub += (s[i] == '$' ? ' ' : s[i]);
+    }
+    if(sub == "") return {};
+    stringstream ss;
+    ss << sub;
+    int size;
+    ss >> size;
+    string cur_loan_str;
+    for(int i = 1; i <= size; i++){
+        ss >> cur_loan_str;
+        insert(&res,stringToLoan(cur_loan_str),res.size+1);
+    }
+    return res;
+}
+
