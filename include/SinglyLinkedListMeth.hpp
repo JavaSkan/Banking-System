@@ -16,11 +16,11 @@ TEMPLATE T getElement(const SList<T>& L, int pos);
 TEMPLATE void displayList(const SList<T>& L);
 TEMPLATE SList<T> CopyList(const SList<T>& L);
 TEMPLATE bool CompareLists(const SList<T>& L1, const SList<T>& L2);
-TEMPLATE SNode<T>* createNode(T value);
+TEMPLATE SNode<T>* createSNode(T value);
 TEMPLATE void destroyNode(SNode<T>* node);
 TEMPLATE bool insert(SList<T>* L, T e, int pos);
 TEMPLATE bool removeAt(SList<T>* L, int pos);
-TEMPLATE SList<T> stringToSL(string s);
+TEMPLATE SList<Loan> stringToSL(string s);
 
 #include "SinglyLinkedListMeth.tpp"
 #endif // SINGLYLINKEDLISTMETH_H

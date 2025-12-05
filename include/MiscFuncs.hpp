@@ -22,5 +22,9 @@ bool checkName(string name);
 string replace(string input, string replaced, string replacedWith);
 string toLower(string s);
 string passwordGen(int size);
+SList<Loan> stringToSL(string s);
+string SLToString(const SList<Loan>& sl);
+int updateCompletedLoansCsv(const SList<Loan>& sl);
+
 
 #endif //MISCFUNCS_H

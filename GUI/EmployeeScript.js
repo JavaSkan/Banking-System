@@ -128,3 +128,9 @@ function displayLoanRequests(){
         }
     );
 }
+
+
+//BALIZ DO INTERFACE
+function deleteCompletedLoans(){
+    deleteLoan().then((reply))
+}

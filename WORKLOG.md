@@ -28,6 +28,6 @@
 || Refined customer interface , simulated iframe functionality using JS | Aymen|
 || Added searchByID in doubly linked lists | Melik|
 || Added majority of customer task functionalities with CPP | Aymen|
-|04-12-2025| Added deleteLoans, SLTostring, stringToSL and updateCompletedLoanToCsv | Melik |
+|04-12-2025| Added deleteLoans, SLTostring, stringToSL,updateCompletedLoansToCsv, init_completedLoansList | Melik |
 |04-12-2025| Finished Customer Interface  | Aymen|
 ||Employee Interface (Loan Requests Management) + Its CPP code (partially)|Skander|
