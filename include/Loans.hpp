@@ -21,7 +21,7 @@ struct Loan{
     string ID = "";
     int type = LNT_CAR;
     int status = LNS_OVERDUE;
-    float pr_amount = 0.0; //principle amount
+    float pr_amount = -1.0; //principle amount
     float it_rate = 0.0; //interest rate
     float am_paid = 0.0; //amount paid
     float rm_balance = 0.0; //remaining balance

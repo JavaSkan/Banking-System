@@ -34,7 +34,7 @@ SList<T> CopyList(const SList<T>& L) {
     SNode<T>* tail = nullptr;
 
     while (current) {
-        SNode<T>* n = createNode(current->data);
+        SNode<T>* n = createSNode(current->data);
         if (!n) {
             cerr << "\nMemory allocation failed while copying\n";
             destroyList(&newList);
@@ -135,7 +135,7 @@ bool insert(SList<T>* L, T e, int pos) {
         cerr << "\nInvalid position";
         return 0;
     }
-    SNode<T>* n = createNode(e);
+    SNode<T>* n = createSNode(e);
     if (!n) return 0;
     if (pos == 1) {
         n->next = L->head;
@@ -178,7 +178,7 @@ void destroyNode(SNode<T>* Snode) {
 }
 TEMPLATE
 
-SNode<T>* createNode(T value) {
+SNode<T>* createSNode(T value) {
     SNode<T>* Snode = new (nothrow) SNode<T>{ value, nullptr };
     if (!Snode) {
         cerr << "\nMemory allocation failed for Snode\n";
@@ -186,24 +186,4 @@ SNode<T>* createNode(T value) {
     return Snode;
 }
 
-TEMPLATE
-
-SList<T> stringToSL(string s){
-    SList<Loan> res = createList<Loan>();
-    string sub = "";
-    for(int i = 4; i < s.size()-1; i++){
-        sub += (s[i] == '$' ? ' ' : s[i]);
-    }
-    if(sub == "") return {};
-    stringstream ss;
-    ss << sub;
-    int size;
-    ss >> size;
-    string cur_loan_str;
-    for(int i = 1; i <= size; i++){
-        ss >> cur_loan_str;
-        insert(&res,stringToLoan(cur_loan_str),res.size+1);
-    }
-    return res;
-}
 

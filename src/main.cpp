@@ -28,7 +28,6 @@ string lastJsValue;
 Customer LoggedInCustomer;
 Employee LoggedInEmployee;
 Customer SelectedCustomer;
-SList<Loan> completed_loans;
 Queue* currentLoanReqs = createQueue();
 Queue* acceptedLoanReqs = createQueue();
 
@@ -55,6 +54,18 @@ void loadLoanReqs(){
     file.close();
 }
 
+void init_completedLoansList(SList<Loan>& completed_loans){
+    ifstream file("assets/CompletedLoans.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open the completed loans file " <<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        completed_loans = stringToSL(line);
+    }
+}
+
 string getSpecificLoan(int pos){ 
     Loan current;
     string LoansString;
@@ -66,31 +77,7 @@ string getSpecificLoan(int pos){
     return LoansString ;
 }
 
-string SLToString(const SList<Loan>& sl){
-    if(isEmpty(sl)) return "SLL[]";
-    stringstream ss;
-    ss << "SLL[" << sl.size << "$";
-    SNode<Loan>* cur = sl.head;
-    int i = 1;
-    while(cur && i<=sl.size){
-        ss << loanToString(cur->data) << (i<=sl.size ? "$" : "]");
-        cur = cur->next;
-    }
-    return ss.str();
-}
 
-int updateCompletedLoanToCsv(const SList<Loan>& sl){
-    ofstream file("assets/CompletedLoans.csv",ios::app);
-    if (!file.is_open()){
-        cerr << "Cannot open file : assets/CompletedLoans.csv" << endl;
-        file.close();
-        return -1;
-    }
-    string line =SLToString(sl);
-    file << line << endl;
-    file.close();
-    return 1;
-}
 
 string EmplLoginCpp(const string& LoginInfoJSON){
     string LoginInfo=unJSON(LoginInfoJSON);
@@ -314,6 +301,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("getTransactionCPP",sendTransactionsJS);
     w.bind("undoTranCPP",undoTranCPP);
     //w.bind("statusChangeCPP",changeStatusLoan);
+    w.bind("deleteCompletedLoans",deleteLoan);
 }
 void setupWebView() {
     w.set_title("Banking System");
@@ -335,6 +323,7 @@ int main() {
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);
+    init_completedLoansList(completed_loans);
 
     cout << "[C++] Hello, console!" << endl;
 

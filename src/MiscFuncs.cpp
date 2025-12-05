@@ -246,3 +246,48 @@ string passwordGen(int size){
     }
     return password;
 }
+
+SList<Loan> stringToSL(string s){
+    SList<Loan> res = createList<Loan>();
+    string sub = "";
+    for(int i = 4; i < s.size()-1; i++){
+        sub += (s[i] == '$' ? ' ' : s[i]);
+    }
+    if(sub == "") return {};
+    stringstream ss;
+    ss << sub;
+    int size;
+    ss >> size;
+    string cur_loan_str;
+    for(int i = 1; i <= size; i++){
+        ss >> cur_loan_str;
+        insert(&res,stringToLoan(cur_loan_str),res.size+1);
+    }
+    return res;
+}
+
+string SLToString(const SList<Loan>& sl){
+    if(isEmpty(sl)) return "SLL[]";
+    stringstream ss;
+    ss << "SLL[" << sl.size << "$";
+    SNode<Loan>* cur = sl.head;
+    int i = 1;
+    while(cur && i<=sl.size){
+        ss << loanToString(cur->data) << (i<=sl.size ? "$" : "]");
+        cur = cur->next;
+    }
+    return ss.str();
+}
+
+int updateCompletedLoansCsv(const SList<Loan>& sl){
+    ofstream file("assets/CompletedLoans.csv",ios::app);
+    if (!file.is_open()){
+        cerr << "Cannot open file : assets/CompletedLoans.csv" << endl;
+        file.close();
+        return -1;
+    }
+    string line =SLToString(sl);
+    file << line << endl;
+    file.close();
+    return 1;
+}

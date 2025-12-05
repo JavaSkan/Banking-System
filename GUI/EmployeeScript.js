@@ -36,8 +36,8 @@ function EmplLogin(){
 
 function acceptLoanRequest(loanReqCompId){
     let comp = document.getElementById(loanReqCompId);
-    let amount = comp.children[1].children[1].value;
-    amount = amount.subtring(0,amount.indexOf(' '));
+    let amount = comp.children[1].children[1].innerText;
+    amount = amount.substring(0,amount.indexOf('.'));
     let sent_data = comp.children[5].innerHTML+'*' //customer ID
                     +amount+'*' //amount without ' TND'
                     +comp.children[2].children[1].value; //type (string representation)
@@ -47,16 +47,23 @@ function acceptLoanRequest(loanReqCompId){
         }
     );
     comp.remove();
+    //display next loan request
+    displayLoanRequest();
+}
+
+function addNoLoanReqMsg(){
+    if(document.getElementById("noLQ") == null){
+       let no_lq = document.createElement("p");
+        no_lq.id = "noLQ";
+        no_lq.innerHTML = "No Loan Requests";
+        document.getElementById("mainEmpInt").appendChild(no_lq); 
+    }
 }
 
 function declineLoanRequest(loanReqCompId){
     document.getElementById(loanReqCompId).remove();
-    if(document.getElementsByClassName("loanReqComp").length == 0){
-        let no_lq = document.createElement("p");
-        no_lq.id = "noLQ";
-        no_lq.innerHTML = "No Loan Requests";
-        document.getElementById("mainEmpInt").appendChild(no_lq);
-    }
+    //display next loan request
+    displayLoanRequest();
 }
 
 /* 
@@ -113,22 +120,15 @@ function getLoanReqComponent(lrs){
 //CPP will send Loan Requests One by one by creating a cpp
 //function, so that we can use the FIFO system mentionned in
 //the project PDF
-function displayLoanRequests(){
+function displayLoanRequest(){
     let mainEmpInt = document.getElementById("mainEmpInt");
     mainEmpInt.innerHTML="";
     receiveQueueSize().then(
-        //LoanRequests: LoanReq_1|...|LoanReq_N
         (queue_size_JSON) => {
             let size = parseInt(queue_size_JSON.size);
             if(size == 0){
-                if(document.getElementById("noLQ") == null){
-                    let no_lq = document.createElement("p");
-                    no_lq.id = "noLQ";
-                    no_lq.innerHTML = "No Loan Requests";
-                    mainEmpInt.appendChild(no_lq);
-                }  
-            }
-            for(let i = 0; i < size; i++){
+                addNoLoanReqMsg();
+            }else{
                 receiveCurrentLoanReq().then(
                     (loanReqStr) => {
                         mainEmpInt.appendChild(getLoanReqComponent(loanReqStr));
@@ -292,4 +292,9 @@ function changeStatus(id){
             viewAllCustomers();
         })
     }
+}
+
+//BALIZ DO INTERFACE
+function deleteCompletedLoans(){
+    deleteLoan().then((reply))
 }

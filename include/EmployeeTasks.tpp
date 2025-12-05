@@ -295,7 +295,7 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
 }
 
 
-/*
+
 string deleteLoan(const string&){
     for (int i = 0; i<custArray.size;i++){
         for (int j = 1; j<=custArray.data[i].loans.size;j++){
@@ -307,12 +307,13 @@ string deleteLoan(const string&){
                 bool T = insert(&completed_loans,currentLoan->data, completed_loans.size + 1);
                 removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,ID));
                 updateCustomerInCsv(custArray.data[i]);
+                updateCompletedLoansCsv(completed_loans);
                 
 
             }
 
         }
     }
+    return "\"Completed loans are deleted\"";
 
 }
-*/

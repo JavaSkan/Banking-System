@@ -10,6 +10,8 @@
 #include <cstring>
 #include <SinglyLinkedList.hpp>
 
+SList<Loan> completed_loans;
+
 TEMPLATE Array<T> createEmployeeArray();
 int init_employeeArray(Array<Employee>& EmplArray);
 string addEmployee(const string& infoJSON);
