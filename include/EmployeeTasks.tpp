@@ -288,9 +288,9 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
 }
 
 Loan selectedLoan;
-DList Dl;
-SList Sl;
-Array customerArray;
+//DList Dl;
+//SList Sl;
+Array<Customer> customerArray;
 string changeStatusLoan(const string& infoJSON){
     int temp =stoi(unJSON(infoJSON));
     selectedLoan.status = temp;

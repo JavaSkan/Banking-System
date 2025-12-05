@@ -28,7 +28,30 @@ string lastJsValue;
 Customer LoggedInCustomer;
 Employee LoggedInEmployee;
 Queue* currentLoanReqs = createQueue();
+Queue* acceptedLoanReqs = createQueue();
 
+//Load loans requests from csv files
+//Should be called when an employee logs in 
+void loadLoanReqs(){
+    ifstream file("assets/LoanRequests.csv"); 
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv" << endl;
+    }else{
+        string line;
+        string info[4];
+        LoanRequest current_loan_req = {};
+        while(getline(file,line)){
+            splitStr(line,',',info,4);
+            current_loan_req.ID_customer = info[0];
+            current_loan_req.loan.type = stoi(info[1]);
+            current_loan_req.loan.pr_amount = stof(info[2]);
+            current_loan_req.loan.start_date = CurrentDate;
+            current_loan_req.loan.end_date = {CurrentDate.day,CurrentDate.month,CurrentDate.year+stoi(info[3])};
+            enqueue(currentLoanReqs,current_loan_req);
+        }
+    }
+    file.close();
+}
 
 string getSpecificLoan(int pos){
     Loan current;
@@ -56,12 +79,14 @@ string EmplLoginCpp(const string& LoginInfoJSON){
     }else{
         if(EmplArray.data[EmployeePos].password==password){
             LoggedInEmployee=EmplArray.data[EmployeePos];
+            loadLoanReqs();
             return LoggedInEmployee.ID;
         }else{
             return "\"falseP\"";
         }
     }
 }
+
 string CustLoginCpp(const string& LoginInfoJSON){
     string LoginInfo=unJSON(LoginInfoJSON);
     string accNum;
@@ -127,7 +152,6 @@ string receiveLoanFromJS(const string& infoJSON){
             return "\"NOLOGCUS\"";
         }
         string info = unJSON(infoJSON);
-        cout << "[DEBUG-receiveLoanFromJS/rep]: " << LoggedInCustomer.ID << endl;
         string loanRequestLine = LoggedInCustomer.ID + "," + replace(info,"*",",");
         file << loanRequestLine << endl;
     }
@@ -135,27 +159,20 @@ string receiveLoanFromJS(const string& infoJSON){
     return "\"true\"";
 }
 
-//Load loans requests from csv files
-//Should be called when an employee logs in 
-void loadLoanReqs(){
-    ifstream file("assets/LoanRequests.csv"); 
-    if(!file.is_open()){
-        cerr << "Cannot open file: assets/LoanRequests.csv" << endl;
-    }else{
-        string line;
-        string info[4];
-        LoanRequest current_loan_req = {};
-        while(getline(file,line)){
-            splitStr(line,',',info,4);
-            current_loan_req.ID_customer = info[0];
-            current_loan_req.loan.type = stoi(info[1]);
-            current_loan_req.loan.pr_amount = stof(info[2]);
-            current_loan_req.loan.start_date = CurrentDate;
-            current_loan_req.loan.end_date = {CurrentDate.day,CurrentDate.month,CurrentDate.year+stoi(info[3])};
-            enqueue(currentLoanReqs,current_loan_req);
-        }
-    }
-    file.close();
+string sendSizeOfQueue(const string&){
+    return "{\"size\":\"" + to_string(queueSize(*currentLoanReqs)) +"\"}";
+}
+
+string sendCurrentLoanReq(const string&){
+    LoanRequest curLQ = dequeue(currentLoanReqs);
+    string ret = "{\"ID_cus\":\"" + curLQ.ID_customer + "\"," \
+                 + "\"amount\":\"" + to_string(curLQ.loan.pr_amount) + "\","
+                 + "\"type\":\"" + loanTypeStr(curLQ.loan.type) + "\"}";
+    return ret;
+}
+
+string receiveAcceptedLoanReq(const string& info){
+    return "";
 }
 
 // --- SETUP FUNCTIONS ---
@@ -174,7 +191,9 @@ void setupBindings() {
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
     w.bind("statusChangeCPP",changeStatusLoan);
-
+    w.bind("receiveQueueSize",sendSizeOfQueue);
+    w.bind("receiveCurrentLoanReq",sendCurrentLoanReq);
+    w.bind("sendAcceptedLoanReq",receiveAcceptedLoanReq);
 }
 void setupWebView() {
     w.set_title("Banking System");
@@ -208,6 +227,7 @@ int main() {
 
     w.run();
     destroyQueue(currentLoanReqs);
+    destroyQueue(acceptedLoanReqs);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }
