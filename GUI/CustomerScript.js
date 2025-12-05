@@ -1,10 +1,11 @@
+
 function getloggedinfo(){
     let space_name=document.getElementById("CustomerName");
     let space_balance=document.getElementById("CustomerBalance");
     getLoggedInCustomerInformationFromCPlusPlus().then((answer)=>{
         const [name,balance] = answer.data.split("*");
         space_name.innerText=name;
-        space_balance.innerText=balance;
+        space_balance.innerText=balance.substring(0,balance.length-3);
         Customer_balance=parseInt(balance)
     })
 }
@@ -17,7 +18,7 @@ function requestLoan(){
     main.innerHTML = "";
 
     const formCard = document.createElement("div");
-    formCard.className = "LoanCard";
+    formCard.className = "Card";
 
     formCard.innerHTML = `
         <div class="LoanHeader">Request a New Loan</div>
@@ -68,7 +69,7 @@ function showLoans() {
     
         for (let i = 0; i < LoanCount; i++) {
             const card = document.createElement("div");
-            card.classList.add("LoanCard");
+            card.classList.add("Card");
     
             const header = document.createElement("div");
             header.classList.add("LoanHeader");
@@ -131,13 +132,13 @@ function withdrawMoney() {
     main.innerHTML = "";
 
     const card = document.createElement("div");
-    card.className = "LoanCard"; // reuse styling
+    card.className = "Card"; // reuse styling
 
     card.innerHTML = `
         <div class="LoanHeader">Withdraw Money</div>
         <div class="LoanInfoGrid" style="grid-template-columns:1fr">
             <div class="LoanField">
-                <label class="LoanLabel">Select Denomination:</label>
+                <label class="LoanLabel">Select Amount:</label>
                 <input type="number" min="0" step="10"id="withdrawAmount">
             </div>
         </div>
@@ -153,7 +154,7 @@ function depositMoney() {
     main.innerHTML = "";
 
     const card = document.createElement("div");
-    card.className = "LoanCard";
+    card.className = "Card";
 
     card.innerHTML = `
         <div class="LoanHeader">Deposit Money</div>
@@ -170,10 +171,76 @@ function depositMoney() {
 function deposit(){
     let amount=document.getElementById("depositAmount").value;
     depositCPP(amount).then((reply) => {
-        if(reply="Amount Added"){
+        if(reply=="true"){
             location.reload(); //reload page to update the balance 3al isar
         }
     })
 }
+function withdraw(){
+    let amount=document.getElementById("withdrawAmount").value;
+    withdrawCPP(amount).then((reply) => {
+        if(reply=="true"){
+            location.reload(); //reload page to update the balance 3al isar
+        }
+    })
+}
+function showTransactions() {
+    const main = document.getElementById("mainCustInt");
+    main.innerHTML = "";
+
+    getTransactionCPP().then((reply) => {
+        let Transactions = reply.data.split("/").filter(t => t.trim() !== "");
+        Transactions = Transactions.reverse();
+
+        if (Transactions.length === 0) {
+            main.innerHTML = `<p class="tx-no-transactions">No Transactions</p>`;
+            return;
+        }
+
+        // Start building HTML
+        let html = `
+            <div class="tx-container">
+                <div class="tx-btn-wrapper">
+                    <button class="tx-undo-btn" onclick="undoTransaction()">Undo Last Transaction</button>
+                </div>
+        `;
+
+        for (let i = 0; i < Transactions.length; i++) {
+            const tx = Transactions[i].split("*");
+            const type = tx[4] === "0" ? "Withdraw" : "Deposit";
+
+            html += `
+                <div class="tx-card">
+                    <div class="tx-info">
+                    <div class="tx-field"><span class="tx-label">ID:</span> <span class="tx-value">${tx[3]}</span></div>
+                    <div class="tx-field"><span class="tx-label">Amount:</span> <span class="tx-value">${tx[1]}</span></div>
+                        <div class="tx-field"><span class="tx-label">Type:</span> <span class="tx-value">${type}</span></div>
+                        <div class="tx-field"><span class="tx-label">Date:</span> <span class="tx-value">${tx[2]}</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        html += `</div>`; // close tx-container
+        main.innerHTML = html;
+    });
+}
+
+
+
+// Undo function with fade-out effect
+function undoTransaction(State) {
+    if(State){
+        return;
+    }else{
+        undoTranCPP().then((reply) =>{
+            if(reply=="true"){
+                showTransactions();
+            }
+        })
+    }
+
+}
+
 
 

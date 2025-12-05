@@ -1,7 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "TransactionMeth.hpp"
+#include <Transaction.hpp>
 
 constexpr int MAX_STACK_ELEMENTS = 1024;
 

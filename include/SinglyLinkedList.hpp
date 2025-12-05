@@ -11,8 +11,8 @@ struct SNode {
 
 TEMPLATE
 struct SList {
-SNode<T>* head;
-int size;
+    SNode<T>* head=nullptr;
+    int size=0;
 };
 
 #endif // SINGLYLINKEDLIST_H

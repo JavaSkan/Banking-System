@@ -45,7 +45,7 @@ string addEmployee(const string& infoJSON){
     //na9es controle de saisie (to be added)
     string EmplInfo=unJSON(infoJSON);
     string infoPart[7];
-    int n=splitStr(EmplInfo,'*',infoPart,7);
+    splitStr(EmplInfo,'*',infoPart,7);
     //array format is [ID*name*lastName*Adress*Salary]
     Employee e;
     e.ID=infoPart[0];
@@ -287,16 +287,17 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
     return 1;
 }
 
-Loan selectedLoan;
-//DList Dl;
-//SList Sl;
-Array<Customer> customerArray;
+/*Loan selectedLoan;
+DList Dl;
+SList Sl;
+Array customerArray;
 string changeStatusLoan(const string& infoJSON){
     int temp =stoi(unJSON(infoJSON));
     selectedLoan.status = temp;
     return "\"Status changed\"";
     
 }
+    */
 /*
 string deleteLoan(const string& infoJSON){
     //info JSON should contain : selectedLoan´s ID, a selected customer´s ID

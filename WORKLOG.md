@@ -23,5 +23,10 @@
 | 01-12-2025 | Added queue and queue methods for requested loans   | Melik          |
 |  | Added Customer Login functionality   | Aymen          |
 |02-12-2025| Added some employee tasks | Melik
+|| Added some employee tasks | Melik|
 |03-12-2025| Added searchByID in doubly linked lists | Melik
-|4-12-2025|Employee Interface (Loan Requests Management) + Its CPP code (partially)|Skander|
+|| Refined customer interface , simulated iframe functionality using JS | Aymen|
+|| Added searchByID in doubly linked lists | Melik|
+|| Added majority of customer task functionalities with CPP | Aymen|
+|04-12-2025| Finished Customer Interface  | Aymen|
+||Employee Interface (Loan Requests Management) + Its CPP code (partially)|Skander|

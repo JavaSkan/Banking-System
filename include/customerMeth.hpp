@@ -1,16 +1,14 @@
 #ifndef CUSTOMERMETH_H
 #define CUSTOMERMETH_H
+#include <customer.hpp>
+#include <string>
+#include "arrayMeth.hpp"
+#include "SinglyLinkedListMeth.hpp"
 
-#include <SinglyLinkedListMeth.hpp>
-#include <DoublyLinkedListMeth.hpp>
-#include <arrayMeth.hpp>
-#include <Branches.hpp>
-#include <Dates.hpp>
-#include <MiscFuncs.hpp>
-#include <LoansMeth.hpp>
 
 int addCustomerToCsv(const Customer& Cus);
 int init_customerArray(Array<Customer>& Cusarr);
+string customerToCsvLine(const Customer& Cus);
 TEMPLATE Array<T> createCustomerArray();
 string createNewCustomer(const string& infoJSON);
 string RIBGen(const Customer& Cus);

@@ -13,9 +13,9 @@ constexpr int TR_DEPOSIT = 1;
 
 struct Transaction{
     string ID = "NOID";
-    int accountNumber = -1;
+    string accountNumber ="NOACCNUM";
     int type = -1;
-    float amount = -1.0;
+    int amount = -1;
     Date date = {};
 };
 

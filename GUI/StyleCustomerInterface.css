@@ -10,6 +10,10 @@ html, body {
 }
 
 /* Sidebar --------------------------------------------------- */
+#TND{
+    color:#d4c34c;
+    font-weight: bold;
+}
 
 aside {
     background: #161618;
@@ -19,7 +23,7 @@ aside {
     margin-left: 2.5%;
     position: sticky;
     top: 17%;
-    width: 12%;
+    width: 18%;
     font-size: 0.85rem;
     align-content: center;
     box-shadow: 0 0 12px rgba(0,0,0,0.5);
@@ -34,8 +38,8 @@ aside p {
     width: 75px;
     background: #111;
     box-shadow: 4px 0 10px rgba(0,0,0,0.4);
-    display: flex;
-    flex-direction: column;
+    display: inline-block;
+    margin: 0 auto;
     gap: 14px;
     z-index: 10;
 }
@@ -45,6 +49,8 @@ aside p {
     background: #1e1e20;
     border: 2px solid #d4c34c;
     border-radius: 10px;
+    width:90%;
+    margin-bottom: 15%;
     color: #d4c34c;
     font-weight: bold;
     font-size: 10px;
@@ -77,7 +83,7 @@ aside p {
 
 /* Loan Card ------------------------------------------------- */
 
-.LoanCard {
+.Card {
     background: #1c1c1e;
     border-radius: 12px;
     padding: 18px 20px;
@@ -88,7 +94,7 @@ aside p {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.LoanCard:hover {
+.Card:hover {
     transform: translateY(-4px);
     box-shadow: 0 0 18px rgba(255,255,255,0.10);
 }
@@ -150,4 +156,94 @@ aside p {
 #CustomerBalance {
     font-weight: bold;
     color: #fff;
+}
+/* Transactions ------------------------------------------------ */
+
+/* Container for all transactions */
+.tx-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+/* Undo button wrapper */
+.tx-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Undo button with gold theme */
+.tx-undo-btn {
+    padding: 10px 22px;
+    font-size: 15px;
+    background-color: #d4c34c;   /* gold color */
+    color: #111;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(212, 195, 76, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tx-undo-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(212, 195, 76, 0.6);
+}
+
+/* Single transaction card */
+.tx-card {
+    display: flex;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: #1c1c1e;        /* match loan card */
+    border: 1px solid rgba(212, 195, 76, 0.4);
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tx-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 18px rgba(212, 195, 76, 0.5);
+}
+
+/* Transaction info inside card */
+.tx-info {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+}
+
+/* Individual field in transaction */
+.tx-field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Field label */
+.tx-label {
+    font-size: 12px;
+    color: #d4c34c;   /* gold labels */
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+/* Field value */
+.tx-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e3e3e3;
+}
+
+/* No transactions message */
+.tx-no-transactions {
+    text-align: center;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 50px;
 }

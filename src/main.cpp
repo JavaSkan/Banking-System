@@ -53,7 +53,7 @@ void loadLoanReqs(){
     file.close();
 }
 
-string getSpecificLoan(int pos){
+string getSpecificLoan(int pos){ 
     Loan current;
     string LoansString;
     current=getElement(LoggedInCustomer.loans,pos);
@@ -62,7 +62,6 @@ string getSpecificLoan(int pos){
     LoansString=LoansString.substr(5,LoansString.size()-6);
     cout<<LoansString;
     return LoansString ;
-   //return "test"+to_string(pos);
 }
 
 string EmplLoginCpp(const string& LoginInfoJSON){
@@ -92,14 +91,13 @@ string CustLoginCpp(const string& LoginInfoJSON){
     string accNum;
     string password;
     string infoParts[2];
-    int n = splitStr(LoginInfo, '*',infoParts,2);
+    splitStr(LoginInfo, '*',infoParts,2);
     accNum=infoParts[0];
     password=infoParts[1];
     int CustomerPos=searchByID<Customer>(custArray,accNum);
     if( CustomerPos==-1){
         return "\"false\"";
     }else{
-        cout<<password<<"/"<<custArray.data[CustomerPos].password;
         if(custArray.data[CustomerPos].password==password){
             LoggedInCustomer=custArray.data[CustomerPos];
             return LoggedInCustomer.ID;
@@ -118,21 +116,58 @@ string sendLoggedInfoJS(const string&){
     return "{\"data\":\"" + info + "\"}";
 
 }
+// TRANSACTIONS
+bool existsID(const Stack& s, const string& id) {
+    for (int i = s.top; i >= 0; i--) {
+        if (s.data[i].ID == id) return true;
+    }
+    return false;
+}
+
+string TranIdGen(){
+    string id;
+    do {
+        id = to_string(random(0,9999));
+        while(id.size()<4){
+            id="0"+id;
+        } 
+    } while (existsID(LoggedInCustomer.transactions, id));
+    return "T"+id;
+}
+Transaction createNewTransaction(int type,float amount){
+    Transaction T;
+    T.accountNumber=LoggedInCustomer.ID;
+    T.ID=TranIdGen();
+    T.amount=amount;
+    T.type=type;
+    T.date=CurrentDate;
+    return T;
+}
 string deposit(const string& amountJSON){
     int amount=stoi(unJSON(amountJSON));
     LoggedInCustomer.balance+=amount;
-    return "\"Amount Added\"";
+    updateCustomerInCsv(LoggedInCustomer);
+    push(LoggedInCustomer.transactions,createNewTransaction(1,amount));
+    return "\"true\"";
 }
+string withdraw(const string& amountJSON){
+    int amount=stoi(unJSON(amountJSON));
+    LoggedInCustomer.balance-=amount;
+    push(LoggedInCustomer.transactions,createNewTransaction(0,amount));
+    updateCustomerInCsv(LoggedInCustomer);
+    return "\"true\"";
+}
+
 string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
+
 
 string closeWindow(const string&) {
     w.terminate();
     return "\"Closed\"";
 }
-string goToPageCpp(const string& pageJSON) {
-    cout<<endl<<"test";
+string goToPageCpp(const string& pageJSON) { //ybadel el page eli ywari feha el webview
     string page=unJSON(pageJSON);
-    cout<<pageJSON<<" "<<page;
+    cout<<endl<<pageJSON<<" "<<page;
     w.navigate(path(page));
     return "\"page changed\"";
 }
@@ -174,12 +209,45 @@ string sendCurrentLoanReq(const string&){
 string receiveAcceptedLoanReq(const string& info){
     return "";
 }
+string sendTransactionsJS(const string&){
+    string combined;
+    string info;
+    int count=LoggedInCustomer.transactions.top+1;
+    for (int i = 0; i <count; i++)
+    {
+    info=
+    LoggedInCustomer.transactions.data[i].accountNumber+"*"+
+    to_string(LoggedInCustomer.transactions.data[i].amount)+"*"+
+    dateToString(LoggedInCustomer.transactions.data[i].date)+"*"+
+    LoggedInCustomer.transactions.data[i].ID+"*"+
+    to_string(LoggedInCustomer.transactions.data[i].type);
+        if(i==count-1){
+            combined+=info;
+        }else{
+            combined+=info+"/";
+        }
+    }
+    return "{\"data\":\"" + combined + "\"}";
+}
+string undoTranCPP(const string&){
+    if(isEmpty(LoggedInCustomer.transactions)){
+        return "\"false\"";
+    }else{
+        Transaction val=pop(LoggedInCustomer.transactions);
+        updateCustomerInCsv(LoggedInCustomer);
+        return "\"true\"";
+    }
+
+}
+
 
 // --- SETUP FUNCTIONS ---
-void setupBindings() {
+
+
+void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
     w.bind("sendDate",getDateJS);
-    w.bind("getInfo", getInfo);
+    w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
@@ -190,21 +258,22 @@ void setupBindings() {
     w.bind("sendRegEmplInfo",addEmployee);
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
-    w.bind("statusChangeCPP",changeStatusLoan);
+    //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("receiveQueueSize",sendSizeOfQueue);
     w.bind("receiveCurrentLoanReq",sendCurrentLoanReq);
     w.bind("sendAcceptedLoanReq",receiveAcceptedLoanReq);
+    w.bind("withdrawCPP",withdraw);
+    w.bind("getTransactionCPP",sendTransactionsJS);
+    w.bind("undoTranCPP",undoTranCPP);
+    //w.bind("statusChangeCPP",changeStatusLoan);
 }
 void setupWebView() {
     w.set_title("Banking System");
-    w.set_size(800, 600, WEBVIEW_HINT_NONE);
-    HWND h = (HWND) w.window().value();
-    RemoveMenu(GetSystemMenu(h, FALSE), SC_CLOSE, MF_BYCOMMAND);
-    SetWindowLong(h, GWL_STYLE, GetWindowLong(h, GWL_STYLE) & ~(WS_SIZEBOX | WS_MAXIMIZEBOX));
-    SetWindowPos(h, 0, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE|SWP_NOZORDER|SWP_FRAMECHANGED);
+    w.set_size(960, 720, WEBVIEW_HINT_NONE);
 
     setupBindings();
-    w.navigate(path("index.html"));
+    w.navigate(path("index.html")); 
+    //path is required to get the absolute path and not relative , na3rech 3leh relative ma 5dmtech
 }
 
 
@@ -214,6 +283,7 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);

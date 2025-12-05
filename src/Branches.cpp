@@ -21,7 +21,7 @@ Bank randomBank() {
         Bank dummy; dummy.branchName="Unknown"; dummy.ID="0"; 
         return dummy;
     }
-    srand((unsigned int)time(NULL)); 
+    srand((unsigned int)time(NULL));  //generate random number between 0 and size-1
     int idx = rand() % size + 1;
     return getElement<Bank>(BL, idx);
 }

@@ -9,7 +9,7 @@
     <script src="script.js"></script>
     <script src="CustomerScript.js"></script>
 </head>
-<body onload="getloggedinfo()">
+<body onload="getloggedinfo();">
     <header>
         <nav>
             <h1>Banking System</h1>
@@ -20,7 +20,7 @@
 
         <aside id="aside">
             <p> Account Holder :</p> <p id="CustomerName"></p>
-            <p>Balance:</p> <p id="CustomerBalance"></p>
+                <p>Balance:</p> <span id="CustomerBalance"></span><span id="TND">TND</span>
             <div class="actionSidebar">
                 <button onclick="showLoans()">Show Loans</button>
                 <button onclick="requestLoan()">Request a New Loan</button>

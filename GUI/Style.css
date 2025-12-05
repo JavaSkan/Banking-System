@@ -36,7 +36,10 @@ h1 {
     background: #d4c34c;
     border: none;
     border-radius: 12px;
+    display: inline;
+    margin: 0 auto;
     cursor: pointer;
+    font-size: 70%;
     font-weight: bolder;
     color: #0f0f10;
     transition: transform 0.15s ease, filter 0.2s ease;
@@ -149,4 +152,7 @@ button {
 }
 input{
     color: black;
+}
+.Fail{
+    border-color: rgb(155, 15, 15);
 }

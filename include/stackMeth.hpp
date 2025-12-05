@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "Stack.hpp"
+#include <Stack.hpp>
 
 Stack createStack();
 void push(Stack& s, Transaction value);

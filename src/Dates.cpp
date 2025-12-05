@@ -9,19 +9,12 @@ Date CurrentDate={0,0,0};
 
 string getDateJS(const string& dateInfoJSON){
     string dateInfo=unJSON(dateInfoJSON);
-    string day;
-    string month;
-    string year;
-    string daymonth;
     string infoParts[3];
-    int n = splitStr(dateInfo, '*',infoParts,3);
-    day=infoParts[0];
-    month=infoParts[1];
-    year=infoParts[2];
-    int iday=stoi(day);
-    int imonth=stoi(month);
-    int iyear=stoi(year);
-    CurrentDate={iday,imonth,iyear};
+    splitStr(dateInfo, '*',infoParts,3);
+    int day=stoi(infoParts[0]);
+    int month=stoi(infoParts[1]);
+    int year=stoi(infoParts[2]);
+    CurrentDate={day,month,year};
     return "\"Date confirmed .\"";
 }
 
