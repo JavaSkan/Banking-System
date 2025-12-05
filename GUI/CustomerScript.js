@@ -1,10 +1,11 @@
+
 function getloggedinfo(){
     let space_name=document.getElementById("CustomerName");
     let space_balance=document.getElementById("CustomerBalance");
     getLoggedInCustomerInformationFromCPlusPlus().then((answer)=>{
         const [name,balance] = answer.data.split("*");
         space_name.innerText=name;
-        space_balance.innerText=balance;
+        space_balance.innerText=balance.substring(0,balance.length-3);
         Customer_balance=parseInt(balance)
     })
 }
@@ -200,7 +201,7 @@ function showTransactions() {
         let html = `
             <div class="tx-container">
                 <div class="tx-btn-wrapper">
-                    <button class="tx-undo-btn" onclick="undoLastTransaction()">Undo Last Transaction</button>
+                    <button class="tx-undo-btn" onclick="undoTransaction()">Undo Last Transaction</button>
                 </div>
         `;
 
@@ -211,10 +212,10 @@ function showTransactions() {
             html += `
                 <div class="tx-card">
                     <div class="tx-info">
+                    <div class="tx-field"><span class="tx-label">ID:</span> <span class="tx-value">${tx[3]}</span></div>
+                    <div class="tx-field"><span class="tx-label">Amount:</span> <span class="tx-value">${tx[1]}</span></div>
                         <div class="tx-field"><span class="tx-label">Type:</span> <span class="tx-value">${type}</span></div>
-                        <div class="tx-field"><span class="tx-label">Amount:</span> <span class="tx-value">${tx[1]}</span></div>
                         <div class="tx-field"><span class="tx-label">Date:</span> <span class="tx-value">${tx[2]}</span></div>
-                        <div class="tx-field"><span class="tx-label">ID:</span> <span class="tx-value">${tx[3]}</span></div>
                     </div>
                 </div>
             `;
@@ -228,15 +229,17 @@ function showTransactions() {
 
 
 // Undo function with fade-out effect
-function undoTransaction(index, cardElement) {
-    cardElement.style.transition = "all 0.4s ease";
-    cardElement.style.opacity = "0";
-    cardElement.style.transform = "translateX(-100%)";
+function undoTransaction(State) {
+    if(State){
+        return;
+    }else{
+        undoTranCPP().then((reply) =>{
+            if(reply=="true"){
+                showTransactions();
+            }
+        })
+    }
 
-    setTimeout(() => {
-        cardElement.remove();
-        deleteLastTransaction(index); // remove from your Transactions array or backend
-    }, 400);
 }
 
 

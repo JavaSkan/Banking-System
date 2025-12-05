@@ -30,9 +30,32 @@ Employee LoggedInEmployee;
 Customer SelectedCustomer;
 SList<Loan> completed_loans;
 Queue* currentLoanReqs = createQueue();
+Queue* acceptedLoanReqs = createQueue();
 
+//Load loans requests from csv files
+//Should be called when an employee logs in 
+void loadLoanReqs(){
+    ifstream file("assets/LoanRequests.csv"); 
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv" << endl;
+    }else{
+        string line;
+        string info[4];
+        LoanRequest current_loan_req = {};
+        while(getline(file,line)){
+            splitStr(line,',',info,4);
+            current_loan_req.ID_customer = info[0];
+            current_loan_req.loan.type = stoi(info[1]);
+            current_loan_req.loan.pr_amount = stof(info[2]);
+            current_loan_req.loan.start_date = CurrentDate;
+            current_loan_req.loan.end_date = {CurrentDate.day,CurrentDate.month,CurrentDate.year+stoi(info[3])};
+            enqueue(currentLoanReqs,current_loan_req);
+        }
+    }
+    file.close();
+}
 
-string getSpecificLoan(int pos){
+string getSpecificLoan(int pos){ 
     Loan current;
     string LoansString;
     current=getElement(LoggedInCustomer.loans,pos);
@@ -41,7 +64,6 @@ string getSpecificLoan(int pos){
     LoansString=LoansString.substr(5,LoansString.size()-6);
     cout<<LoansString;
     return LoansString ;
-   //return "test"+to_string(pos);
 }
 
 string SLToString(const SList<Loan>& sl){
@@ -84,6 +106,7 @@ string EmplLoginCpp(const string& LoginInfoJSON){
     }else{
         if(EmplArray.data[EmployeePos].password==password){
             LoggedInEmployee=EmplArray.data[EmployeePos];
+            loadLoanReqs();
             return LoggedInEmployee.ID;
         }else{
             return "\"falseP\"";
@@ -103,7 +126,6 @@ string CustLoginCpp(const string& LoginInfoJSON){
     if( CustomerPos==-1){
         return "\"false\"";
     }else{
-        cout<<password<<"/"<<custArray.data[CustomerPos].password;
         if(custArray.data[CustomerPos].password==password){
             LoggedInCustomer=custArray.data[CustomerPos];
             return LoggedInCustomer.ID;
@@ -171,10 +193,9 @@ string closeWindow(const string&) {
     w.terminate();
     return "\"Closed\"";
 }
-string goToPageCpp(const string& pageJSON) {
-    cout<<endl<<"test";
+string goToPageCpp(const string& pageJSON) { //ybadel el page eli ywari feha el webview
     string page=unJSON(pageJSON);
-    cout<<pageJSON<<" "<<page;
+    cout<<endl<<pageJSON<<" "<<page;
     w.navigate(path(page));
     return "\"page changed\"";
 }
@@ -194,7 +215,6 @@ string receiveLoanFromJS(const string& infoJSON){
             return "\"NOLOGCUS\"";
         }
         string info = unJSON(infoJSON);
-        cout << "[DEBUG-receiveLoanFromJS/rep]: " << LoggedInCustomer.ID << endl;
         string loanRequestLine = LoggedInCustomer.ID + "," + replace(info,"*",",");
         file << loanRequestLine << endl;
     }
@@ -202,27 +222,20 @@ string receiveLoanFromJS(const string& infoJSON){
     return "\"true\"";
 }
 
-//Load loans requests from csv files
-//Should be called when an employee logs in 
-void loadLoanReqs(){
-    ifstream file("assets/LoanRequests.csv"); 
-    if(!file.is_open()){
-        cerr << "Cannot open file: assets/LoanRequests.csv" << endl;
-    }else{
-        string line;
-        string info[4];
-        LoanRequest current_loan_req = {};
-        while(getline(file,line)){
-            splitStr(line,',',info,4);
-            current_loan_req.ID_customer = info[0];
-            current_loan_req.loan.type = stoi(info[1]);
-            current_loan_req.loan.pr_amount = stof(info[2]);
-            current_loan_req.loan.start_date = CurrentDate;
-            current_loan_req.loan.end_date = {CurrentDate.day,CurrentDate.month,CurrentDate.year+stoi(info[3])};
-            enqueue(currentLoanReqs,current_loan_req);
-        }
-    }
-    file.close();
+string sendSizeOfQueue(const string&){
+    return "{\"size\":\"" + to_string(queueSize(*currentLoanReqs)) +"\"}";
+}
+
+string sendCurrentLoanReq(const string&){
+    LoanRequest curLQ = dequeue(currentLoanReqs);
+    string ret = "{\"ID_cus\":\"" + curLQ.ID_customer + "\"," \
+                 + "\"amount\":\"" + to_string(curLQ.loan.pr_amount) + "\","
+                 + "\"type\":\"" + loanTypeStr(curLQ.loan.type) + "\"}";
+    return ret;
+}
+
+string receiveAcceptedLoanReq(const string& info){
+    return "";
 }
 string sendTransactionsJS(const string&){
     string combined;
@@ -244,13 +257,25 @@ string sendTransactionsJS(const string&){
     }
     return "{\"data\":\"" + combined + "\"}";
 }
+string undoTranCPP(const string&){
+    if(isEmpty(LoggedInCustomer.transactions)){
+        return "\"false\"";
+    }else{
+        Transaction val=pop(LoggedInCustomer.transactions);
+        updateCustomerInCsv(LoggedInCustomer);
+        return "\"true\"";
+    }
+
+}
 
 
 // --- SETUP FUNCTIONS ---
-void setupBindings() {
+
+
+void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
     w.bind("sendDate",getDateJS);
-    w.bind("getInfo", getInfo);
+    w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
@@ -261,17 +286,22 @@ void setupBindings() {
     w.bind("sendRegEmplInfo",addEmployee);
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
+    //w.bind("statusChangeCPP",changeStatusLoan);
+    w.bind("receiveQueueSize",sendSizeOfQueue);
+    w.bind("receiveCurrentLoanReq",sendCurrentLoanReq);
+    w.bind("sendAcceptedLoanReq",receiveAcceptedLoanReq);
     w.bind("withdrawCPP",withdraw);
     w.bind("getTransactionCPP",sendTransactionsJS);
+    w.bind("undoTranCPP",undoTranCPP);
     //w.bind("statusChangeCPP",changeStatusLoan);
-
 }
 void setupWebView() {
     w.set_title("Banking System");
-    w.set_size(800, 600, WEBVIEW_HINT_NONE);
+    w.set_size(960, 720, WEBVIEW_HINT_NONE);
 
     setupBindings();
-    w.navigate(path("index.html"));
+    w.navigate(path("index.html")); 
+    //path is required to get the absolute path and not relative , na3rech 3leh relative ma 5dmtech
 }
 
 
@@ -281,6 +311,7 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);
@@ -294,6 +325,7 @@ int main() {
 
     w.run();
     destroyQueue(currentLoanReqs);
+    destroyQueue(acceptedLoanReqs);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }

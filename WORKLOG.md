@@ -22,8 +22,12 @@
 || * Implemented string conversions for Loans, Separated Loan Methods from the Loan header file * Added String serialization for DoublyLinkedLists of Loans * Added Misc functions : trim, isAlpha, checkName and replace | Skander |
 | 01-12-2025 | Added queue and queue methods for requested loans   | Melik          |
 |  | Added Customer Login functionality   | Aymen          |
-|02-12-2025| Added some employee tasks | Melik|
-|03-12-2025| Refined customer interface , simulated iframe functionality using JS | Aymen|
+|02-12-2025| Added some employee tasks | Melik
+|| Added some employee tasks | Melik|
+|03-12-2025| Added searchByID in doubly linked lists | Melik
+|| Refined customer interface , simulated iframe functionality using JS | Aymen|
 || Added searchByID in doubly linked lists | Melik|
 || Added majority of customer task functionalities with CPP | Aymen|
 |04-12-2025| Added deleteLoans, SLTostring, stringToSL and updateCompletedLoanToCsv | Melik |
+|04-12-2025| Finished Customer Interface  | Aymen|
+||Employee Interface (Loan Requests Management) + Its CPP code (partially)|Skander|

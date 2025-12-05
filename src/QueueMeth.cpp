@@ -47,7 +47,7 @@ LoanRequest dequeue(Queue* q){
     }
     LoanRequest L = q->r_loans[q->front];
     if (q->front == q->tail){
-        q->front = q->tail = 0;
+        q->front = -1;
     }
     else{
          q->front++;

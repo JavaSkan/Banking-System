@@ -39,6 +39,7 @@ h1 {
     display: inline;
     margin: 0 auto;
     cursor: pointer;
+    font-size: 70%;
     font-weight: bolder;
     color: #0f0f10;
     transition: transform 0.15s ease, filter 0.2s ease;
