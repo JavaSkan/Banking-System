@@ -103,7 +103,21 @@
 }
 
 #noLQ{
-    font-size: 17px;
+    font-size: 30px;
+    font-weight: bold;
     margin: 20px;
     color: #aaa;
+    animation: animNOLQ 3s ease-in-out infinite;
+}
+
+@keyframes animNOLQ {
+    0% {
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
 }

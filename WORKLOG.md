@@ -31,3 +31,4 @@
 |04-12-2025| Added deleteLoans, SLTostring, stringToSL,updateCompletedLoansToCsv, init_completedLoansList | Melik |
 |04-12-2025| Finished Customer Interface  | Aymen|
 ||Employee Interface (Loan Requests Management) + Its CPP code (partially)|Skander|
+|5-12-2025| Improved Employee Interface, Loan Requests are now displayed one by one using the FIFO system * Fixed quit button in the Employee Interface| Skander|
