@@ -10,6 +10,15 @@ function AddEmpl(){
         console.log(answer);
     })
 }
+function getLoggedEmployee(){
+    let space_id=document.getElementById("EmpID");
+    let space_name=document.getElementById("EmpName");
+    getLoggedEmployeeInfoCPP().then((reply) =>{
+        const [id,name]=reply.data.split('*')
+        space_id.innerText=id;
+        space_name.innerText=name;
+    })
+}
 
 function EmplLogin(){
     let ID=document.getElementById("employee_ID").value;
@@ -106,6 +115,7 @@ function getLoanReqComponent(lrs){
 //the project PDF
 function displayLoanRequests(){
     let mainEmpInt = document.getElementById("mainEmpInt");
+    mainEmpInt.innerHTML="";
     receiveQueueSize().then(
         //LoanRequests: LoanReq_1|...|LoanReq_N
         (queue_size_JSON) => {
@@ -127,4 +137,159 @@ function displayLoanRequests(){
             }
         }
     );
+}
+
+function escapeHtml(s) {
+    if (s == null) return "";
+    return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function viewAllCustomers() {
+    const main = document.getElementById("mainEmpInt");
+    main.innerHTML = "";
+
+    const container = document.createElement("div");
+    container.classList.add("EmpCustomersGrid");
+    main.appendChild(container);
+
+    getCustomerCount().then(info => {
+        const count = parseInt(info.data);
+
+        if (!count) {
+            const msg = document.createElement("p");
+            msg.className = "noCustomersMsg";
+            msg.innerText = "No Customers Found";
+            main.appendChild(msg);
+            return;
+        }
+
+        for (let idx = 0; idx < count; idx++) {
+            getCustomerLine(idx.toString()).then(cust => {
+
+                const parts = cust && cust.data ? cust.data.split("*") : [];
+                const [
+                    id = "",
+                    type = "",
+                    iban = "",
+                    branch = "",
+                    name = "",
+                    openDate = "",
+                    status = "",
+                    balance = "",
+                    password = ""
+                ] = parts;
+
+                const sid = escapeHtml(id);
+                const stype = escapeHtml(type);
+                const siban = escapeHtml(iban);
+                const sbranch = escapeHtml(branch);
+                const sname = escapeHtml(name);
+                const sopen = escapeHtml(openDate);
+                const sbalance = escapeHtml(balance);
+                const spassword = escapeHtml(password);
+
+                // Build card
+                const card = document.createElement("div");
+                card.id = `custCard_${id}`;
+
+                card.innerHTML = `
+                    <div class="customerHeader">Account ${sid}</div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Type</span>
+                        <span class="customerValue">${stype}</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">IBAN</span>
+                        <span class="customerValue">${siban}</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Branch Code</span>
+                        <span class="customerValue">${sbranch}</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Name</span>
+                        <span class="customerValue">${sname}</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Opening Date</span>
+                        <span class="customerValue">${sopen}</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Status</span>
+                        <span name="space_status" class="customerValue">${status}</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Balance</span>
+                        <span class="customerValue">${sbalance} TND</span>
+                    </div>
+
+                    <div class="customerField">
+                        <span class="customerLabel">Password</span>
+                        <span class="customerValue">${spassword}</span>
+                    </div>
+
+                    <div class="customerActions">
+                        <button class="miniBtn loansBtn" onclick="viewCustomerLoans('${id}')">Loans</button>
+                        <button class="miniBtn transBtn" onclick="viewCustomerTransactions('${id}')">Transactions</button>
+                        <button class="miniBtn chngsts" onclick="changeStatus('${id}')">Change Status</button>
+
+                        <select class="newStatus" id="newStatus_${id}" style="display:none;">
+                            <option>Choose new Status</option>
+                            <option>Closed</option>
+                            <option>Inactive</option>
+                            <option>Active</option>
+                        </select>
+                    </div>
+                `;
+
+                // STATUS TEXT FIX (only for this card)
+                const statusSpan = card.querySelector('[name="space_status"]');
+                if (statusSpan) {
+                    if (status === "0") statusSpan.innerText = "Inactive";
+                    else if (status === "1") statusSpan.innerText = "Active";
+                    else if (status === "-1") statusSpan.innerText = "Closed";
+                }
+
+                // APPLY CARD COLOR
+                if (status === "-1") {
+                    card.classList=("closedCustomerCard");
+                } else if (status === "0") {
+                    card.classList=("inactiveCustomerCard");
+                } else {
+                    card.classList=("customerCard");
+                }
+
+                container.appendChild(card);
+
+            }).catch(err => {
+                console.error("getCustomerLine failed for index", idx, err);
+            });
+        }
+    }).catch(err => {
+        console.error("getCustomerCount failed", err);
+    });
+}
+
+function changeStatus(id){
+    document.getElementById("newStatus_"+id).removeAttribute("style");
+    let newStatus = (document.getElementById("newStatus_"+id).selectedIndex-2).toString();
+    if(newStatus!="-2"){
+        info=id+"*"+newStatus;
+        changeStatusCPP(info).then((reply) =>{
+            console.log(reply);
+            viewAllCustomers();
+        })
+    }
 }

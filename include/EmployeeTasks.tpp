@@ -269,12 +269,19 @@ int displayAccounts(const Array<Customer>& cArr){
     return 1;
 }
 
-int changeStatus(Customer* c){
-    int newStatus;
-    cout<<"Enter new status (0 = inactive, 1 = active, -1 = closed)"<<endl;
-    cin>>newStatus;
-    c->status = newStatus;
-    return 1;
+string changeStatus(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    string parts[2];
+    splitStr(info,'*',parts,2);
+    string id=parts[0];
+    int newStatus=stoi(parts[1]);
+    cout<<endl<<id<<endl<<newStatus;
+    int pos=searchByID(custArray,id);
+    Customer Cus=custArray.data[pos];
+    custArray.data[pos].status=newStatus; // to change the actual value in the array
+    Cus.status=newStatus; //changes the local value to be able to reconstruct the CSV line , faza faza , nheb nor9od
+    updateCustomerInCsv(Cus);
+    return "\"true\"";
 }
 
 int deleteCustomer(Array<Customer>* cArr, Customer c){

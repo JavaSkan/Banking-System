@@ -138,9 +138,17 @@ string CustLoginCpp(const string& LoginInfoJSON){
 string sendLoanCountJS(const string&){
     return "{\"data\":\"" + to_string(LoggedInCustomer.loans.size)+ "\"}";
 }
+string sendCustomerCount(const string&){
+    return "{\"data\":\"" + to_string(custArray.size) + "\"}";
+}
 
-string sendLoggedInfoJS(const string&){
+string sendCusLoggedInfoJS(const string&){
     string info = LoggedInCustomer.name + "*" + to_string(LoggedInCustomer.balance);
+    return "{\"data\":\"" + info + "\"}";
+
+}
+string sendEmpLoggedInfoJS(const string&){
+    string info = LoggedInEmployee.ID+ "*" +(LoggedInEmployee.Name+" "+LoggedInEmployee.LastName);
     return "{\"data\":\"" + info + "\"}";
 
 }
@@ -186,7 +194,15 @@ string withdraw(const string& amountJSON){
     return "\"true\"";
 }
 
-string sendLoanInfo(string i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
+string getSpecificCustomerStr(int i){
+    Customer Cus=custArray.data[i];
+    string CustomerString=customerToStr(Cus);
+    return CustomerString;
+}
+string sendLoanInfo(const string& i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
+string sendCustomerLine(const string& i){
+    return "{\"data\":\"" +getSpecificCustomerStr(stoi(unJSON(i))) + "\"}";}
+
 
 
 string closeWindow(const string&) {
@@ -279,17 +295,21 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
+    w.bind("getCustomerLine",sendCustomerLine);
     w.bind("sendLoanToCPP",receiveLoanFromJS);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
+    w.bind("getLoggedEmployeeInfoCPP",sendEmpLoggedInfoJS);
+    w.bind("getCustomerCount",sendCustomerCount);
     w.bind("getLoanCount",sendLoanCountJS);
     w.bind("sendRegEmplInfo",addEmployee);
-    w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
+    w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendCusLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
     //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("receiveQueueSize",sendSizeOfQueue);
     w.bind("receiveCurrentLoanReq",sendCurrentLoanReq);
     w.bind("sendAcceptedLoanReq",receiveAcceptedLoanReq);
+    w.bind("changeStatusCPP", changeStatus);
     w.bind("withdrawCPP",withdraw);
     w.bind("getTransactionCPP",sendTransactionsJS);
     w.bind("undoTranCPP",undoTranCPP);
