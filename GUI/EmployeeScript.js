@@ -1,3 +1,8 @@
+function clearGUI(){
+    document.getElementById("asideDisplayArea").innerHTML = "";
+    document.getElementById("mainEmpInt").innerHTML = "";
+}
+
 function AddEmpl(){
     let ID=document.getElementById("IDInput").value;
     let name=document.getElementById("nameInput").value;
@@ -56,7 +61,7 @@ function acceptLoanRequest(loanReqCompId){
 function addNoLoanReqMsg(){
     if(document.getElementById("noLQ") == null){
        let no_lq = document.createElement("p");
-        no_lq.id = "noLQ";
+        no_lq.classList.add("noMSG");
         no_lq.innerHTML = "No Loan Requests";
         document.getElementById("mainEmpInt").appendChild(no_lq); 
     }
@@ -64,6 +69,11 @@ function addNoLoanReqMsg(){
 
 function declineLoanRequest(loanReqCompId){
     document.getElementById(loanReqCompId).remove();
+    declineLoanReq().then(
+        (reply) => {
+            console.log(`C++ replied: ${reply}`);
+        }
+    )
     //display next loan request
     displayLoanRequest();
 }
@@ -148,6 +158,7 @@ function getLoanReqComponent(lrs){
 //function, so that we can use the FIFO system mentionned in
 //the project PDF
 function displayLoanRequest(){
+    document.getElementById("asideDisplayArea").innerHTML = "";
     let mainEmpInt = document.getElementById("mainEmpInt");
     mainEmpInt.innerHTML="";
     receiveQueueSize().then(
@@ -180,7 +191,7 @@ function viewAllCustomers() {
 
         if (!count) {
             const msg = document.createElement("p");
-            msg.className = "noCustomersMsg";
+            msg.className = "noMSG";
             msg.innerText = "No Customers Found";
             main.appendChild(msg);
             return;
@@ -469,10 +480,18 @@ function modifyEmployeeCPP(ID){
     modEmployee(info).then(reply => {
         if (reply == "ok") {
             viewAllEmployees();
+    getEmployeeCount().then(info => {
+        const count = parseInt(info.data);
+        if (!count) {
+            const msg = document.createElement("p");
+            msg.classList.add("noMSG");
+            msg.innerText = "No Employees Found"; //T7esha partie zeyda 5tr ma yousel ela ma yamel login ama cpg dima andek safety net
+            main.appendChild(msg);
+            return;
         }
     });
 }
-
+    })}
 
 
 // ----------------------------------------
@@ -595,12 +614,9 @@ function viewAllEmployees() {
 
 
 function buildLoanContainer(cusID,lnj){
-    let sel_card = document.getElementById(`custCard_${cusID}`);
-    let loanContainer = document.createElement("div");
-    loanContainer.classList.add("loanContainer");
-    console.log(lnj);
+    let displayArea = document.getElementById(`asideDisplayArea`);
 
-    loanContainer.innerHTML = `
+    const content = `
         <div class="loanContainer">
             <div class="loanField">
                 <span class="loanLabel">Loan ID: </span>
@@ -635,28 +651,75 @@ function buildLoanContainer(cusID,lnj){
                 <span class="loanValue">${lnj.end}</span>
             </div>
             <select id="loanStatus_${lnj.id}" class="loanStatus" onchange="changeLoanStatus('${cusID}','${lnj.id}','loanStatus_${lnj.id}')">
-                <option value="5">Active</option>
-                <option value="6">Completed</option>
-                <option value="7">Overdue</option>
+                <option value="5">ACTIVE</option>
+                <option value="6">COMPLETED</option>
+                <option value="7">OVERDUE</option>
             </select>
         </div>
     `;
-    sel_card.appendChild(loanContainer);
+    displayArea.innerHTML += content;
+    let status = document.getElementById(`loanStatus_${lnj.id}`);
+    switch(lnj.status){
+        case "5":
+            status.children[0].selected = "selected";
+            break;
+        case "6":
+            status.children[1].selected = "selected";
+            break;
+        case "7":
+            status.children[2].selected = "selected";
+            break;
+    }
+    updateLoanStatusColor(`loanStatus_${lnj.id}`);
+}
+
+function buildTransationContainer(cusID,trj){
+    let displayArea = document.getElementById(`asideDisplayArea`);
+    const content = `
+        <div class="loanContainer">
+            <div class="loanField">
+                <span class="loanLabel">Transaction ID: </span>
+                <span class="loanValue">${trj.tid}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Customer ID: </span>
+                <span class="loanValue">${trj.cid}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Type: </span>
+                <span class="loanValue">${trj.type}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Amount: </span>
+                <span class="loanValue">${trj.amount} TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Done On: </span>
+                <span class="loanValue">${trj.start}</span>
+            </div>
+        </div>
+    `;
+    displayArea.innerHTML += content;
+}
+
+function updateLoanStatusColor(ls_id){
+    let status = document.getElementById(ls_id);
+    switch(status.value){
+        case "5":
+            status.style.backgroundColor = "#4388ceff";
+            break;
+        case "6":
+            status.style.backgroundColor = "#68e768ff";
+            break;
+        case "7":
+            status.style.backgroundColor = "#c93b3bff";
+            break;
+    }
 }
 
 function changeLoanStatus(cusID,ln_id,ls_id){
     let status = document.getElementById(ls_id);
-    switch(status.value){
-        case "5":
-            status.style.backgroundColor = "blue";
-            break;
-        case "6":
-            status.style.backgroundColor = "green";
-            break;
-        case "7":
-            status.style.backgroundColor = "red";
-            break;
-    }
+    updateLoanStatusColor(ls_id);
     changeLoanStatusOfCustomer(cusID+"*"+ln_id+"*"+status.value).then(
         (reply) => {
             console.log(`C++ replied ${reply}`);
@@ -665,9 +728,17 @@ function changeLoanStatus(cusID,ln_id,ls_id){
 }
 
 function viewCustomerLoans(cusID){
+    let displ = document.getElementById("asideDisplayArea");
+    displ.innerHTML = "";
     receiveLoansOfCustomer(cusID).then(
         (loansJSON) => {
-            if(loansJSON == "[]") return; //Add a message "No Loans"
+            if(loansJSON.length == 0) {
+                const no_lns = document.createElement("p");
+                no_lns.innerText = "No Loans for this customer";
+                no_lns.classList.add("noMSG");
+                displ.appendChild(no_lns);
+                return;
+            }
             for(let i = 0; i < loansJSON.length; i++){
                 buildLoanContainer(cusID,loansJSON[i]);
             }
@@ -729,3 +800,41 @@ function createStyledEmpCard(arr) {
 }
 
 
+
+function viewCustomerTransactions(cusID){
+    let displ = document.getElementById("asideDisplayArea");
+    displ.innerHTML = "";
+    receiveTransOfCustomer(cusID).then(
+        (trsJSON) => {
+            if(trsJSON.length == 0) {
+                const no_lns = document.createElement("p");
+                no_lns.innerText = "No Transaction for this customer";
+                no_lns.classList.add("noMSG");
+                displ.appendChild(no_lns);
+                return;
+            }
+            for(let i = 0; i < trsJSON.length; i++){
+                buildTransationContainer(cusID,trsJSON[i]);
+            }
+        }
+    );
+}
+/*
+function viewAllEmployees(){
+    let displ = document.getElementById("asideDisplayArea");
+    displ.innerHTML = "";
+    //TODO code
+}
+
+function viewTransactions(){
+    let displ = document.getElementById("asideDisplayArea");
+    displ.innerHTML = "";
+    //TODO code
+}
+
+function employeeSettings(){
+    let displ = document.getElementById("asideDisplayArea");
+    displ.innerHTML = "";
+    //TODO code
+}
+*/

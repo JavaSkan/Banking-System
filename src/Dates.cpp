@@ -6,7 +6,7 @@
 using namespace std;
 
 Date CurrentDate={0,0,0};
-
+/*
 string getDateJS(const string& dateInfoJSON){
     string dateInfo=unJSON(dateInfoJSON);
     string infoParts[3];
@@ -17,6 +17,7 @@ string getDateJS(const string& dateInfoJSON){
     CurrentDate={day,month,year};
     return "\"Date confirmed .\"";
 }
+*/
 
 void displayDate(const Date& d){
     cout << d.day << "-" << d.month << "-" << d.year;
@@ -60,6 +61,28 @@ int compareDates(Date& d1, Date& d2){
             }else{
                 return 0;
             }
+        }
+    }
+}
+
+bool isLeap(int y) {
+    return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
+}
+
+void nextDay() {
+    //to keep track of wether we need to increment the month
+    int daysInMonth[12] = {31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31};
+    //just checks if we are in a leap year
+    if (isLeap(CurrentDate.year)) {
+        daysInMonth[1] = 29;
+    }
+    CurrentDate.day++;
+    if (CurrentDate.day > daysInMonth[CurrentDate.month - 1]) {
+        CurrentDate.day = 1;
+        CurrentDate.month++;
+        if (CurrentDate.month > 12) {
+            CurrentDate.month = 1;
+            CurrentDate.year++;
         }
     }
 }

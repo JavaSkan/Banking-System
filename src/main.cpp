@@ -29,7 +29,22 @@ Customer LoggedInCustomer;
 Employee LoggedInEmployee;
 Customer SelectedCustomer;
 Queue* currentLoanReqs = createQueue();
-Queue* acceptedLoanReqs = createQueue();
+
+
+
+//the csv had an initial date manually written
+void getDateFromCSV(){
+    ifstream file("assets/Date.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open file . assets/Date.csv"<<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        CurrentDate = stringToDate(line);
+    }
+    file.close();    
+}
 
 //Load loans requests from csv files
 //Should be called when an employee logs in 
@@ -54,7 +69,34 @@ void loadLoanReqs(){
     file.close();
 }
 
-void init_completedLoansList(SList<Loan>& completed_loans){
+/*
+Called when employee either deleles or accepts a loan request
+Always deletes the first line.
+*/
+void deleteLoanReqFromCSV(){
+    fstream file("assets/LoanRequests.csv",ios::in); 
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv (first try)" << endl;
+        return;
+    }
+    Array<string> lines = createArray<string>(50);
+    string line;
+    while(getline(file,line)){
+        addElement(&lines,line,lines.size);
+    }
+    file.close();
+    file.open("assets/LoanRequests.csv",ios::out | ios::trunc);
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv (second try)" << endl;
+        return;
+    }
+    for(int i = 1; i < lines.size; i++){
+        file << lines.data[i] << '\n';
+    }
+    file.close();
+}
+
+void init_completedLoansList(){
     ifstream file("assets/CompletedLoans.csv");
     if(!file.is_open()){
         cerr<<"Cannot open the completed loans file " <<endl;
@@ -64,6 +106,20 @@ void init_completedLoansList(SList<Loan>& completed_loans){
         getline(file,line);
         completed_loans = stringToSL(line);
     }
+    file.close();
+}
+
+void init_TransactionList(){
+    ifstream file("assets/Transactions.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open the Transactions file " <<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        finalized_transactions = stringToSLTr(line);
+    }
+    file.close();
 }
 
 string getSpecificLoan(int pos){ 
@@ -137,6 +193,7 @@ string sendCusLoggedInfoJS(const string&){
 string sendEmpLoggedInfoJS(const string&){
     string info = LoggedInEmployee.ID+ "*" +(LoggedInEmployee.Name+" "+LoggedInEmployee.LastName);
     return "{\"data\":\"" + info + "\"}";
+
 
 }
 // TRANSACTIONS
@@ -335,7 +392,19 @@ string addAcceptedLoanReq(const string& infoJSON){
     acceptedLoan.end_date = stringToDate(loanReqInfo[4]);
     //std::cout << "[DEBUG-addAcceptedLoanReq(accepted loan)]: " << loanToString(acceptedLoan) << std::endl;
     insert(&custArray.data[i].loans,acceptedLoan,custArray.size+1);
+    deleteLoanReqFromCSV();
+    updateCustomerInCsv(custArray.data[i]);
     return "\"Added Accepted Loan Request in CPP\"";
+}
+
+/*
+The only purpose of this function is to delete
+the loan request permanently from the CSV file
+to respect the FIFO system
+*/
+string declineLoanReq(const string&){
+    deleteLoanReqFromCSV();
+    return "\"[DEBUG@declineLoanReq]: Deleted loan req from csv\"";
 }
 
 string sendTransactionsJS(const string&){
@@ -362,9 +431,16 @@ string undoTranCPP(const string&){
     if(isEmpty(LoggedInCustomer.transactions)){
         return "\"false\"";
     }else{
-        Transaction val=pop(LoggedInCustomer.transactions);
-        updateCustomerInCsv(LoggedInCustomer);
-        return "\"true\"";
+        Transaction t = top(LoggedInCustomer.transactions);
+        if (compareDates(t.date,CurrentDate)!=-1){
+            Transaction val=pop(LoggedInCustomer.transactions);
+            updateCustomerInCsv(LoggedInCustomer);
+            return "\"true\"";
+        }
+        else{
+            cout<<"Cannot undo old transactions"<<endl;
+            return "\"falseOld\"";
+        }
     }
     
 }
@@ -381,6 +457,7 @@ string sendLoansOfCustomer(const string& idJSON){
     while(current){
         loanJSONString = "{\"id\":\"" + current->data.ID                          + "\","
                         + "\"type\":\"" + loanTypeStr(current->data.type)         + "\","
+                        + "\"status\":\"" + to_string(current->data.status)       + "\","
                         + "\"amount\":\"" + to_string(current->data.pr_amount)    + "\","
                         + "\"itr\":\"" + to_string(current->data.it_rate*100)     + "\","
                         + "\"paid\":\"" + to_string(current->data.am_paid)        + "\","
@@ -415,6 +492,7 @@ string updateLoanStatusOfCustomer(const string& statusJSON){
         cur = cur->next;
     }
     cur->data.status = stoi(info[2]);
+    updateCustomerInCsv(custArray.data[c_idx]);
     return "\"Updated Loan(" + info[1] + ") Status Of Customer " + info[0] + " to " + info[2] + "\"";
 }
 string sendEarliestEmpl(const string&){
@@ -430,12 +508,33 @@ string sendLatestEmpl(const string&){
 
 }
 
+string sendTransOfCustomer(const string& idJSON){
+    string id = unJSON(idJSON); //only contains customer ID
+    int cus_index = searchByID(custArray,id);
+    string sent = "[";
+    string transJSONString;
+    Stack copy = copyStack(custArray.data[cus_index].transactions);
+    Transaction tr;
+    while(!isEmpty(copy)){
+        tr = pop(copy);
+        transJSONString = "{\"tid\":\"" + tr.ID                     + "\","
+                        + "\"cid\":\"" + tr.accountNumber           + "\","
+                        + "\"type\":\"" + transTypeToStr(tr.type)   + "\","
+                        + "\"amount\":\"" + to_string(tr.amount)    + "\","
+                        + "\"start\":\"" + dateToString(tr.date)    + "\"}";
+        //if it's the last transaction, don't add comma in the end
+        sent += transJSONString + (isEmpty(copy) ? "" : ",");
+    }
+    sent += "]";
+    return sent;
+}
+
 // --- SETUP FUNCTIONS ---
 
 
 void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
-    w.bind("sendDate",getDateJS);
+    //w.bind("sendDate",getDateJS);
     w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
@@ -470,6 +569,8 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     
     w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
+    w.bind("declineLoanReq",declineLoanReq);
+    w.bind("receiveTransOfCustomer",sendTransOfCustomer);
 }
 
 void setupWebView() {
@@ -487,11 +588,13 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    getDateFromCSV();
 
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);
-    init_completedLoansList(completed_loans);
+    init_completedLoansList();
+    init_TransactionList();
 
     cout << "[C++] Hello, console!" << endl;
 
@@ -502,7 +605,6 @@ int main() {
 
     w.run();
     destroyQueue(currentLoanReqs);
-    destroyQueue(acceptedLoanReqs);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }

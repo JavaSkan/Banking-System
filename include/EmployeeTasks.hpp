@@ -11,6 +11,7 @@
 #include <SinglyLinkedList.hpp>
 
 SList<Loan> completed_loans;
+SList<Transaction> finalized_transactions;
 
 TEMPLATE Array<T> createEmployeeArray();
 int init_employeeArray(Array<Employee>& EmplArray);
@@ -24,6 +25,7 @@ int addCustomer(Array<Customer>* cArr);
 int displayAccounts(const Array<Customer>& cArr);
 string changeStatus(const string& infoJSON);
 //int deleteCustomer(Array<Customer>* cArr, Customer c);
+string finilize(const string&);
 
 /*probably was alread made;
 int displayLoans()

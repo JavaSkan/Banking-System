@@ -22,5 +22,5 @@ OF transactionToString !!
 */
 Transaction stringToTransaction(string s);
 
-#include "TransactionMeth.tpp"
+string transTypeToStr(int type);
 #endif

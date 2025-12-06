@@ -38,6 +38,9 @@ returns 1  if d1 > d2
 */
 
 int compareDates(Date& d1, Date& d2);
-string getDateJS(const string& dateInfoJSON);
+//string getDateJS(const string& dateInfoJSON);
+
+bool isLeap(int y);
+void nextDay();
 
 #endif //DATES_H

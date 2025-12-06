@@ -43,7 +43,14 @@
 || Loan Requests data transfer now include start and end date                        | Skander        |
 || Accepting Loan Requests updates the Customer loan list                            | Skander        |
 || Slight changes to style of Employee Interface                                     | Skander        |
+|06-12-2025| Employees can finalize the day,updated current day functionality | Melik |
+||Added finalized transaction list (conversion to string, csv: reading and updating ) | Melik
 |6-12-2025| Fixed searchByID for DList                                               | Skander        |
 || Employee can show loans in Employee Interface                                     | Skander        |
 || Employee can update the status of a loan for a specific customer                  | Skander        |
-
+|| Fixed transistion between sub interfaces in the Employee Interface                | Skander        |
+|| Employee can update the status of a loan for a specific customer                  | Skander        |
+|| Added a sidebar display area in the Employee interface                            | Skander        |
+|| Implemented Deletion of loan requests from CSV file when accepting/deleting them  | Skander        |
+|| Added forgotten closing instruction of files                                      | Skander        |
+|| Employee can show transactions of each customer                                   | Skander        |

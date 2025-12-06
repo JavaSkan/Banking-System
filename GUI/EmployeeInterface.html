@@ -28,17 +28,21 @@
             <p id="EmpName"></p>
 
             <div class="actionSidebar">
-                <button onclick="viewAllCustomers()">View Customers</button>
-                <button onclick="displayLoanRequest()">View All loan Requests</button>
-                <button onclick="viewAllEmployees()">View Employees</button>
-                <button onclick="viewTransactions()">Transaction History</button>
-                <button onclick="employeeSettings()">Settings</button>
+                <button onclick="clearGUI();viewAllCustomers()">View Customers</button>
+                <button onclick="clearGUI();displayLoanRequest()">View All loan Requests</button>
+                <button onclick="clearGUI();viewAllEmployees()">View Employees</button>
+                <button onclick="clearGUI();viewTransactions()">Transaction History</button>
+                <button onclick="clearGUI();employeeSettings()">Settings</button>
             </div>
         </aside>
 
         <div id="mainWrapper">            
             <div id="mainEmpInt"></div>
         </div>
+
+        <aside id="asideDisplayArea">
+
+        </aside>
     </div>
 </body>
 </html>
