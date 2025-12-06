@@ -139,15 +139,6 @@ function displayLoanRequest(){
     );
 }
 
-function escapeHtml(s) {
-    if (s == null) return "";
-    return String(s)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-}
 
 function viewAllCustomers() {
     const main = document.getElementById("mainEmpInt");
@@ -184,45 +175,37 @@ function viewAllCustomers() {
                     password = ""
                 ] = parts;
 
-                const sid = escapeHtml(id);
-                const stype = escapeHtml(type);
-                const siban = escapeHtml(iban);
-                const sbranch = escapeHtml(branch);
-                const sname = escapeHtml(name);
-                const sopen = escapeHtml(openDate);
-                const sbalance = escapeHtml(balance);
-                const spassword = escapeHtml(password);
 
                 // Build card
                 const card = document.createElement("div");
                 card.id = `custCard_${id}`;
 
                 card.innerHTML = `
-                    <div class="customerHeader">Account ${sid}</div>
+                    <div class="customerHeader">Account ${id}</div>
 
                     <div class="customerField">
                         <span class="customerLabel">Type</span>
-                        <span class="customerValue">${stype}</span>
+                        <span class="customerValue">${type}</span>
                     </div>
 
                     <div class="customerField">
                         <span class="customerLabel">IBAN</span>
-                        <span class="customerValue">${siban}</span>
+                        <span class="customerValue">${iban}</span>
                     </div>
 
                     <div class="customerField">
                         <span class="customerLabel">Branch Code</span>
-                        <span class="customerValue">${sbranch}</span>
+                        <span class="customerValue">${branch}</span>
                     </div>
 
                     <div class="customerField">
                         <span class="customerLabel">Name</span>
-                        <span class="customerValue">${sname}</span>
+                        <span class="customerValue">${name}</span>
                     </div>
 
                     <div class="customerField">
                         <span class="customerLabel">Opening Date</span>
-                        <span class="customerValue">${sopen}</span>
+                        <span class="customerValue">${openDate}</span>
                     </div>
 
                     <div class="customerField">
@@ -232,12 +215,12 @@ function viewAllCustomers() {
 
                     <div class="customerField">
                         <span class="customerLabel">Balance</span>
-                        <span class="customerValue">${sbalance} TND</span>
+                        <span class="customerValue">${balance} TND</span>
                     </div>
 
                     <div class="customerField">
                         <span class="customerLabel">Password</span>
-                        <span class="customerValue">${spassword}</span>
+                        <span class="customerValue">${password}</span>
                     </div>
 
                     <div class="customerActions">
@@ -297,4 +280,164 @@ function changeStatus(id){
 //BALIZ DO INTERFACE
 function deleteCompletedLoans(){
     deleteLoan().then((reply))
+}
+function viewAllEmployees() {
+    const main = document.getElementById("mainEmpInt");
+    main.innerHTML = "";
+
+    // TOP CONTROLS
+    const controlsDiv = document.createElement("div");
+    controlsDiv.classList.add("EmpTopControls");
+    controlsDiv.innerHTML = `
+        <button class="addEmployeeBtn" onclick="addEmployee()">Add Employee</button>
+        
+        <select id="employeeFilter" class="employeeFilter">
+            <option value="">Filter by - Bank Branch</option>
+            <option value="alpha">Filter by Alphabetical Order</option>
+        </select>
+        
+        <button class="showChronoBtn" onclick="showEmplsChrono()">Show Chronologically</button>
+    `;
+    main.appendChild(controlsDiv);
+
+    // EMPLOYEE CARDS CONTAINER
+    const container = document.createElement("div");
+    container.classList.add("EmpEmployeesGrid");
+    main.appendChild(container);
+
+    getEmployeeCount().then(info => {
+        const count = parseInt(info.data);
+
+        if (!count) {
+            const msg = document.createElement("p");
+            msg.className = "noEmployeesMsg";
+            msg.innerText = "No Employees Found"; //T7esha partie zeyda 5tr ma yousel ela ma yamel login ama cpg dima andek safety net
+            main.appendChild(msg);
+            return;
+        }
+
+        for (let idx = 0; idx < count; idx++) {
+            getEmployeeLine(idx.toString()).then(emp => {
+
+                const parts = emp && emp.data ? emp.data.split("*") : [];
+                const [
+                    ID = "",
+                    Name = "",
+                    LastName = "",
+                    Adress = "",
+                    Salary = "",
+                    HireDate = "",
+                    bankBranch = "",
+                    password = ""
+                ] = parts;
+
+
+                // Build card
+                const card = document.createElement("div");
+                card.id = `empCard_${ID}`;
+                card.classList.add("employeeCard");
+
+                card.innerHTML = `
+                    <div class="employeeHeader">${Name} ${LastName} (${ID})</div>
+
+                    <div class="employeeField">
+                        <span class="employeeLabel">Address:</span>
+                        <span class="employeeValue">${Adress}</span>
+                    </div>
+
+                    <div class="employeeField">
+                        <span class="employeeLabel">Salary:</span>
+                        <span class="employeeValue">${Salary} TND</span>
+                    </div>
+
+                    <div class="employeeField">
+                        <span class="employeeLabel">Hire Date:</span>
+                        <span class="employeeValue">${HireDate}</span>
+                    </div>
+
+                    <div class="employeeField">
+                        <span class="employeeLabel">Bank Branch:</span>
+                        <span class="employeeValue">${bankBranch}</span>
+                    </div>
+
+                    <div class="employeeField">
+                        <span class="employeeLabel">Password:</span>
+                        <span class="employeeValue">${password}</span>
+                    </div>
+
+                    <div class="employeeActions">
+                        <button class="modifyBtn" onclick="modifyEmployee('${ID}')">Modify</button>
+                        <button class="deleteBtn" onclick="deleteEmployee('${ID}')">Delete</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+
+            }).catch(err => {
+                console.error("getEmployeeLine failed for index", idx, err);
+            });
+        }
+    }).catch(err => {
+        console.error("getEmployeeCount failed", err);
+    });
+}
+function addEmployee() {
+    const main = document.getElementById("mainEmpInt");
+    main.innerHTML = ""; // clear old content
+
+    const formContainer = document.createElement("div");
+    formContainer.classList.add("employeeFormContainer");
+
+    formContainer.innerHTML = `
+        <h2 class="formHeader">Add New Employee</h2>
+
+
+        <div class="employeeFormField">
+            <label class="employeeFormLabel">First Name:</label>
+            <input type="text" id="empName" class="employeeFormInput" placeholder="Enter First Name">
+        </div>
+
+        <div class="employeeFormField">
+            <label class="employeeFormLabel">Last Name:</label>
+            <input type="text" id="empLastName" class="employeeFormInput" placeholder="Enter Last Name">
+        </div>
+
+        <div class="employeeFormField">
+            <label class="employeeFormLabel">Address:</label>
+            <input type="text" id="empAdress" class="employeeFormInput" placeholder="Enter Address">
+        </div>
+
+        <div class="employeeFormField">
+            <label class="employeeFormLabel">Salary:</label>
+            <input type="number" id="empSalary" class="employeeFormInput" placeholder="Enter Salary" min="0">
+        </div>
+
+
+
+        <div class="employeeFormActions">
+            <button class="miniBtn modifyBtn" id="submitEmpBtn">Add Employee</button>
+            <button class="miniBtn deleteBtn" id="cancelEmpBtn">Cancel</button>
+        </div>
+    `;
+
+    main.appendChild(formContainer);
+
+    // EVENT LISTENERS
+    document.getElementById("submitEmpBtn").addEventListener("click", () => {
+        const newEmp =
+            document.getElementById("empName").value.trim()+"*"+document.getElementById("empLastName").value.trim()+"*"+document.getElementById("empAdress").value.trim()+"*"+document.getElementById("empSalary").value+"*"
+        ;
+
+        // Call your backend function to save employee
+        addEmployeeCPP(newEmp).then(reply => {
+            console.log("Employee added:", reply);
+            viewAllEmployees(); // refresh the employee list
+        }).catch(err => {
+            console.error("Failed to add employee:", err);
+        });
+    });
+
+    document.getElementById("cancelEmpBtn").addEventListener("click", () => {
+        viewAllEmployees(); // go back to employee list
+    });
 }

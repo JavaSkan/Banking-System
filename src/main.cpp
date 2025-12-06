@@ -187,10 +187,20 @@ string getSpecificCustomerStr(int i){
     return CustomerString;
 }
 string sendLoanInfo(const string& i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
+
 string sendCustomerLine(const string& i){
     return "{\"data\":\"" +getSpecificCustomerStr(stoi(unJSON(i))) + "\"}";}
 
+//---------------------------------------------
+string getSpecificEmployeeStr(int i){
+    Employee emp=EmplArray.data[i];
+    string EmployeeString=employeeToStr(emp);
+    return EmployeeString; //brojla da5alt el camel case fel pascal case ama bara barka
+}
+string sendEmployeeLine(const string& i){
+    return "{\"data\":\"" +getSpecificEmployeeStr(stoi(unJSON(i))) + "\"}";}
 
+//---------------------------------------------------------------
 
 string closeWindow(const string&) {
     w.terminate();
@@ -268,7 +278,10 @@ string undoTranCPP(const string&){
         updateCustomerInCsv(LoggedInCustomer);
         return "\"true\"";
     }
-
+    
+}
+string sendEmployeeCount(const string&){
+    return "{\"data\":\"" + to_string(EmplArray.size) + "\"}";
 }
 
 
@@ -283,13 +296,15 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
     w.bind("getCustomerLine",sendCustomerLine);
+    w.bind("getEmployeeLine",sendEmployeeLine);
     w.bind("sendLoanToCPP",receiveLoanFromJS);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoggedEmployeeInfoCPP",sendEmpLoggedInfoJS);
     w.bind("getCustomerCount",sendCustomerCount);
+    w.bind("getEmployeeCount",sendEmployeeCount);
     w.bind("getLoanCount",sendLoanCountJS);
-    w.bind("sendRegEmplInfo",addEmployee);
+    w.bind("addEmployeeCPP",addEmployee);
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendCusLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
     //w.bind("statusChangeCPP",changeStatusLoan);

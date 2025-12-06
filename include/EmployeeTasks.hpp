@@ -16,6 +16,7 @@ TEMPLATE Array<T> createEmployeeArray();
 int init_employeeArray(Array<Employee>& EmplArray);
 string addEmployee(const string& infoJSON);
 int addEmployeeToCsv(const Employee& e);
+string employeeToStr(const Employee& Emp);
 int deleteEmployee(Array<Employee>* eArr);
 int modifyEmployee(Employee& e);
 int displayAlpha(const Array<Employee>& eArr);

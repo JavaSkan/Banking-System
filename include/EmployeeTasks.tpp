@@ -40,19 +40,30 @@ int init_employeeArray(Array<Employee>& EmplArray){
     file.close();
     return 1;
 }
+string IDGenEmployee(){
+    bool test=false;
+    string ID="0";
+    while(!test){
+        for(int i=0;i<6;i++){
+            ID+= to_string(random(0,9));
+        }
+        test=searchByID(EmplArray,"E"+ID)==-1;
+    }
+    return "E"+ID;
+}
 
 string addEmployee(const string& infoJSON){
     //na9es controle de saisie (to be added)
     string EmplInfo=unJSON(infoJSON);
-    string infoPart[7];
-    splitStr(EmplInfo,'*',infoPart,7);
-    //array format is [ID*name*lastName*Adress*Salary]
+    string infoPart[4];
+    splitStr(EmplInfo,'*',infoPart,4);
+    //array format is [name*lastName*Adress*Salary]
     Employee e;
-    e.ID=infoPart[0];
-    e.Name=infoPart[1];
-    e.LastName=infoPart[2];
-    e.Adress=infoPart[3];
-    e.Salary=stof(infoPart[4]);
+    e.ID=IDGenEmployee();
+    e.Name=infoPart[0];
+    e.LastName=infoPart[1];
+    e.Adress=infoPart[2];
+    e.Salary=stof(infoPart[3]);
     e.HireDate=CurrentDate;
     e.bankBranch=globalSessBank.ID;
     e.password=passwordGen(12);
@@ -316,4 +327,17 @@ string deleteLoan(const string&){
     }
     return "\"Completed loans are deleted\"";
 
+}
+string employeeToStr(const Employee& Emp) {
+    stringstream ss;
+
+    ss << Emp.ID << "*"
+    << Emp.Name << "*"
+    << Emp.LastName << "*"
+       << Emp.Adress << "*"
+       << to_string(Emp.Salary).substr(0, to_string(Emp.Salary).find('.') + 4) << "*"
+       << dateToString(Emp.HireDate) << "*"
+       << Emp.bankBranch << "*"
+       << Emp.password;
+    return ss.str();
 }

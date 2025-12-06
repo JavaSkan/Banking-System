@@ -265,3 +265,204 @@
         opacity: 1;
     }
 }
+/* ---------- TOP CONTROLS ---------- */
+.EmpTopControls {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.EmpTopControls button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #d4c34c;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.EmpTopControls button:hover {
+    transform: scale(1.1);
+}
+
+.EmpTopControls select {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ---------- EMPLOYEE CARDS GRID ---------- */
+.EmpEmployeesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* ---------- INDIVIDUAL EMPLOYEE CARD ---------- */
+.employeeCard {
+    background-color: #4f4f4f;;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    padding: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.employeeCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+.employeeHeader {
+    font-size: 18px;
+    font-weight: bold;
+    color:white;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+/* ---------- FIELDS ---------- */
+.employeeField {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+
+.employeeLabel {
+    font-weight: 600;
+}
+
+.employeeValue {
+    color:white
+}
+
+/* ---------- ACTION BUTTONS ---------- */
+.employeeActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.employeeActions button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.modifyBtn {
+    background-color: #4caf50;
+}
+
+.modifyBtn:hover {
+    background-color: #3a8c3a;
+}
+
+.deleteBtn {
+    background-color: #e74c3c;
+}
+
+.deleteBtn:hover {
+    background-color: #c0392b;
+}
+
+/* ---------- NO EMPLOYEES MESSAGE ---------- */
+.noEmployeesMsg {
+    text-align: center;
+    font-size: 16px;
+    color: #1e1e20;
+    margin-top: 30px;
+}
+/* ---------- ADD EMPLOYEE FORM CONTAINER ---------- */
+.employeeFormContainer {
+    max-width: 500px;
+    margin: 40px auto; /* center horizontally */
+    padding: 25px 30px;
+    background-color: #4f4f4f; /* match employee card */
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formHeader {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: #d4c34c;
+    margin-bottom: 20px;
+}
+
+/* ---------- FORM FIELDS ---------- */
+.employeeFormField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.employeeFormLabel {
+    font-weight: bold;
+    color: white;
+    width: 120px;
+}
+
+.employeeFormInput {
+    flex: 1;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.employeeFormInput:focus {
+    border-color: #d4c34c;
+    box-shadow: 0 0 8px rgba(212, 195, 76, 0.5);
+}
+
+/* ---------- FORM ACTIONS ---------- */
+.employeeFormActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.employeeFormActions button {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, filter 0.2s, box-shadow 0.2s;
+}
+
+.employeeFormActions .modifyBtn {
+    background-color: #4caf50;
+}
+
+.employeeFormActions .modifyBtn:hover {
+    background-color: #3a8c3a;
+    transform: scale(1.05);
+}
+
+.employeeFormActions .deleteBtn {
+    background-color: #e74c3c;
+}
+
+.employeeFormActions .deleteBtn:hover {
+    background-color: #c0392b;
+    transform: scale(1.05);
+}
