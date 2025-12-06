@@ -279,11 +279,11 @@ string sendSizeOfQueue(const string&){
 
 string sendCurrentLoanReq(const string&){
     LoanRequest curLR = dequeue(currentLoanReqs);
-    string ret = "{\"ID_cus\":\"" + curLR.ID_customer + "\"," \
-                 + "\"amount\":\"" + to_string(curLR.loan.pr_amount) + "\","
-                 + "\"type\":\"" + loanTypeStr(curLR.loan.type) + "\","
-                 + "\"d_start\":\"" + dateToString(curLR.loan.start_date) + "\","
-                 + "\"d_end\":\"" + dateToString(curLR.loan.end_date) + "\"}";
+    string ret = "{\"ID_cus\":\"" + curLR.ID_customer                       + "\","
+                 + "\"amount\":\"" + to_string(curLR.loan.pr_amount)        + "\","
+                 + "\"type\":\"" + loanTypeStr(curLR.loan.type)             + "\","
+                 + "\"d_start\":\"" + dateToString(curLR.loan.start_date)   + "\","
+                 + "\"d_end\":\"" + dateToString(curLR.loan.end_date)       + "\"}";
     return ret;
 }
 
@@ -346,6 +346,51 @@ string sendEmployeeCount(const string&){
     return "{\"data\":\"" + to_string(EmplArray.size) + "\"}";
 }
 
+string sendLoansOfCustomer(const string& idJSON){
+    string id = unJSON(idJSON); //only contains customer ID
+    int cus_index = searchByID(custArray,id);
+    string sent = "[";
+    string loanJSONString;
+    DNode* current = custArray.data[cus_index].loans.head;
+    while(current){
+        loanJSONString = "{\"id\":\"" + current->data.ID                          + "\","
+                        + "\"type\":\"" + loanTypeStr(current->data.type)         + "\","
+                        + "\"amount\":\"" + to_string(current->data.pr_amount)    + "\","
+                        + "\"itr\":\"" + to_string(current->data.it_rate*100)     + "\","
+                        + "\"paid\":\"" + to_string(current->data.am_paid)        + "\","
+                        + "\"rmn\":\"" + to_string(current->data.rm_balance)      + "\","
+                        + "\"start\":\"" + dateToString(current->data.start_date) + "\","
+                        + "\"end\":\"" + dateToString(current->data.end_date)     + "\"}";
+        current = current->next;
+        //if it's the last loan, don't add comma in the end
+        sent += loanJSONString + (current == nullptr ? "" : ",");
+    }
+    sent += "]";
+    return sent;
+}
+
+string updateLoanStatusOfCustomer(const string& statusJSON){
+    string info[3];
+    string unjson = unJSON(statusJSON);
+    //ID*LoanID*newStatus
+    splitStr(unjson,'*',info,3);
+    int c_idx = searchByID(custArray,info[0]);
+    if(c_idx == -1) {
+        cerr << "[DEBUG@updateLoanStatusOfCustomer]: unable to find customer" << endl;
+        return "\"fail\"";
+    }
+    int l_idx  = searchByID(custArray.data[c_idx].loans,info[1]);
+    if(l_idx == -1){
+        cerr << "[DEBUG@updateLoanStatusOfCustomer]: unable to find loan of customer" << endl;
+        return "\"fail\"";
+    }
+    DNode* cur = custArray.data[c_idx].loans.head;
+    for(int i = 1; i < l_idx; i++){
+        cur = cur->next;
+    }
+    cur->data.status = stoi(info[2]);
+    return "\"Updated Loan(" + info[1] + ") Status Of Customer " + info[0] + " to " + info[2] + "\"";
+}
 
 // --- SETUP FUNCTIONS ---
 
@@ -380,7 +425,10 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("undoTranCPP",undoTranCPP);
     //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("deleteCompletedLoans",deleteLoan);
+    w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
+    w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
 }
+
 void setupWebView() {
     w.set_title("Banking System");
     w.set_size(960, 720, WEBVIEW_HINT_NONE);
@@ -389,7 +437,6 @@ void setupWebView() {
     w.navigate(path("index.html")); 
     //path is required to get the absolute path and not relative , na3rech 3leh relative ma 5dmtech
 }
-
 
 // --- MAIN ---
 int main() {

@@ -473,3 +473,50 @@
     background-color: #c0392b;
     transform: scale(1.05);
 }
+
+.loanContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #1c1c1e;
+    padding: 18px 20px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.35);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    margin: auto;
+    height: auto;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.loanField{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+}
+
+.loanLabel{
+    color: #d4c34c;
+    font-weight: bold;
+    font-size: 11px;
+    text-align: left;
+}
+
+.loanValue{
+    background-color: #2f2f2f;
+    color: #feee71;
+    box-shadow: 0 0 18px rgba(255,255,255,0.10);
+    height: 50px;
+    text-align: center;
+    font-size: 11px;
+    text-transform: capitalize;
+    font-weight: bolder;
+    padding: 5px;
+    margin: 0px;
+}
+
+.loanStatus{
+    color: white;
+    font-weight: bold;
+}
