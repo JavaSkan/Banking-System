@@ -42,3 +42,4 @@
 || Fixed quit button in the Employee Interface                                       | Skander        |
 || Loan Requests data transfer now include start and end date                        | Skander        |
 || Accepting Loan Requests updates the Customer loan list                            | Skander        |
+|| Slight changes to style of Employee Interface                                     | Skander        |
