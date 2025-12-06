@@ -321,7 +321,6 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("getLoansLine",sendLoanInfo);
     w.bind("sendLoanToCPP",receiveLoanReq);
     w.bind("getCustomerLine",sendCustomerLine);
-    w.bind("sendLoanToCPP",receiveLoanFromJS);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoggedEmployeeInfoCPP",sendEmpLoggedInfoJS);
