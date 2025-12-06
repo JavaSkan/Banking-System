@@ -59,3 +59,4 @@
 || Fixed addition of accepted loan |Skander|
 || Improved deleteCompletedLoan function |Skander|
 || Fixed send loan request of custom interface |Skander|
+|07-12-2025|Fixed undo transaction| Melik
