@@ -308,9 +308,81 @@ function changeStatus(id){
 function deleteCompletedLoans(){
     deleteLoan().then((reply))
 }
+
+
+
+
+
+function displayEmployee(count, type) {
+    const container = document.getElementById("EmpEmployeesGrid");
+    container.innerHTML = "";     // clear previous cards
+
+    for (let idx = 0; idx < count; idx++) {
+        let combined = idx.toString() + "*" + type;
+
+        getEmployeeLine(combined).then(emp => {
+            const parts = emp && emp.data ? emp.data.split("*") : [];
+            const [
+                ID = "",
+                Name = "",
+                LastName = "",
+                Adress = "",
+                Salary = "",
+                HireDate = "",
+                bankBranch = "",
+                password = ""
+            ] = parts;
+
+            const card = document.createElement("div");
+            card.id = `empCard_${ID}`;
+            card.classList.add("employeeCard");
+
+            card.innerHTML = `
+                <div class="employeeHeader">${Name} ${LastName} (${ID})</div>
+
+                <div class="employeeField">
+                    <span class="employeeLabel">Address:</span>
+                    <span class="employeeValue">${Adress}</span>
+                </div>
+
+                <div class="employeeField">
+                    <span class="employeeLabel">Salary:</span>
+                    <span class="employeeValue">${Salary} TND</span>
+                </div>
+
+                <div class="employeeField">
+                    <span class="employeeLabel">Hire Date:</span>
+                    <span class="employeeValue">${HireDate}</span>
+                </div>
+
+                <div class="employeeField">
+                    <span class="employeeLabel">Bank Branch:</span>
+                    <span class="employeeValue">${bankBranch}</span>
+                </div>
+
+                <div class="employeeField">
+                    <span class="employeeLabel">Password:</span>
+                    <span class="employeeValue">${password}</span>
+                </div>
+
+                <div class="employeeActions">
+                    <button class="modifyBtn" onclick="modifyEmployee('${ID}')">Modify</button>
+                    <button class="deleteBtn" onclick="deleteEmployee('${ID}')">Delete</button>
+                </div>
+            `;
+
+            container.appendChild(card);
+
+        }).catch(err => {
+            console.error("getEmployeeLine failed for index", idx, err);
+        });
+    }
+}
+
+
 function viewAllEmployees() {
     const main = document.getElementById("mainEmpInt");
-    main.innerHTML = "";
+    main.innerHTML = ""; 
 
     // TOP CONTROLS
     const controlsDiv = document.createElement("div");
@@ -319,91 +391,40 @@ function viewAllEmployees() {
         <button class="addEmployeeBtn" onclick="addEmployee()">Add Employee</button>
         
         <select id="employeeFilter" class="employeeFilter">
-            <option value="">Filter by - Bank Branch</option>
-            <option value="alpha">Filter by Alphabetical Order</option>
+        <option value="alpha">Filter by Alphabetical Order</option>
+            <option value="branch">Filter by - Bank Branch</option>
         </select>
         
         <button class="showChronoBtn" onclick="showEmplsChrono()">Show Chronologically</button>
     `;
     main.appendChild(controlsDiv);
 
-    // EMPLOYEE CARDS CONTAINER
+    // CREATE GRID CONTAINER ONCE
     const container = document.createElement("div");
     container.classList.add("EmpEmployeesGrid");
+    container.id = "EmpEmployeesGrid";
     main.appendChild(container);
 
     getEmployeeCount().then(info => {
         const count = parseInt(info.data);
-
         if (!count) {
             const msg = document.createElement("p");
             msg.className = "noEmployeesMsg";
-            msg.innerText = "No Employees Found"; //T7esha partie zeyda 5tr ma yousel ela ma yamel login ama cpg dima andek safety net
+            msg.innerText = "No Employees Found";
             main.appendChild(msg);
             return;
         }
 
-        for (let idx = 0; idx < count; idx++) {
-            getEmployeeLine(idx.toString()).then(emp => {
+        const filterSelect = document.getElementById("employeeFilter");
 
-                const parts = emp && emp.data ? emp.data.split("*") : [];
-                const [
-                    ID = "",
-                    Name = "",
-                    LastName = "",
-                    Adress = "",
-                    Salary = "",
-                    HireDate = "",
-                    bankBranch = "",
-                    password = ""
-                ] = parts;
+        // INITIAL DISPLAY
+        displayEmployee(count, "alpha");
 
+        // ON CHANGE
+        filterSelect.addEventListener("change", () => {
+            displayEmployee(count, filterSelect.value);
+        });
 
-                // Build card
-                const card = document.createElement("div");
-                card.id = `empCard_${ID}`;
-                card.classList.add("employeeCard");
-
-                card.innerHTML = `
-                    <div class="employeeHeader">${Name} ${LastName} (${ID})</div>
-
-                    <div class="employeeField">
-                        <span class="employeeLabel">Address:</span>
-                        <span class="employeeValue">${Adress}</span>
-                    </div>
-
-                    <div class="employeeField">
-                        <span class="employeeLabel">Salary:</span>
-                        <span class="employeeValue">${Salary} TND</span>
-                    </div>
-
-                    <div class="employeeField">
-                        <span class="employeeLabel">Hire Date:</span>
-                        <span class="employeeValue">${HireDate}</span>
-                    </div>
-
-                    <div class="employeeField">
-                        <span class="employeeLabel">Bank Branch:</span>
-                        <span class="employeeValue">${bankBranch}</span>
-                    </div>
-
-                    <div class="employeeField">
-                        <span class="employeeLabel">Password:</span>
-                        <span class="employeeValue">${password}</span>
-                    </div>
-
-                    <div class="employeeActions">
-                        <button class="modifyBtn" onclick="modifyEmployee('${ID}')">Modify</button>
-                        <button class="deleteBtn" onclick="deleteEmployee('${ID}')">Delete</button>
-                    </div>
-                `;
-
-                container.appendChild(card);
-
-            }).catch(err => {
-                console.error("getEmployeeLine failed for index", idx, err);
-            });
-        }
     }).catch(err => {
         console.error("getEmployeeCount failed", err);
     });
@@ -467,4 +488,85 @@ function addEmployee() {
     document.getElementById("cancelEmpBtn").addEventListener("click", () => {
         viewAllEmployees(); // go back to employee list
     });
+}
+
+function buildLoanContainer(cusID,lnj){
+    let sel_card = document.getElementById(`custCard_${cusID}`);
+    let loanContainer = document.createElement("div");
+    loanContainer.classList.add("loanContainer");
+    console.log(lnj);
+
+    loanContainer.innerHTML = `
+        <div class="loanContainer">
+            <div class="loanField">
+                <span class="loanLabel">Loan ID: </span>
+                <span class="loanValue">${lnj.id}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Type: </span>
+                <span class="loanValue">${lnj.type}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Pr. Amount: </span>
+                <span class="loanValue">${lnj.amount} TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Int. Rate: </span>
+                <span class="loanValue">${lnj.itr}%</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Amount Paid: </span>
+                <span class="loanValue">${lnj.paid}  TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Remaining Balance: </span>
+                <span class="loanValue">${lnj.rmn} TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Started On: </span>
+                <span class="loanValue">${lnj.start}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Ends On: </span>
+                <span class="loanValue">${lnj.end}</span>
+            </div>
+            <select id="loanStatus_${lnj.id}" class="loanStatus" onchange="changeLoanStatus('${cusID}','${lnj.id}','loanStatus_${lnj.id}')">
+                <option value="5">Active</option>
+                <option value="6">Completed</option>
+                <option value="7">Overdue</option>
+            </select>
+        </div>
+    `;
+    sel_card.appendChild(loanContainer);
+}
+
+function changeLoanStatus(cusID,ln_id,ls_id){
+    let status = document.getElementById(ls_id);
+    switch(status.value){
+        case "5":
+            status.style.backgroundColor = "blue";
+            break;
+        case "6":
+            status.style.backgroundColor = "green";
+            break;
+        case "7":
+            status.style.backgroundColor = "red";
+            break;
+    }
+    changeLoanStatusOfCustomer(cusID+"*"+ln_id+"*"+status.value).then(
+        (reply) => {
+            console.log(`C++ replied ${reply}`);
+        }
+    )
+}
+
+function viewCustomerLoans(cusID){
+    receiveLoansOfCustomer(cusID).then(
+        (loansJSON) => {
+            if(loansJSON == "[]") return; //Add a message "No Loans"
+            for(let i = 0; i < loansJSON.length; i++){
+                buildLoanContainer(cusID,loansJSON[i]);
+            }
+        }
+    );
 }

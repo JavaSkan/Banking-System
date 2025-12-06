@@ -25,7 +25,7 @@ void displayDate(const Date& d){
 
 string dateToString(const Date& d){
     stringstream s;
-    s << d.day << "-" << d.month << "-" << d.year;
+    s << to_string(d.day) << "-" << to_string(d.month) << "-" << to_string(d.year);
     return s.str();
 }
 
