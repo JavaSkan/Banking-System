@@ -338,6 +338,7 @@ string finilize(const string&){
         }
     }
     nextDay();
+    
     return "\"Day is finalized\"";
 }
 

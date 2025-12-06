@@ -1,6 +1,7 @@
 #ifndef DATES_H
 #define DATES_H
 #include <iostream>
+#include <fstream>
 #include <sstream>
 
 using namespace std;
