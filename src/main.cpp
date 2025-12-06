@@ -238,6 +238,32 @@ string sendEmployeeLine(const string& infoJSON){
     }
     return "\"false\"";
 }
+string modifyEmployee(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    string parts[8];
+    splitStr(info,'*',parts,8);
+    for(int i=0;i<7;i++){
+        cout<<endl<<parts[i];
+    }
+    splitStr(info,'*',parts,8);
+    int pos=searchByID(EmplArray,parts[0]);
+    EmplArray.data[pos].Name=parts[1];
+    EmplArray.data[pos].LastName=parts[2];
+    EmplArray.data[pos].Adress=parts[3];
+    EmplArray.data[pos].Salary=stof(parts[4]);
+    EmplArray.data[pos].HireDate=stringToDate(parts[5]);
+    EmplArray.data[pos].bankBranch=parts[6];
+    EmplArray.data[pos].password=parts[7];
+    updateEmployeeInCsv(EmplArray.data[pos]);
+    return "\"ok\"";    
+}
+string deleteEmployee(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    int pos=searchByID(EmplArray,info);
+    deleteEmployeeFromCsv(EmplArray.data[pos]);
+    removeAtArray(&EmplArray,pos);
+    return"\"Deleted\"";
+}
 //---------------------------------------------------------------
 
 string closeWindow(const string&) {
@@ -391,6 +417,18 @@ string updateLoanStatusOfCustomer(const string& statusJSON){
     cur->data.status = stoi(info[2]);
     return "\"Updated Loan(" + info[1] + ") Status Of Customer " + info[0] + " to " + info[2] + "\"";
 }
+string sendEarliestEmpl(const string&){
+    Employee e=earliestEmployee();
+    string eString=e.ID+"*"+e.Name+"*"+e.LastName+"*"+e.Adress+"*"+to_string(e.Salary)+"*"+dateToString(e.HireDate)+"*"+e.bankBranch+"*"+e.password;
+    return "{\"data\":\"" + eString + "\"}";
+
+}
+string sendLatestEmpl(const string&){
+    Employee e=latestEmployee();
+    string eString=e.ID+"*"+e.Name+"*"+e.LastName+"*"+e.Adress+"*"+to_string(e.Salary)+"*"+dateToString(e.HireDate)+"*"+e.bankBranch+"*"+e.password;
+    return "{\"data\":\"" + eString + "\"}";
+
+}
 
 // --- SETUP FUNCTIONS ---
 
@@ -403,8 +441,12 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
     w.bind("sendLoanToCPP",receiveLoanReq);
+    w.bind("modEmployee",modifyEmployee);
+    w.bind("delEmployee",deleteEmployee);
     w.bind("getCustomerLine",sendCustomerLine);
     w.bind("getEmployeeLine",sendEmployeeLine);
+    w.bind("getEarliestEmployee",sendEarliestEmpl);
+    w.bind("getLatestEmployee",sendLatestEmpl);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoggedEmployeeInfoCPP",sendEmpLoggedInfoJS);
@@ -425,6 +467,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("undoTranCPP",undoTranCPP);
     //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("deleteCompletedLoans",deleteLoan);
+    
     w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
 }

@@ -309,18 +309,15 @@ function deleteCompletedLoans(){
     deleteLoan().then((reply))
 }
 
-
-
-
-
 function displayEmployee(count, type) {
     const container = document.getElementById("EmpEmployeesGrid");
-    container.innerHTML = "";     // clear previous cards
+    container.innerHTML = "";
 
     for (let idx = 0; idx < count; idx++) {
         let combined = idx.toString() + "*" + type;
 
         getEmployeeLine(combined).then(emp => {
+
             const parts = emp && emp.data ? emp.data.split("*") : [];
             const [
                 ID = "",
@@ -338,34 +335,39 @@ function displayEmployee(count, type) {
             card.classList.add("employeeCard");
 
             card.innerHTML = `
-                <div class="employeeHeader">${Name} ${LastName} (${ID})</div>
+                <input readonly class="employeeHeader" value='${Name}'> <br>
+                <input readonly class="employeeHeader" value='${LastName}'><br>
+                <span>(${ID})</span> 
 
                 <div class="employeeField">
                     <span class="employeeLabel">Address:</span>
-                    <span class="employeeValue">${Adress}</span>
+                    <input readonly class="employeeValue empInp" value='${Adress}'>
                 </div>
 
                 <div class="employeeField">
-                    <span class="employeeLabel">Salary:</span>
-                    <span class="employeeValue">${Salary} TND</span>
+                    <span class="employeeLabel">Salary(TND):</span>
+                    <input readonly class="employeeValue empInp" value='${Salary}'>
                 </div>
 
                 <div class="employeeField">
                     <span class="employeeLabel">Hire Date:</span>
-                    <span class="employeeValue">${HireDate}</span>
+                    <input readonly class="employeeValue empInp" value='${HireDate}'>
                 </div>
 
                 <div class="employeeField">
                     <span class="employeeLabel">Bank Branch:</span>
-                    <span class="employeeValue">${bankBranch}</span>
+                    <div id="branchField_${ID}">
+                        <input readonly class="employeeValue" id='bank_${ID}' value='${bankBranch}'>
+                    </div>
                 </div>
 
                 <div class="employeeField">
                     <span class="employeeLabel">Password:</span>
-                    <span class="employeeValue">${password}</span>
+                    <input readonly class="employeeValue empInp" value='${password}'>
                 </div>
 
                 <div class="employeeActions">
+                    <button class="ConfirmBtn" id='conBtn_${ID}' style='display:none' onclick="modifyEmployeeCPP('${ID}')">Confirm</button>
                     <button class="modifyBtn" onclick="modifyEmployee('${ID}')">Modify</button>
                     <button class="deleteBtn" onclick="deleteEmployee('${ID}')">Delete</button>
                 </div>
@@ -380,53 +382,108 @@ function displayEmployee(count, type) {
 }
 
 
-function viewAllEmployees() {
-    const main = document.getElementById("mainEmpInt");
-    main.innerHTML = ""; 
 
-    // TOP CONTROLS
-    const controlsDiv = document.createElement("div");
-    controlsDiv.classList.add("EmpTopControls");
-    controlsDiv.innerHTML = `
-        <button class="addEmployeeBtn" onclick="addEmployee()">Add Employee</button>
-        
-        <select id="employeeFilter" class="employeeFilter">
-        <option value="alpha">Filter by Alphabetical Order</option>
-            <option value="branch">Filter by - Bank Branch</option>
+// ----------------------------------------
+// MODIFY EMPLOYEE
+// ----------------------------------------
+
+function modifyEmployee(ID){
+    const card = document.getElementById(`empCard_${ID}`);
+    if (!card) return;
+
+    const oldCode = document.getElementById(`bank_${ID}`).value;
+
+    const branchDiv = document.getElementById(`branchField_${ID}`);
+
+    branchDiv.innerHTML = `
+        <select class='selectbank' id="branchSelect_${ID}">
+            <option value="001">Tunis (001)</option>
+            <option value="002">Sousse (002)</option>
+            <option value="003">BenArous (003)</option>
+            <option value="004">Ariana (004)</option>
+            <option value="005">Nabeul (005)</option>
+            <option value="006">Gaserine (006)</option>
+            <option value="007">Gafsa (007)</option>
+            <option value="008">Mehdia (008)</option>
+            <option value="009">Sfax (009)</option>
+            <option value="010">Djerba (010)</option>
+            <option value="011">Mednine (011)</option>
+            <option value="012">Tozeur (012)</option>
+            <option value="013">Tatawin (013)</option>
+            <option value="014">Bizerte (014)</option>
+            <option value="015">ElKef (015)</option>
+            <option value="016">Monastir (016)</option>
+            <option value="017">Jandouba (017)</option>
+            <option value="018">Kebeli (018)</option>
+            <option value="019">SidiBouzid (019)</option>
+            <option value="020">Gabes (020)</option>
+            <option value="021">Seliana (021)</option>
+            <option value="022">Beja (022)</option>
+            <option value="023">Kairouan (023)</option>
+            <option value="024">Mannouba (024)</option>
+            <option value="025">Zaghouane (025)</option>
         </select>
-        
-        <button class="showChronoBtn" onclick="showEmplsChrono()">Show Chronologically</button>
     `;
-    main.appendChild(controlsDiv);
 
-    // CREATE GRID CONTAINER ONCE
-    const container = document.createElement("div");
-    container.classList.add("EmpEmployeesGrid");
-    container.id = "EmpEmployeesGrid";
-    main.appendChild(container);
+    document.getElementById(`branchSelect_${ID}`).value = oldCode;
 
-    getEmployeeCount().then(info => {
-        const count = parseInt(info.data);
-        if (!count) {
-            const msg = document.createElement("p");
-            msg.className = "noEmployeesMsg";
-            msg.innerText = "No Employees Found";
-            main.appendChild(msg);
-            return;
+    const inputs = card.querySelectorAll("input[readonly]");
+    inputs.forEach(inp => {
+        inp.removeAttribute("readonly");
+        inp.classList.add("borderedInp");
+    });
+
+    document.getElementById(`conBtn_${ID}`).style.display = "inline-block";
+}
+
+
+
+// ----------------------------------------
+// SAVE MODIFIED EMPLOYEE
+// ----------------------------------------
+
+function modifyEmployeeCPP(ID){
+    const card = document.getElementById(`empCard_${ID}`);
+    if (!card) return;
+
+    const inp=card.querySelectorAll(".empInp");
+    const name=card.querySelectorAll(".employeeHeader")[0].value.trim();
+    const lastName=card.querySelectorAll(".employeeHeader")[1].value.trim();
+    const address=inp[0].value.trim();
+    const salary=inp[1].value.trim();
+    const hireDate=inp[2].value.trim();
+    const password=inp[3].value.trim();
+    const branch=document.getElementById(`branchSelect_${ID}`).value;
+
+    const info = [
+        ID,
+        name,
+        lastName,
+        address,
+        salary,
+        hireDate,
+        branch,
+        password
+    ].join("*");
+
+    modEmployee(info).then(reply => {
+        if (reply == "ok") {
+            viewAllEmployees();
         }
+    });
+}
 
-        const filterSelect = document.getElementById("employeeFilter");
 
-        // INITIAL DISPLAY
-        displayEmployee(count, "alpha");
 
-        // ON CHANGE
-        filterSelect.addEventListener("change", () => {
-            displayEmployee(count, filterSelect.value);
-        });
+// ----------------------------------------
+// DELETE EMPLOYEE
+// ----------------------------------------
 
-    }).catch(err => {
-        console.error("getEmployeeCount failed", err);
+function deleteEmployee(ID){
+    delEmployee(ID).then(reply => {
+        if (reply === "Deleted") {
+            viewAllEmployees();
+        }
     });
 }
 function addEmployee() {
@@ -489,6 +546,53 @@ function addEmployee() {
         viewAllEmployees(); // go back to employee list
     });
 }
+
+function viewAllEmployees() {
+    const main = document.getElementById("mainEmpInt");
+    main.innerHTML = "";
+
+    const controlsDiv = document.createElement("div");
+    controlsDiv.classList.add("EmpTopControls");
+    controlsDiv.innerHTML = `
+        <button class="addEmployeeBtn" onclick="addEmployee()">Add Employee</button>
+        
+        <select id="employeeFilter" class="employeeFilter">
+            <option value="alpha">Filter by - Alphabetical Order</option>
+            <option value="branch">Filter by - Bank Branch Order</option>
+        </select>
+
+        <button class="showChronoBtn" onclick="showEmplsChrono()">Show Chronologically</button>
+    `;
+    main.appendChild(controlsDiv);
+
+    const container = document.createElement("div");
+    container.classList.add("EmpEmployeesGrid");
+    container.id = "EmpEmployeesGrid";
+    main.appendChild(container);
+
+    getEmployeeCount().then(info => {
+        const count = parseInt(info.data);
+        if (!count) {
+            const msg = document.createElement("p");
+            msg.className = "noEmployeesMsg";
+            msg.innerText = "No Employees Found";
+            main.appendChild(msg);
+            return;
+        }
+
+        const filterSelect = document.getElementById("employeeFilter");
+
+        displayEmployee(count, "alpha");
+
+        filterSelect.addEventListener("change", () => {
+            displayEmployee(count, filterSelect.value);
+        });
+
+    }).catch(err => {
+        console.error("getEmployeeCount failed", err);
+    });
+}
+
 
 function buildLoanContainer(cusID,lnj){
     let sel_card = document.getElementById(`custCard_${cusID}`);
@@ -570,3 +674,58 @@ function viewCustomerLoans(cusID){
         }
     );
 }
+function showEmplsChrono() {
+    const main = document.getElementById("mainEmpInt");
+    main.innerHTML = "";
+
+    const container = document.createElement("div");
+    container.classList.add("EmpCustomersGrid"); 
+    main.appendChild(container);
+
+    getEarliestEmployee().then((str1) => {
+        const emp1 = str1.data.split("*");
+
+        getLatestEmployee().then((str2) => {
+            const emp2 = str2.data.split("*");
+
+            container.appendChild(createStyledEmpCard(emp1));
+            container.appendChild(createStyledEmpCard(emp2));
+        });
+    });
+}
+
+function createStyledEmpCard(arr) {
+    const [ID, Name, LastName, Address, Salary, HireDate, Branch, Password] = arr;
+
+    const card = document.createElement("div");
+    card.classList.add("customerCard"); // same UI theme as customer cards
+
+    // HEADER
+    const header = document.createElement("div");
+    header.classList.add("customerHeader");
+    header.textContent = `${Name} ${LastName} (#${ID})`;
+    card.appendChild(header);
+
+    // FIELD BUILDER FUNCTION
+    function addField(label, value) {
+        const field = document.createElement("div");
+        field.classList.add("customerField");
+
+        field.innerHTML = `
+            <span class="customerLabel">${label}:</span>
+            <span class="customerValue">${value}</span>
+        `;
+
+        card.appendChild(field);
+    }
+
+    addField("Address", Address);
+    addField("Salary", Salary);
+    addField("Hire Date", HireDate);
+    addField("Branch", Branch);
+    addField("Password", Password);
+
+    return card;
+}
+
+

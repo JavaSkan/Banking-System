@@ -17,15 +17,14 @@ int init_employeeArray(Array<Employee>& EmplArray);
 string addEmployee(const string& infoJSON);
 int addEmployeeToCsv(const Employee& e);
 string employeeToStr(const Employee& Emp);
-int deleteEmployee(Array<Employee>* eArr);
-int modifyEmployee(Employee& e);
 int displayAlpha(const Array<Employee>& eArr);
 int displayEarliest(const Array<Employee>& eArr);
 int displayMostRecently(const Array<Employee>& eArr);
 int addCustomer(Array<Customer>* cArr);
 int displayAccounts(const Array<Customer>& cArr);
 string changeStatus(const string& infoJSON);
-int deleteCustomer(Array<Customer>* cArr, Customer c);
+//int deleteCustomer(Array<Customer>* cArr, Customer c);
+
 /*probably was alread made;
 int displayLoans()
 */

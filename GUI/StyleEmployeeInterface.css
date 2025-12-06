@@ -299,7 +299,7 @@
 .EmpTopControls select {
     padding: 6px 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid black;
     font-size: 14px;
     cursor: pointer;
 }
@@ -345,7 +345,10 @@
     font-weight: 600;
 }
 
-.employeeValue {
+.employeeValue,.employeeHeader {
+    background-color: transparent;
+    text-align: right;
+    border: none;
     color:white
 }
 
@@ -365,6 +368,13 @@
     font-weight: bold;
     color: white;
     transition: background-color 0.2s;
+}
+.borderedInp{
+    border:1px solid white;
+}
+.ConfirmBtn{
+    background-color:#d4c34c;
+    color: black;
 }
 
 .modifyBtn {
@@ -410,6 +420,12 @@
     color: #d4c34c;
     margin-bottom: 20px;
 }
+.employeeFilter,.employeeFilter option{
+    background-color: #d4c34c;
+    color:black;
+    border-color: black;
+}
+
 
 /* ---------- FORM FIELDS ---------- */
 .employeeFormField {
@@ -423,6 +439,10 @@
     font-weight: bold;
     color: white;
     width: 120px;
+}
+.selectbank{
+    background-color: transparent;
+    color: white;
 }
 
 .employeeFormInput {
