@@ -799,7 +799,9 @@ function createStyledEmpCard(arr) {
     return card;
 }
 
-
+function fin(){
+    finalizeDay().then((reply)=>{console.log(reply)})
+}
 
 function viewCustomerTransactions(cusID){
     let displ = document.getElementById("asideDisplayArea");

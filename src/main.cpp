@@ -571,6 +571,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
     w.bind("declineLoanReq",declineLoanReq);
     w.bind("receiveTransOfCustomer",sendTransOfCustomer);
+    w.bind("finalizeDay",finilize);
 }
 
 void setupWebView() {
