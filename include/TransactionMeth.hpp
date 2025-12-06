@@ -22,4 +22,5 @@ OF transactionToString !!
 */
 Transaction stringToTransaction(string s);
 
+string transTypeToStr(int type);
 #endif

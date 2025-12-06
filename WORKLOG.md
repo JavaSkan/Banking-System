@@ -53,3 +53,4 @@
 || Added a sidebar display area in the Employee interface                            | Skander        |
 || Implemented Deletion of loan requests from CSV file when accepting/deleting them  | Skander        |
 || Added forgotten closing instruction of files                                      | Skander        |
+|| Employee can show transactions of each customer                                   | Skander        |

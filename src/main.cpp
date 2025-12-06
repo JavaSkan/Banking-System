@@ -43,8 +43,7 @@ void getDateFromCSV(){
         getline(file,line);
         CurrentDate = stringToDate(line);
     }
-    file.close();
-
+    file.close();    
 }
 
 //Load loans requests from csv files
@@ -194,6 +193,7 @@ string sendCusLoggedInfoJS(const string&){
 string sendEmpLoggedInfoJS(const string&){
     string info = LoggedInEmployee.ID+ "*" +(LoggedInEmployee.Name+" "+LoggedInEmployee.LastName);
     return "{\"data\":\"" + info + "\"}";
+
 
 }
 // TRANSACTIONS
@@ -431,7 +431,7 @@ string sendLoansOfCustomer(const string& idJSON){
     while(current){
         loanJSONString = "{\"id\":\"" + current->data.ID                          + "\","
                         + "\"type\":\"" + loanTypeStr(current->data.type)         + "\","
-                        + "\"status\":\"" + to_string(current->data.status)        + "\","
+                        + "\"status\":\"" + to_string(current->data.status)       + "\","
                         + "\"amount\":\"" + to_string(current->data.pr_amount)    + "\","
                         + "\"itr\":\"" + to_string(current->data.it_rate*100)     + "\","
                         + "\"paid\":\"" + to_string(current->data.am_paid)        + "\","
@@ -470,6 +470,27 @@ string updateLoanStatusOfCustomer(const string& statusJSON){
     return "\"Updated Loan(" + info[1] + ") Status Of Customer " + info[0] + " to " + info[2] + "\"";
 }
 
+string sendTransOfCustomer(const string& idJSON){
+    string id = unJSON(idJSON); //only contains customer ID
+    int cus_index = searchByID(custArray,id);
+    string sent = "[";
+    string transJSONString;
+    Stack copy = copyStack(custArray.data[cus_index].transactions);
+    Transaction tr;
+    while(!isEmpty(copy)){
+        tr = pop(copy);
+        transJSONString = "{\"tid\":\"" + tr.ID                     + "\","
+                        + "\"cid\":\"" + tr.accountNumber           + "\","
+                        + "\"type\":\"" + transTypeToStr(tr.type)   + "\","
+                        + "\"amount\":\"" + to_string(tr.amount)    + "\","
+                        + "\"start\":\"" + dateToString(tr.date)    + "\"}";
+        //if it's the last transaction, don't add comma in the end
+        sent += transJSONString + (isEmpty(copy) ? "" : ",");
+    }
+    sent += "]";
+    return sent;
+}
+
 // --- SETUP FUNCTIONS ---
 
 
@@ -506,6 +527,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
     w.bind("declineLoanReq",declineLoanReq);
+    w.bind("receiveTransOfCustomer",sendTransOfCustomer);
 }
 
 void setupWebView() {

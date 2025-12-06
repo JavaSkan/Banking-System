@@ -561,6 +561,35 @@ function buildLoanContainer(cusID,lnj){
     updateLoanStatusColor(`loanStatus_${lnj.id}`);
 }
 
+function buildTransationContainer(cusID,trj){
+    let displayArea = document.getElementById(`asideDisplayArea`);
+    const content = `
+        <div class="loanContainer">
+            <div class="loanField">
+                <span class="loanLabel">Transaction ID: </span>
+                <span class="loanValue">${trj.tid}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Customer ID: </span>
+                <span class="loanValue">${trj.cid}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Type: </span>
+                <span class="loanValue">${trj.type}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Amount: </span>
+                <span class="loanValue">${trj.amount} TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Done On: </span>
+                <span class="loanValue">${trj.start}</span>
+            </div>
+        </div>
+    `;
+    displayArea.innerHTML += content;
+}
+
 function updateLoanStatusColor(ls_id){
     let status = document.getElementById(ls_id);
     switch(status.value){
@@ -596,10 +625,29 @@ function viewCustomerLoans(cusID){
                 no_lns.innerText = "No Loans for this customer";
                 no_lns.classList.add("noMSG");
                 displ.appendChild(no_lns);
-                return; //Add a message "No Loans"
+                return;
             }
             for(let i = 0; i < loansJSON.length; i++){
                 buildLoanContainer(cusID,loansJSON[i]);
+            }
+        }
+    );
+}
+
+function viewCustomerTransactions(cusID){
+    let displ = document.getElementById("asideDisplayArea");
+    displ.innerHTML = "";
+    receiveTransOfCustomer(cusID).then(
+        (trsJSON) => {
+            if(trsJSON.length == 0) {
+                const no_lns = document.createElement("p");
+                no_lns.innerText = "No Transaction for this customer";
+                no_lns.classList.add("noMSG");
+                displ.appendChild(no_lns);
+                return;
+            }
+            for(let i = 0; i < trsJSON.length; i++){
+                buildTransationContainer(cusID,trsJSON[i]);
             }
         }
     );

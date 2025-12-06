@@ -31,3 +31,6 @@ Transaction stringToTransaction(string s){
     return res;
 }
 
+string transTypeToStr(int type){
+    return type == TR_WITHDRAWAL ? "withdrawal" : "deposit";
+}
