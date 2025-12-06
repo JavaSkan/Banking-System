@@ -43,3 +43,5 @@
 || Loan Requests data transfer now include start and end date                        | Skander        |
 || Accepting Loan Requests updates the Customer loan list                            | Skander        |
 || Slight changes to style of Employee Interface                                     | Skander        |
+|06-12-2025| Added finalization of the day,updated current day functionality | Melik |
+||Added finalized transaction list (conversion to string, csv: reading and updating ) | Melik

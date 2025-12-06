@@ -111,7 +111,8 @@ std::string customerToCsvLine(const Customer& Cus) {
        << std::to_string(Cus.balance).substr(0, std::to_string(Cus.balance).find('.') + 4) << ","
        << DLToString(Cus.loans) << ","
        << stackToString(Cus.transactions) << ","
-       << Cus.password;
+       << Cus.password << ','
+       <<Cus.rolledback;
 
     return ss.str();
 }
@@ -126,7 +127,8 @@ std::string customerToStr(const Customer& Cus) {
        << dateToString(Cus.openingDate) << "*"
        << Cus.status << "*"
        << std::to_string(Cus.balance).substr(0, std::to_string(Cus.balance).find('.') + 4) << "*"
-       << Cus.password;
+       << Cus.password << "*"
+       << Cus.rolledback;
 
     return ss.str();
 }
@@ -159,6 +161,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
         getline(buf, value, ','); c.loans = stringToDL(value);
         getline(buf, value, ','); c.transactions = stringToStack(value);
         getline(buf, c.password, ',');
+        getline(buf,value,',');c.rolledback = stoi(value);
 
         addElement(&Cusarr, c, Cusarr.size);
     }

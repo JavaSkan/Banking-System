@@ -13,6 +13,7 @@ Array<T> createEmployeeArray(){
     Array<Employee> EmplArray=createArray<Employee>(1); // initial value must be != 0
     return EmplArray;
 }
+
 int init_employeeArray(Array<Employee>& EmplArray){
     ifstream file("assets/Employees.csv"); 
     if(!file.is_open()){
@@ -319,8 +320,7 @@ string deleteLoan(const string&){
                 removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,ID));
                 updateCustomerInCsv(custArray.data[i]);
                 updateCompletedLoansCsv(completed_loans);
-                
-
+        
             }
 
         }
@@ -328,6 +328,22 @@ string deleteLoan(const string&){
     return "\"Completed loans are deleted\"";
 
 }
+
+string finilize(const string&){
+    for (int i = 0; i<custArray.size;i++){
+        custArray.data[i].rolledback = 0;
+        int nb = custArray.data[i].transactions.top;
+        for (int j = 0; j<nb;j++){
+            Transaction t = pop(custArray.data[i].transactions);
+            insert(&finalized_transactions,t,finalized_transactions.size+1);
+        }
+    }
+    nextDay();
+    return "\"Day is finalized\"";
+}
+
+
+
 string employeeToStr(const Employee& Emp) {
     stringstream ss;
 
@@ -341,3 +357,5 @@ string employeeToStr(const Employee& Emp) {
        << Emp.password;
     return ss.str();
 }
+
+

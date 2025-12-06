@@ -31,6 +31,23 @@ Customer SelectedCustomer;
 Queue* currentLoanReqs = createQueue();
 Queue* acceptedLoanReqs = createQueue();
 
+
+
+//the csv had an initial date manually written
+void getDateFromCSV(){
+    ifstream file("assets/Date.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open file . assets/Date.csv"<<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        CurrentDate = stringToDate(line);
+    }
+    file.close();
+
+}
+
 //Load loans requests from csv files
 //Should be called when an employee logs in 
 void loadLoanReqs(){
@@ -54,7 +71,7 @@ void loadLoanReqs(){
     file.close();
 }
 
-void init_completedLoansList(SList<Loan>& completed_loans){
+void init_completedLoansList(){
     ifstream file("assets/CompletedLoans.csv");
     if(!file.is_open()){
         cerr<<"Cannot open the completed loans file " <<endl;
@@ -63,6 +80,17 @@ void init_completedLoansList(SList<Loan>& completed_loans){
         string line;
         getline(file,line);
         completed_loans = stringToSL(line);
+    }
+}
+void init_TransactionList(){
+    ifstream file("assets/Transactions.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open the Transactions file " <<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        finalized_transactions = stringToSLTr(line);
     }
 }
 
@@ -298,9 +326,16 @@ string undoTranCPP(const string&){
     if(isEmpty(LoggedInCustomer.transactions)){
         return "\"false\"";
     }else{
-        Transaction val=pop(LoggedInCustomer.transactions);
-        updateCustomerInCsv(LoggedInCustomer);
-        return "\"true\"";
+        Transaction t = top(LoggedInCustomer.transactions);
+        if (compareDates(t.date,CurrentDate)!=-1){
+            Transaction val=pop(LoggedInCustomer.transactions);
+            updateCustomerInCsv(LoggedInCustomer);
+            return "\"true\"";
+        }
+        else{
+            cout<<"Cannot undo old transactions"<<endl;
+            return "\"falseOld\"";
+        }
     }
     
 }
@@ -314,7 +349,7 @@ string sendEmployeeCount(const string&){
 
 void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
-    w.bind("sendDate",getDateJS);
+    //w.bind("sendDate",getDateJS);
     w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
@@ -358,11 +393,13 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    getDateFromCSV();
 
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);
-    init_completedLoansList(completed_loans);
+    init_completedLoansList();
+    init_TransactionList();
 
     cout << "[C++] Hello, console!" << endl;
 
