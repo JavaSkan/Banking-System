@@ -273,7 +273,7 @@ string SLToString(const SList<Loan>& sl){
     SNode<Loan>* cur = sl.head;
     int i = 1;
     while(cur && i<=sl.size){
-        ss << loanToString(cur->data) << (i<=sl.size ? "$" : "]");
+        ss << loanToString(cur->data) << (i<sl.size ? "$" : "]");
         cur = cur->next;
     }
     return ss.str();
@@ -286,7 +286,7 @@ string SLTrToString(const SList<Transaction>& sl){
     SNode<Transaction>* cur = sl.head;
     int i = 1;
     while(cur && i<=sl.size){
-        ss << transactionToString(cur->data) << (i<=sl.size ? "$" : "]");
+        ss << transactionToString(cur->data) << (i<sl.size ? "$" : "]");
         cur = cur->next;
     }
     return ss.str();
@@ -318,7 +318,7 @@ int updateCompletedLoansCsv(const SList<Loan>& sl){
         file.close();
         return -1;
     }
-    string line =SLToString(sl);
+    string line = SLToString(sl);
     file << line << endl;
     file.close();
     return 1;

@@ -71,58 +71,77 @@ string addEmployee(const string& infoJSON){
     addElement(&EmplArray,e,EmplArray.size);
     return "\"Employee Added\"";
 }
+int updateEmployeeInCsv(const Employee& Emp) {
+    std::ifstream file("assets/Employees.csv");
+    if (!file.is_open()) return -1;
 
-int deleteEmployee(Array<Employee>* eArr){
-    string ID;
-    cout<<"What is the employee´s ID ?"<<endl;
-    cin>>ID;
-    int pos = searchByID(*eArr, ID);
-    if (pos == -1){
-        cout<<"Employee not found please verify the ID"<<endl;
-        return 0;
+    std::ofstream temp("assets/Employees.tmp");
+    if (!temp.is_open()) {
+        file.close();
+        return -1;
     }
-    removeAtArray(eArr,pos);
+
+    std::string line;
+    while (getline(file, line)) {
+        std::stringstream ss(line);
+        std::string id;
+
+        getline(ss, id, ',');
+
+        if (id == Emp.ID) {
+            line =
+                Emp.ID + "," +
+                Emp.Name + "," +
+                Emp.LastName + "," +
+                Emp.Adress + "," +
+                std::to_string(Emp.Salary) + "," +
+                dateToString(Emp.HireDate) + "," +
+                Emp.bankBranch + "," +
+                Emp.password+",";
+        }
+
+        temp << line << "\n";
+    }
+
+    file.close();
+    temp.close();
+
+    if (std::remove("assets/Employees.csv") != 0) return -1;
+    if (std::rename("assets/Employees.tmp", "assets/Employees.csv") != 0) return -1;
+
     return 1;
 }
 
-int modifyEmployee(Employee& e){
-    char c;
-    cout<<"chet7eb tbadel ?"<<endl;
-    cout<<"1 : change ID(in case of a misinput)"<<endl;
-    cout<<"2 : change name"<<endl;
-    cout<<"3 : change last name"<<endl;
-    cout<<"4 : change adress"<<endl;
-    cout<<"5 : change salary"<<endl;
-    cout<<"6 : change branch code"<<endl;
-    cin>>c;
-    switch (c){
-        case '1' :
-            cout<<"What´s the new value ?"<<endl;
-            cin>>e.ID;
-            break;
-        case '2' :
-            cout<<"What´s the new value ?"<<endl;
-            cin>>e.Name;
-            break;
-        case '3' :
-            cout<<"What´s the new value ?"<<endl;
-            cin>>e.LastName;
-            break;
-        case '4' :
-            cout<<"What´s the new value ?"<<endl;
-            cin>>e.Adress;
-            break;
-        case '5' :
-            cout<<"What´s the new value ?"<<endl;
-            cin>>e.Salary;
-            break;
-        case '6' :
-            cout<<"What´s the new value ?"<<endl;
-            cin>>e.bankBranch;
-            break;
+int deleteEmployeeFromCsv(const Employee& Emp) {
+    std::ifstream file("assets/Employees.csv");
+    if (!file.is_open()) return -1;
+
+    std::ofstream temp("assets/Employees.tmp");
+    if (!temp.is_open()) {
+        file.close();
+        return -1;
     }
+    std::string line;
+    while (getline(file, line)) {
+        std::stringstream ss(line);
+        std::string id;
+        getline(ss, id, ',');
+
+        if (id == Emp.ID) {
+            continue;
+        }
+        temp << line << "\n";
+    }
+
+    file.close();
+    temp.close();
+
+    if (std::remove("assets/Employees.csv") != 0) return -1;
+    if (std::rename("assets/Employees.tmp", "assets/Employees.csv") != 0) return -1;
+
     return 1;
 }
+
 
 //int displayAlpha(const Array<Employee>& eArr){
     
@@ -153,16 +172,12 @@ int displayAlpha(const Array<Employee>& eArr){
 
 
 
-int displayEarliest(const Array<Employee>& eArr) {
-    if (isEmpty(eArr)) {
-        cout << "No employees to display" << endl;
-        return 0;
-    }
-
+Employee earliestEmployee() {
+    
     int earliest = 0;
-    for (int i = 1; i < eArr.size; i++) {
-        Date d1 = eArr.data[i].HireDate;
-        Date dE = eArr.data[earliest].HireDate;
+    for (int i = 1; i < EmplArray.size; i++) {
+        Date d1 = EmplArray.data[i].HireDate;
+        Date dE = EmplArray.data[earliest].HireDate;
 
         if ((d1.year < dE.year) ||
             (d1.year == dE.year && d1.month < dE.month) ||
@@ -172,28 +187,20 @@ int displayEarliest(const Array<Employee>& eArr) {
         }
     }
 
-    cout << "Earliest recruited: "
-         << eArr.data[earliest].ID << " "
-         << eArr.data[earliest].Name << " "
-         << eArr.data[earliest].LastName << " "
-         << eArr.data[earliest].HireDate.day << "/"
-         << eArr.data[earliest].HireDate.month << "/"
-         << eArr.data[earliest].HireDate.year << endl;
-
-    return 1;
+    return EmplArray.data[earliest];
 }
 
 
-int displayMostRecently(const Array<Employee>& eArr) {
-    if (isEmpty(eArr)) {
+Employee latestEmployee() {
+    if (isEmpty(EmplArray)) {
         cout << "No employees to display" << endl;
-        return 0;
+        return {};
     }
 
     int latest = 0;
-    for (int i = 1; i < eArr.size; i++) {
-        Date d1 = eArr.data[i].HireDate;
-        Date dL = eArr.data[latest].HireDate;
+    for (int i = 1; i < EmplArray.size; i++) {
+        Date d1 = EmplArray.data[i].HireDate;
+        Date dL = EmplArray.data[latest].HireDate;
 
         if ((d1.year > dL.year) ||
             (d1.year == dL.year && d1.month > dL.month) ||
@@ -203,21 +210,8 @@ int displayMostRecently(const Array<Employee>& eArr) {
         }
     }
 
-    cout << "Most recently recruited: "
-         << eArr.data[latest].ID << " "
-         << eArr.data[latest].Name << " "
-         << eArr.data[latest].LastName << " "
-         << eArr.data[latest].HireDate.day << "/"
-         << eArr.data[latest].HireDate.month << "/"
-         << eArr.data[latest].HireDate.year << endl;
-
-    return 1;
+    return EmplArray.data[latest];
 }
-
-
-
-
-
 int addEmployeeToCsv(const Employee& e){
     ofstream file("assets/Employees.csv",ios::app);
     if (!file.is_open()){
@@ -294,7 +288,7 @@ string changeStatus(const string& infoJSON){
     updateCustomerInCsv(Cus);
     return "\"true\"";
 }
-
+/*
 int deleteCustomer(Array<Customer>* cArr, Customer c){
     int pos = searchByID(*cArr,c.ID);
     if(pos==-1){
@@ -304,28 +298,27 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
     removeAtArray(cArr,pos);
     return 1;
 }
+*/
 
 
 
-string deleteLoan(const string&){
+string deleteCompletedLoans(const string&){
     for (int i = 0; i<custArray.size;i++){
-        for (int j = 1; j<=custArray.data[i].loans.size;j++){
-
-            DNode* currentLoan = custArray.data[i].loans.head;
-            if (currentLoan->data.status == 6 )
+        DNode* currentLoan = custArray.data[i].loans.head;
+        while (currentLoan != nullptr){
+            if (currentLoan->data.status == LNS_COMPLETED)
             {
-                string ID = currentLoan->data.ID;
-                bool T = insert(&completed_loans,currentLoan->data, completed_loans.size + 1);
-                removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,ID));
+                if(!insert(&completed_loans,currentLoan->data, completed_loans.size + 1)){
+                    cerr << "[deleteCompletedLoans]: Failed too insert completed loan\n";
+                }
+                removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,currentLoan->data.ID));
                 updateCustomerInCsv(custArray.data[i]);
                 updateCompletedLoansCsv(completed_loans);
-        
             }
-
+            currentLoan = currentLoan->next;
         }
     }
-    return "\"Completed loans are deleted\"";
-
+    return "\"Completed loans have been deleted\"";
 }
 
 string finilize(const string&){

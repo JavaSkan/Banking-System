@@ -16,6 +16,7 @@
         <button class="quitbtn" onclick="closeWin()">
             <img src="../assets/exit.png" alt="">
         </button>
+        <button class="quitbtn" onclick="goToPage('EmplInt.html')"><img src="../assets/back.png" alt=""></button>
     </nav>
 
     <div id="layout">
@@ -31,8 +32,9 @@
                 <button onclick="clearGUI();viewAllCustomers()">View Customers</button>
                 <button onclick="clearGUI();displayLoanRequest()">View All loan Requests</button>
                 <button onclick="clearGUI();viewAllEmployees()">View Employees</button>
-                <button onclick="clearGUI();viewTransactions()">Transaction History</button>
-                <button onclick="clearGUI();employeeSettings()">Settings</button>
+                <button onclick="clearGUI();deleteCompLoans()">Delete Completed Loans</button>
+                <button onclick="clearGUI();viewStatistics()">View Statistics</button>
+                <button class="finalizeBtn" onclick="clearGUI();fin()">Finalize</button>
             </div>
         </aside>
 
