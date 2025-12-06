@@ -1,4 +1,5 @@
-// auto sends date to cpp 
+// auto sends date to cpp
+/*
 let date=new Date;
 let day=date.getDate();
 let month=date.getMonth()+1;
@@ -7,6 +8,7 @@ window.sendDate(day+"*"+month+"*"+year).then((r)=>{
     console.log(
         "CPP replied: " + r);
 });
+*/
 
 //ntesti beha
 function readFromCpp(id) {

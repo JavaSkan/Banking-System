@@ -11,7 +11,7 @@ Transaction pop(Stack& s);
 Transaction top(const Stack& s);
 bool isEmpty(const Stack& s);
 bool isFull(const Stack& s);
-
+Stack copyStack(const Stack& S);
 
 /*
 Returns a string representation of a Stack

@@ -75,3 +75,13 @@ Stack stringToStack(string s){
     }
     return res;
 }
+
+Stack copyStack(const Stack& S) {
+    Stack newStack = createStack();
+
+    for (int i = 0; i <= S.top; i++) {
+        push(newStack, S.data[i]);
+    }
+
+    return newStack;
+}

@@ -29,6 +29,7 @@ struct Customer{
     DList loans;
     Stack transactions;
     string password="";
+    bool rolledback = false;
 };
 
 #endif

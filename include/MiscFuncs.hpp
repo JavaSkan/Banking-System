@@ -4,6 +4,9 @@
 #include <SinglyLinkedListMeth.hpp>
 #include <customer.hpp>
 #include <string>
+#include <stackMeth.hpp>
+#include <customer.hpp>
+#include <TransactionMeth.hpp>
 using namespace std;
 
 
@@ -24,7 +27,11 @@ string toLower(string s);
 string passwordGen(int size);
 SList<Loan> stringToSL(string s);
 string SLToString(const SList<Loan>& sl);
+SList<Transaction> stringToSLTr(string s);
+string SLTrToString(const SList<Transaction>& sl);
+SList<Transaction> stringToSLTr(string s);
 int updateCompletedLoansCsv(const SList<Loan>& sl);
+int updateTransactionsCsv(const SList<Transaction>& sl);
 
 
 #endif //MISCFUNCS_H

@@ -30,6 +30,23 @@ Employee LoggedInEmployee;
 Customer SelectedCustomer;
 Queue* currentLoanReqs = createQueue();
 
+
+
+//the csv had an initial date manually written
+void getDateFromCSV(){
+    ifstream file("assets/Date.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open file . assets/Date.csv"<<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        CurrentDate = stringToDate(line);
+    }
+    file.close();
+
+}
+
 //Load loans requests from csv files
 //Should be called when an employee logs in 
 void loadLoanReqs(){
@@ -53,7 +70,7 @@ void loadLoanReqs(){
     file.close();
 }
 
-void init_completedLoansList(SList<Loan>& completed_loans){
+void init_completedLoansList(){
     ifstream file("assets/CompletedLoans.csv");
     if(!file.is_open()){
         cerr<<"Cannot open the completed loans file " <<endl;
@@ -62,6 +79,17 @@ void init_completedLoansList(SList<Loan>& completed_loans){
         string line;
         getline(file,line);
         completed_loans = stringToSL(line);
+    }
+}
+void init_TransactionList(){
+    ifstream file("assets/Transactions.csv");
+    if(!file.is_open()){
+        cerr<<"Cannot open the Transactions file " <<endl;
+    }
+    else {
+        string line;
+        getline(file,line);
+        finalized_transactions = stringToSLTr(line);
     }
 }
 
@@ -191,14 +219,52 @@ string sendCustomerLine(const string& i){
     return "{\"data\":\"" +getSpecificCustomerStr(stoi(unJSON(i))) + "\"}";}
 
 //---------------------------------------------
-string getSpecificEmployeeStr(int i){
-    Employee emp=EmplArray.data[i];
+string getSpecificEmployeeStr(const Array<Employee>& arr,int i){
+    Employee emp=arr.data[i];
     string EmployeeString=employeeToStr(emp);
     return EmployeeString; //brojla da5alt el camel case fel pascal case ama bara barka
 }
-string sendEmployeeLine(const string& i){
-    return "{\"data\":\"" +getSpecificEmployeeStr(stoi(unJSON(i))) + "\"}";}
+void sortAlpha(Array<Employee>& arr) {
+    for (int i = 0; i < arr.size - 1; i++) {
+        for (int j = 0; j < arr.size - i - 1; j++) {
+            if (arr.data[j].LastName > arr.data[j + 1].LastName) {
+                Employee temp = arr.data[j];
+                arr.data[j] = arr.data[j + 1];
+                arr.data[j + 1] = temp;
+            }
+        }
+    }
+}
+void grpBankBranch(Array<Employee>& arr) {
+    for (int i = 0; i < arr.size - 1; i++) {
+        for (int j = 0; j < arr.size - i - 1; j++) {
+            if (arr.data[j].bankBranch > arr.data[j + 1].bankBranch) {
+                Employee temp = arr.data[j];
+                arr.data[j] = arr.data[j + 1];
+                arr.data[j + 1] = temp;
+            }
+        }
+    }
+}
 
+
+string sendEmployeeLine(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    string parts[2];
+    splitStr(info,'*',parts,2);
+    string i=parts[0];
+    string type=parts[1];
+    Array<Employee> copy =copyArray(EmplArray);
+    if(type=="alpha"){
+        sortAlpha(copy);
+        return "{\"data\":\"" +getSpecificEmployeeStr(copy,stoi(i)) + "\"}";
+    }else{
+        if(type=="branch"){
+        grpBankBranch(copy);
+        return "{\"data\":\"" +getSpecificEmployeeStr(copy,stoi(i)) + "\"}";}
+    }
+    return "\"false\"";
+}
 //---------------------------------------------------------------
 
 string closeWindow(const string&) {
@@ -298,9 +364,16 @@ string undoTranCPP(const string&){
     if(isEmpty(LoggedInCustomer.transactions)){
         return "\"false\"";
     }else{
-        Transaction val=pop(LoggedInCustomer.transactions);
-        updateCustomerInCsv(LoggedInCustomer);
-        return "\"true\"";
+        Transaction t = top(LoggedInCustomer.transactions);
+        if (compareDates(t.date,CurrentDate)!=-1){
+            Transaction val=pop(LoggedInCustomer.transactions);
+            updateCustomerInCsv(LoggedInCustomer);
+            return "\"true\"";
+        }
+        else{
+            cout<<"Cannot undo old transactions"<<endl;
+            return "\"falseOld\"";
+        }
     }
     
 }
@@ -361,13 +434,14 @@ string updateLoanStatusOfCustomer(const string& statusJSON){
 
 void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
-    w.bind("sendDate",getDateJS);
+    //w.bind("sendDate",getDateJS);
     w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
     w.bind("sendLoanToCPP",receiveLoanReq);
     w.bind("getCustomerLine",sendCustomerLine);
+    w.bind("getEmployeeLine",sendEmployeeLine);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoggedEmployeeInfoCPP",sendEmpLoggedInfoJS);
@@ -407,11 +481,13 @@ int main() {
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    getDateFromCSV();
 
     init_customerArray(custArray);
     cout<<"*********************************"<<endl;
     init_employeeArray(EmplArray);
-    init_completedLoansList(completed_loans);
+    init_completedLoansList();
+    init_TransactionList();
 
     cout << "[C++] Hello, console!" << endl;
 

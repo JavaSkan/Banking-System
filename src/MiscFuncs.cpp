@@ -8,8 +8,8 @@
 #include <cstring>
 
 #include <MiscFuncs.hpp>
-#include <SinglyLinkedListMeth.hpp>
-#include <customer.hpp>
+
+
 #define TEMPLATE template <typename T>
 using namespace std;
 
@@ -279,6 +279,38 @@ string SLToString(const SList<Loan>& sl){
     return ss.str();
 }
 
+string SLTrToString(const SList<Transaction>& sl){
+    if(isEmpty(sl)) return "SLL[]";
+    stringstream ss;
+    ss << "SLL[" << sl.size << "$";
+    SNode<Transaction>* cur = sl.head;
+    int i = 1;
+    while(cur && i<=sl.size){
+        ss << transactionToString(cur->data) << (i<=sl.size ? "$" : "]");
+        cur = cur->next;
+    }
+    return ss.str();
+}
+
+SList<Transaction> stringToSLTr(string s){
+    SList<Transaction> res = createList<Transaction>();
+    string sub = "";
+    for(int i = 4; i < s.size()-1; i++){
+        sub += (s[i] == '$' ? ' ' : s[i]);
+    }
+    if(sub == "") return {};
+    stringstream ss;
+    ss << sub;
+    int size;
+    ss >> size;
+    string cur_transaction_str;
+    for(int i = 1; i <= size; i++){
+        ss >> cur_transaction_str;
+        insert(&res,stringToTransaction(cur_transaction_str),res.size+1);
+    }
+    return res;
+}
+
 int updateCompletedLoansCsv(const SList<Loan>& sl){
     ofstream file("assets/CompletedLoans.csv",ios::app);
     if (!file.is_open()){
@@ -287,6 +319,19 @@ int updateCompletedLoansCsv(const SList<Loan>& sl){
         return -1;
     }
     string line =SLToString(sl);
+    file << line << endl;
+    file.close();
+    return 1;
+}
+
+int updateTransactionsCsv(const SList<Transaction>& sl){
+    ofstream file("assets/Transactions.csv",ios::app);
+    if (!file.is_open()){
+        cerr << "Cannot open file : assets/Transactions.csv" << endl;
+        file.close();
+        return -1;
+    }
+    string line =SLTrToString(sl);
     file << line << endl;
     file.close();
     return 1;
