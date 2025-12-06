@@ -1,12 +1,157 @@
-#mainEmpInt{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+/* Customer Grid */
+.EmpCustomersGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(330px, 1fr));
     gap: 25px;
+    padding: 10px;
+    width: 100%;
+}
+
+/* Each Customer Card */
+.customerCard {
+    background: #1c1c1e;
+    padding: 18px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.07);
+    border: 1px solid #d4c34c;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.customerCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 18px rgba(255,255,255,0.12);
+}
+
+.inactiveCustomerCard{
+    color:rgb(142, 0, 0);
+    border: 1px solid  rgb(142, 0, 0);
+    padding: 18px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.inactiveCustomerCard button,.inactiveCustomerCard select,.inactiveCustomerCard select option{
+    background-color: rgb(142, 0, 0);
+    color:white;
+}
+.inactiveCustomerCard .customerHeader{
+    color:rgb(142, 0, 0);
+}
+.closedCustomerCard{
+    opacity: 0.4;
+    border: 1px solid white;
+    padding: 18px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255,255,255,0.07);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.closedCustomerCard button,.closedCustomerCard select,.closedCustomerCard option{
+    background-color:white;
+    color:black;
+}
+.closedCustomerCard .customerHeader{
+    color:white;
+}
+
+
+/* Header */
+.customerHeader {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #d4c34c;
+}
+
+/* Field styling */
+.customerField {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 4px;
+    font-size: 1rem;
+    border-bottom: 1px solid #3335;
+}
+
+.customerLabel {
+    color: #aaa;
+    font-weight: bold;
+}
+
+.customerValue {
+    color: #e2e2e2;
+    font-weight: 600;
+}
+
+/* Empty message */
+.noCustomersMsg {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #bbb;
+    margin-top: 40px;
+}
+
+#layout {
+    display: flex;
     margin-top: 60px;
 }
 
-.loanReqComp{
+/* Sidebar */
+#aside {
+    width: 250px;
+    background: #111;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 1.1rem;
+}
+
+#aside p {
+    margin: 0;
+    padding: 0;
+}
+.miniBtn{
+    background-color: #d4c34c;
+    color:black;
+    border-radius: 10px;
+    cursor:pointer;
+}
+.miniBtn:hover{
+    transform: scale(1.07);
+    filter: brightness(1.15);
+    box-shadow: 0 0 10px rgba(212,195,76,0.5);
+}
+
+.actionSidebar button {
+    background: #1e1e20;
+    border: 2px solid #d4c34c;
+    border-radius: 10px;
+    width:90%;
+    height:15%;
+    margin-bottom: 10%;
+    color: #d4c34c;
+    font-weight: bold;
+    font-size: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.actionSidebar button:hover {
+    background: #333;
+}
+
+
+/* Container where all cards load */
+#mainEmpInt {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* Your existing loan request card style */
+.loanReqComp {
     background: #1c1c1e;
     padding: 18px 20px;
     box-shadow: 0 0 12px rgba(0,0,0,0.35);
@@ -29,31 +174,23 @@
     text-align: center;
 }
 
-.loanReqFieldLabel{
+.loanReqFieldLabel {
     color: #d4c34c;
     font-weight: bold;
     font-size: 20px;
     text-align: center;
 }
 
-.loanReqFieldValue{
+.loanReqFieldValue {
     background-color: #2f2f2f;
     color: #d4c34c;
     box-shadow: 0 0 18px rgba(255,255,255,0.10);
-    width: auto;
     height: 50px;
     text-align: center;
     font-size: 20px;
     text-transform: capitalize;
     font-weight: bolder;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.loanReqField {
-    text-align: left;
-    padding: 10px;
-    font-weight: bold;
+    padding: 10px 0;
 }
 
 .loanReqFooter {
@@ -63,8 +200,12 @@
     margin: auto;
     height: 30px;
 }
+.newStatus,.newStatus option{
+    background-color: #d4c34c;
+}
 
-#acceptBtn{
+/* Accept / Decline Buttons */
+#acceptBtn {
     background: #18ca6e;
     border: 2px solid #67d44c;
     border-radius: 14px;
@@ -74,16 +215,15 @@
     color: white;
     transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 0 12px rgba(0,0,0,0.4);
-    z-index: 20;
 }
 
-#acceptBtn:hover{
+#acceptBtn:hover {
     transform: scale(1.07);
     filter: brightness(1.15);
     box-shadow: 0 0 10px #18ca6e;
 }
 
-#declineBtn{
+#declineBtn {
     background: #e20e27;
     border: 2px solid #d4674c;
     border-radius: 14px;
@@ -93,15 +233,19 @@
     color: white;
     transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 0 12px rgba(0,0,0,0.4);
-    z-index: 20;
 }
 
-#declineBtn:hover{
+#declineBtn:hover {
     transform: scale(1.07);
     filter: brightness(1.15);
     box-shadow: 0 0 10px #e20e27;
 }
 
+#noLQ {
+    font-size: 17px;
+    margin: 20px;
+    color: #aaa;
+}
 #noLQ{
     font-size: 30px;
     font-weight: bold;

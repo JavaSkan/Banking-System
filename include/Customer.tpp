@@ -115,6 +115,21 @@ std::string customerToCsvLine(const Customer& Cus) {
 
     return ss.str();
 }
+std::string customerToStr(const Customer& Cus) {
+    std::stringstream ss;
+
+    ss << Cus.ID << "*"
+       << Cus.type << "*"
+       << Cus.IBAN << "*"
+       << Cus.branchCode << "*"
+       << Cus.name << "*"
+       << dateToString(Cus.openingDate) << "*"
+       << Cus.status << "*"
+       << std::to_string(Cus.balance).substr(0, std::to_string(Cus.balance).find('.') + 4) << "*"
+       << Cus.password;
+
+    return ss.str();
+}
 
 
 

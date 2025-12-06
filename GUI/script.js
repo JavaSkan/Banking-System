@@ -81,14 +81,3 @@ function sendLoanReq(){
         }
     )
 }
-function changeStatus(){
-    let newStatus = document.getElementById("newStatus").selectedIndex+5;
-    statusChangeCPP(newStatus).then((reply)=>{
-        console.log(reply);
-    })
-    
-}
-
-function ShowIndex(){
-    document.getElementById("output").innerHTML=document.getElementById("newStatus").selectedIndex;
-}

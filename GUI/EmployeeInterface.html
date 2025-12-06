@@ -9,15 +9,37 @@
     <script src="EmployeeScript.js"></script>
     <script src="script.js"></script>
 </head>
-<body>
+
+<body onload="getLoggedEmployee()">
     <nav>
         <h1>Banking System</h1>
-        <button class="quitbtn" onclick="closeWin()"><img src="../assets/exit.png" alt=""></button>
+        <button class="quitbtn" onclick="closeWin()">
+            <img src="../assets/exit.png" alt="">
+        </button>
     </nav>
-    <aside class="EmplAside">
-        <button onclick="displayLoanRequest()" class="intbtns">Show Loan Requests</button>
-    </aside>
-    <main id="mainEmpInt">
-    </main>
+
+    <div id="layout">
+
+        <aside id="aside">
+            <p>Employee ID:</p>
+            <p id="EmpID"></p>
+
+            <p>Name:</p>
+            <p id="EmpName"></p>
+
+            <div class="actionSidebar">
+                <button onclick="viewAllCustomers()">View Customers</button>
+                <button onclick="displayLoanRequest()">View All Loans</button>
+                <button onclick="approveLoans()">Approve Loan Requests</button>
+                <button onclick="viewTransactions()">Transaction History</button>
+                <button onclick="employeeSettings()">Settings</button>
+            </div>
+        </aside>
+
+        <div id="mainWrapper">            
+            <div id="mainEmpInt"></div>
+        </div>
+
+    </div>
 </body>
 </html>

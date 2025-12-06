@@ -9,6 +9,7 @@
 int addCustomerToCsv(const Customer& Cus);
 int init_customerArray(Array<Customer>& Cusarr);
 string customerToCsvLine(const Customer& Cus);
+std::string customerToStr(const Customer& Cus);
 TEMPLATE Array<T> createCustomerArray();
 string createNewCustomer(const string& infoJSON);
 string RIBGen(const Customer& Cus);

@@ -23,7 +23,7 @@ int displayEarliest(const Array<Employee>& eArr);
 int displayMostRecently(const Array<Employee>& eArr);
 int addCustomer(Array<Customer>* cArr);
 int displayAccounts(const Array<Customer>& cArr);
-int changeStatus(Customer* c);
+string changeStatus(const string& infoJSON);
 int deleteCustomer(Array<Customer>* cArr, Customer c);
 /*probably was alread made;
 int displayLoans()
