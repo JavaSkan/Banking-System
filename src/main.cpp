@@ -70,6 +70,33 @@ void loadLoanReqs(){
     file.close();
 }
 
+/*
+Called when employee either deleles or accepts a loan request
+Always deletes the first line.
+*/
+void deleteLoanReqFromCSV(){
+    fstream file("assets/LoanRequests.csv",ios::in); 
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv (first try)" << endl;
+        return;
+    }
+    Array<string> lines = createArray<string>(50);
+    string line;
+    while(getline(file,line)){
+        addElement(&lines,line,lines.size);
+    }
+    file.close();
+    file.open("assets/LoanRequests.csv",ios::out | ios::trunc);
+    if(!file.is_open()){
+        cerr << "Cannot open file: assets/LoanRequests.csv (second try)" << endl;
+        return;
+    }
+    for(int i = 1; i < lines.size; i++){
+        file << lines.data[i] << '\n';
+    }
+    file.close();
+}
+
 void init_completedLoansList(){
     ifstream file("assets/CompletedLoans.csv");
     if(!file.is_open()){
@@ -80,7 +107,9 @@ void init_completedLoansList(){
         getline(file,line);
         completed_loans = stringToSL(line);
     }
+    file.close();
 }
+
 void init_TransactionList(){
     ifstream file("assets/Transactions.csv");
     if(!file.is_open()){
@@ -91,6 +120,7 @@ void init_TransactionList(){
         getline(file,line);
         finalized_transactions = stringToSLTr(line);
     }
+    file.close();
 }
 
 string getSpecificLoan(int pos){ 
@@ -336,8 +366,19 @@ string addAcceptedLoanReq(const string& infoJSON){
     acceptedLoan.end_date = stringToDate(loanReqInfo[4]);
     //std::cout << "[DEBUG-addAcceptedLoanReq(accepted loan)]: " << loanToString(acceptedLoan) << std::endl;
     insert(&custArray.data[i].loans,acceptedLoan,custArray.size+1);
+    deleteLoanReqFromCSV();
     updateCustomerInCsv(custArray.data[i]);
     return "\"Added Accepted Loan Request in CPP\"";
+}
+
+/*
+The only purpose of this function is to delete
+the loan request permanently from the CSV file
+to respect the FIFO system
+*/
+string declineLoanReq(const string&){
+    deleteLoanReqFromCSV();
+    return "\"[DEBUG@declineLoanReq]: Deleted loan req from csv\"";
 }
 
 string sendTransactionsJS(const string&){
@@ -464,6 +505,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("deleteCompletedLoans",deleteLoan);
     w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
+    w.bind("declineLoanReq",declineLoanReq);
 }
 
 void setupWebView() {

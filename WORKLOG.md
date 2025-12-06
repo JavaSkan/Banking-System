@@ -51,3 +51,5 @@
 || Fixed transistion between sub interfaces in the Employee Interface                | Skander        |
 || Employee can update the status of a loan for a specific customer                  | Skander        |
 || Added a sidebar display area in the Employee interface                            | Skander        |
+|| Implemented Deletion of loan requests from CSV file when accepting/deleting them  | Skander        |
+|| Added forgotten closing instruction of files                                      | Skander        |

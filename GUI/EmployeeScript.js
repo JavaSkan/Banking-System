@@ -69,6 +69,11 @@ function addNoLoanReqMsg(){
 
 function declineLoanRequest(loanReqCompId){
     document.getElementById(loanReqCompId).remove();
+    declineLoanReq().then(
+        (reply) => {
+            console.log(`C++ replied: ${reply}`);
+        }
+    )
     //display next loan request
     displayLoanRequest();
 }
