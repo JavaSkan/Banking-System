@@ -192,14 +192,52 @@ string sendCustomerLine(const string& i){
     return "{\"data\":\"" +getSpecificCustomerStr(stoi(unJSON(i))) + "\"}";}
 
 //---------------------------------------------
-string getSpecificEmployeeStr(int i){
-    Employee emp=EmplArray.data[i];
+string getSpecificEmployeeStr(const Array<Employee>& arr,int i){
+    Employee emp=arr.data[i];
     string EmployeeString=employeeToStr(emp);
     return EmployeeString; //brojla da5alt el camel case fel pascal case ama bara barka
 }
-string sendEmployeeLine(const string& i){
-    return "{\"data\":\"" +getSpecificEmployeeStr(stoi(unJSON(i))) + "\"}";}
+void sortAlpha(Array<Employee>& arr) {
+    for (int i = 0; i < arr.size - 1; i++) {
+        for (int j = 0; j < arr.size - i - 1; j++) {
+            if (arr.data[j].LastName > arr.data[j + 1].LastName) {
+                Employee temp = arr.data[j];
+                arr.data[j] = arr.data[j + 1];
+                arr.data[j + 1] = temp;
+            }
+        }
+    }
+}
+void grpBankBranch(Array<Employee>& arr) {
+    for (int i = 0; i < arr.size - 1; i++) {
+        for (int j = 0; j < arr.size - i - 1; j++) {
+            if (arr.data[j].bankBranch > arr.data[j + 1].bankBranch) {
+                Employee temp = arr.data[j];
+                arr.data[j] = arr.data[j + 1];
+                arr.data[j + 1] = temp;
+            }
+        }
+    }
+}
 
+
+string sendEmployeeLine(const string& infoJSON){
+    string info=unJSON(infoJSON);
+    string parts[2];
+    splitStr(info,'*',parts,2);
+    string i=parts[0];
+    string type=parts[1];
+    Array<Employee> copy =copyArray(EmplArray);
+    if(type=="alpha"){
+        sortAlpha(copy);
+        return "{\"data\":\"" +getSpecificEmployeeStr(copy,stoi(i)) + "\"}";
+    }else{
+        if(type=="branch"){
+        grpBankBranch(copy);
+        return "{\"data\":\"" +getSpecificEmployeeStr(copy,stoi(i)) + "\"}";}
+    }
+    return "\"false\"";
+}
 //---------------------------------------------------------------
 
 string closeWindow(const string&) {
@@ -321,6 +359,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("getLoansLine",sendLoanInfo);
     w.bind("sendLoanToCPP",receiveLoanReq);
     w.bind("getCustomerLine",sendCustomerLine);
+    w.bind("getEmployeeLine",sendEmployeeLine);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoggedEmployeeInfoCPP",sendEmpLoggedInfoJS);

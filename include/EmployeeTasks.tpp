@@ -23,7 +23,6 @@ int init_employeeArray(Array<Employee>& EmplArray){
     string line;
     string temp;
     Employee e;
-    string value = "";
     while(getline(file, line)){
         buf << line;
         cout<<line<<endl;
@@ -32,7 +31,7 @@ int init_employeeArray(Array<Employee>& EmplArray){
         getline(buf, e.LastName, ',');
         getline(buf, e.Adress, ',');
         getline(buf, temp, ',');e.Salary=stof(temp);
-        getline(buf, temp, ',');e.HireDate = stringToDate(value);
+        getline(buf, temp, ',');e.HireDate = stringToDate(temp);
         getline(buf, e.bankBranch, ',');
         getline(buf, e.password, ',');
         addElement(&EmplArray, e, EmplArray.size);
