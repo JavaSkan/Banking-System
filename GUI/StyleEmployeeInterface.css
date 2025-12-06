@@ -145,9 +145,14 @@
 /* Container where all cards load */
 #mainEmpInt {
     width: 100%;
+    margin:auto;
     display: flex;
     flex-direction: column;
     gap: 25px;
+}
+
+#mainWrapper{
+    margin: auto;
 }
 
 /* Your existing loan request card style */
@@ -183,7 +188,7 @@
 
 .loanReqFieldValue {
     background-color: #2f2f2f;
-    color: #d4c34c;
+    color: #feee71;
     box-shadow: 0 0 18px rgba(255,255,255,0.10);
     height: 50px;
     text-align: center;
@@ -191,6 +196,7 @@
     text-transform: capitalize;
     font-weight: bolder;
     padding: 10px 0;
+    margin: 10px;
 }
 
 .loanReqFooter {
@@ -251,6 +257,7 @@
     font-weight: bold;
     margin: 20px;
     color: #aaa;
+    border-right: 150%;
     animation: animNOLQ 3s ease-in-out infinite;
 }
 

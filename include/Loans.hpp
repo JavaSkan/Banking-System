@@ -31,6 +31,7 @@ struct Loan{
 
 struct LoanRequest{
     Loan loan = {};
+    int duration = 0;
     string ID_customer = "NO-CUSTOMER";
 };
 

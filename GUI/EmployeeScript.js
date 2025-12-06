@@ -38,9 +38,11 @@ function acceptLoanRequest(loanReqCompId){
     let comp = document.getElementById(loanReqCompId);
     let amount = comp.children[1].children[1].innerText;
     amount = amount.substring(0,amount.indexOf('.'));
-    let sent_data = comp.children[5].innerHTML+'*' //customer ID
+    let sent_data = comp.children[7].innerText+'*' //customer ID
                     +amount+'*' //amount without ' TND'
-                    +comp.children[2].children[1].value; //type (string representation)
+                    +comp.children[2].children[1].dataset.value+"*" //type (string representation)
+                    +comp.children[3].children[1].dataset.value+"*" //start date (string repr)
+                    +comp.children[4].children[1].dataset.value; //end date (string repr)
     sendAcceptedLoanReq(sent_data).then(
         (reply) => {
             console.log("C++ replied:"+reply);
@@ -70,6 +72,7 @@ function declineLoanRequest(loanReqCompId){
 Return a Loan Request Component (HTML element) from a string in JSON format
 */
 function getLoanReqComponent(lrs){
+    console.log(lrs);
     const compononent = document.createElement("div");
     compononent.id = lrs.ID_cus;
     compononent.classList.add("loanReqComp");
@@ -85,11 +88,33 @@ function getLoanReqComponent(lrs){
         <p class="loanReqFieldValue"> ${lrs.amount} TND </p>
     `;
 
+    let type_value = "";
+    switch(lrs.type){
+        case "car": type_value = "1"; break;
+        case "home": type_value = "2"; break;
+        case "student": type_value = "3"; break;
+        case "business": type_value = "4"; break;
+    }
+
     const type_ = document.createElement("div");
     type_.classList.add("loanReqField");
     type_.innerHTML = `
         <div class="loanReqFieldLabel">Type:</div>
-        <p class="loanReqFieldValue"> ${lrs.type} </p>
+        <p class="loanReqFieldValue" data-value="${type_value}"> ${lrs.type} </p>
+    `;
+
+    const start_d = document.createElement("div");
+    start_d.classList.add("loanReqField");
+    start_d.innerHTML = `
+        <div class="loanReqFieldLabel">Starts On:</div>
+        <p class="loanReqFieldValue" data-value="${lrs.d_start}"> ${lrs.d_start} </p>
+    `;
+
+    const end_d = document.createElement("div");
+    end_d.classList.add("loanReqField");
+    end_d.innerHTML = `
+        <div class="loanReqFieldLabel">Ends On:</div>
+        <p class="loanReqFieldValue" data-value="${lrs.d_end}"> ${lrs.d_end} </p>
     `;
 
     const accept_but = document.createElement("button");
@@ -111,6 +136,8 @@ function getLoanReqComponent(lrs){
     compononent.appendChild(header);
     compononent.appendChild(amount);
     compononent.appendChild(type_);
+    compononent.appendChild(start_d);
+    compononent.appendChild(end_d);
     compononent.appendChild(accept_but);
     compononent.appendChild(decline_but);
     compononent.appendChild(cus_ID_footer);
