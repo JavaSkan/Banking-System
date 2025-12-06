@@ -435,13 +435,14 @@ string undoTranCPP(const string&){
         return "\"false\"";
     }else{
         Transaction t = top(LoggedInCustomer.transactions);
-        if (compareDates(t.date,CurrentDate)!=-1){
+        if (!LoggedInCustomer.rolledback){
             Transaction val=pop(LoggedInCustomer.transactions);
             updateCustomerInCsv(LoggedInCustomer);
+            LoggedInCustomer.rolledback = 1;
             return "\"true\"";
         }
         else{
-            cout<<"Cannot undo old transactions"<<endl;
+            cout<<"Cannot undo more transactions"<<endl;
             return "\"falseOld\"";
         }
     }
