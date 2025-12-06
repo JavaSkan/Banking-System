@@ -468,3 +468,84 @@ function addEmployee() {
         viewAllEmployees(); // go back to employee list
     });
 }
+
+function buildLoanContainer(cusID,lnj){
+    let sel_card = document.getElementById(`custCard_${cusID}`);
+    let loanContainer = document.createElement("div");
+    loanContainer.classList.add("loanContainer");
+    console.log(lnj);
+
+    loanContainer.innerHTML = `
+        <div class="loanContainer">
+            <div class="loanField">
+                <span class="loanLabel">Loan ID: </span>
+                <span class="loanValue">${lnj.id}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Type: </span>
+                <span class="loanValue">${lnj.type}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Pr. Amount: </span>
+                <span class="loanValue">${lnj.amount} TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Int. Rate: </span>
+                <span class="loanValue">${lnj.itr}%</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Amount Paid: </span>
+                <span class="loanValue">${lnj.paid}  TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Remaining Balance: </span>
+                <span class="loanValue">${lnj.rmn} TND</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Started On: </span>
+                <span class="loanValue">${lnj.start}</span>
+            </div>
+            <div class="loanField">
+                <span class="loanLabel">Ends On: </span>
+                <span class="loanValue">${lnj.end}</span>
+            </div>
+            <select id="loanStatus_${lnj.id}" class="loanStatus" onchange="changeLoanStatus('${cusID}','${lnj.id}','loanStatus_${lnj.id}')">
+                <option value="5">Active</option>
+                <option value="6">Completed</option>
+                <option value="7">Overdue</option>
+            </select>
+        </div>
+    `;
+    sel_card.appendChild(loanContainer);
+}
+
+function changeLoanStatus(cusID,ln_id,ls_id){
+    let status = document.getElementById(ls_id);
+    switch(status.value){
+        case "5":
+            status.style.backgroundColor = "blue";
+            break;
+        case "6":
+            status.style.backgroundColor = "green";
+            break;
+        case "7":
+            status.style.backgroundColor = "red";
+            break;
+    }
+    changeLoanStatusOfCustomer(cusID+"*"+ln_id+"*"+status.value).then(
+        (reply) => {
+            console.log(`C++ replied ${reply}`);
+        }
+    )
+}
+
+function viewCustomerLoans(cusID){
+    receiveLoansOfCustomer(cusID).then(
+        (loansJSON) => {
+            if(loansJSON == "[]") return; //Add a message "No Loans"
+            for(let i = 0; i < loansJSON.length; i++){
+                buildLoanContainer(cusID,loansJSON[i]);
+            }
+        }
+    );
+}

@@ -43,3 +43,7 @@
 || Loan Requests data transfer now include start and end date                        | Skander        |
 || Accepting Loan Requests updates the Customer loan list                            | Skander        |
 || Slight changes to style of Employee Interface                                     | Skander        |
+|6-12-2025| Fixed searchByID for DList                                               | Skander        |
+|| Employee can show loans in Employee Interface                                     | Skander        |
+|| Employee can update the status of a loan for a specific customer                  | Skander        |
+
