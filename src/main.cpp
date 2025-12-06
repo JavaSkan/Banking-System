@@ -192,13 +192,13 @@ string getInfo(const string&) {
     return "{\"data\":\"" + combined + "\"}";
 }
 
-string receiveLoanFromJS(const string& infoJSON){  
+string receiveLoanReq(const string& infoJSON){  
     ofstream file("assets/LoanRequests.csv",ios::app);
     if (!file.is_open()){
         cerr << "Cannot open file : assets/LoanRequests.csv" << endl;
     }else{
         if(LoggedInCustomer.ID == ""){
-            cerr << "[ERROR-receiveLoanFromJS]: No logged in customer" << endl;
+            cerr << "[ERROR-receiveLoanReq]: No logged in customer" << endl;
             return "\"NOLOGCUS\"";
         }
         string info = unJSON(infoJSON);
@@ -206,7 +206,7 @@ string receiveLoanFromJS(const string& infoJSON){
         file << loanRequestLine << endl;
     }
     file.close();
-    return "\"true\"";
+    return "\"Received Loan Request\"";
 }
 
 string sendSizeOfQueue(const string&){
@@ -214,16 +214,40 @@ string sendSizeOfQueue(const string&){
 }
 
 string sendCurrentLoanReq(const string&){
-    LoanRequest curLQ = dequeue(currentLoanReqs);
-    string ret = "{\"ID_cus\":\"" + curLQ.ID_customer + "\"," \
-                 + "\"amount\":\"" + to_string(curLQ.loan.pr_amount) + "\","
-                 + "\"type\":\"" + loanTypeStr(curLQ.loan.type) + "\"}";
+    LoanRequest curLR = dequeue(currentLoanReqs);
+    string ret = "{\"ID_cus\":\"" + curLR.ID_customer + "\"," \
+                 + "\"amount\":\"" + to_string(curLR.loan.pr_amount) + "\","
+                 + "\"type\":\"" + loanTypeStr(curLR.loan.type) + "\","
+                 + "\"d_start\":\"" + dateToString(curLR.loan.start_date) + "\","
+                 + "\"d_end\":\"" + dateToString(curLR.loan.end_date) + "\"}";
     return ret;
 }
 
-string receiveAcceptedLoanReq(const string& info){
-    return "";
+string addAcceptedLoanReq(const string& infoJSON){
+    string info = unJSON(infoJSON);
+    string loanReqInfo[5];
+    splitStr(info,'*',loanReqInfo,5);
+    int i = searchByID(custArray,loanReqInfo[0]);
+    if(i == -1) {
+        cout << "[DEBUG-addAcceptedLoanReq(customer id)]: " << loanReqInfo[0] << endl;
+        return "\"Failed at addAcceptedLoanReq\"";
+    }
+    //add a loan to the customer
+    Loan acceptedLoan;
+    acceptedLoan.ID = "L"+loanReqInfo[0]+to_string(listSize(custArray.data[i].loans)+1);
+    acceptedLoan.pr_amount = stof(loanReqInfo[1]);
+    acceptedLoan.type = stoi(loanReqInfo[2]);
+    acceptedLoan.am_paid = 0;
+    acceptedLoan.rm_balance = acceptedLoan.pr_amount; //temporary
+    acceptedLoan.it_rate = 0.12;
+    acceptedLoan.status = LNS_ACTIVE;
+    acceptedLoan.start_date = stringToDate(loanReqInfo[3]);
+    acceptedLoan.end_date = stringToDate(loanReqInfo[4]);
+    //std::cout << "[DEBUG-addAcceptedLoanReq(accepted loan)]: " << loanToString(acceptedLoan) << std::endl;
+    insert(&custArray.data[i].loans,acceptedLoan,custArray.size+1);
+    return "\"Added Accepted Loan Request in CPP\"";
 }
+
 string sendTransactionsJS(const string&){
     string combined;
     string info;
@@ -266,7 +290,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
     w.bind("getLoansLine",sendLoanInfo);
-    w.bind("sendLoanToCPP",receiveLoanFromJS);
+    w.bind("sendLoanToCPP",receiveLoanReq);
     w.bind("CustLoginCPP",CustLoginCpp);
     w.bind("EmplLoginCPP",EmplLoginCpp);
     w.bind("getLoanCount",sendLoanCountJS);
@@ -276,7 +300,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("receiveQueueSize",sendSizeOfQueue);
     w.bind("receiveCurrentLoanReq",sendCurrentLoanReq);
-    w.bind("sendAcceptedLoanReq",receiveAcceptedLoanReq);
+    w.bind("sendAcceptedLoanReq",addAcceptedLoanReq);
     w.bind("withdrawCPP",withdraw);
     w.bind("getTransactionCPP",sendTransactionsJS);
     w.bind("undoTranCPP",undoTranCPP);

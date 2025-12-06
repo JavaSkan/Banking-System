@@ -107,6 +107,7 @@
     font-weight: bold;
     margin: 20px;
     color: #aaa;
+    border-right: 150%;
     animation: animNOLQ 3s ease-in-out infinite;
 }
 
