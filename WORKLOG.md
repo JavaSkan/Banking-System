@@ -46,4 +46,6 @@
 |6-12-2025| Fixed searchByID for DList                                               | Skander        |
 || Employee can show loans in Employee Interface                                     | Skander        |
 || Employee can update the status of a loan for a specific customer                  | Skander        |
-
+|| Fixed transistion between sub interfaces in the Employee Interface                | Skander        |
+|| Employee can update the status of a loan for a specific customer                  | Skander        |
+|| Added a sidebar display area in the Employee interface                            | Skander        |

@@ -29,7 +29,6 @@ Customer LoggedInCustomer;
 Employee LoggedInEmployee;
 Customer SelectedCustomer;
 Queue* currentLoanReqs = createQueue();
-Queue* acceptedLoanReqs = createQueue();
 
 //Load loans requests from csv files
 //Should be called when an employee logs in 
@@ -271,6 +270,7 @@ string addAcceptedLoanReq(const string& infoJSON){
     acceptedLoan.end_date = stringToDate(loanReqInfo[4]);
     //std::cout << "[DEBUG-addAcceptedLoanReq(accepted loan)]: " << loanToString(acceptedLoan) << std::endl;
     insert(&custArray.data[i].loans,acceptedLoan,custArray.size+1);
+    updateCustomerInCsv(custArray.data[i]);
     return "\"Added Accepted Loan Request in CPP\"";
 }
 
@@ -317,6 +317,7 @@ string sendLoansOfCustomer(const string& idJSON){
     while(current){
         loanJSONString = "{\"id\":\"" + current->data.ID                          + "\","
                         + "\"type\":\"" + loanTypeStr(current->data.type)         + "\","
+                        + "\"status\":\"" + to_string(current->data.status)        + "\","
                         + "\"amount\":\"" + to_string(current->data.pr_amount)    + "\","
                         + "\"itr\":\"" + to_string(current->data.it_rate*100)     + "\","
                         + "\"paid\":\"" + to_string(current->data.am_paid)        + "\","
@@ -351,6 +352,7 @@ string updateLoanStatusOfCustomer(const string& statusJSON){
         cur = cur->next;
     }
     cur->data.status = stoi(info[2]);
+    updateCustomerInCsv(custArray.data[c_idx]);
     return "\"Updated Loan(" + info[1] + ") Status Of Customer " + info[0] + " to " + info[2] + "\"";
 }
 
@@ -420,7 +422,6 @@ int main() {
 
     w.run();
     destroyQueue(currentLoanReqs);
-    destroyQueue(acceptedLoanReqs);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }
