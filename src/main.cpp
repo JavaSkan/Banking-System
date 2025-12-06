@@ -365,9 +365,12 @@ string addAcceptedLoanReq(const string& infoJSON){
     acceptedLoan.start_date = stringToDate(loanReqInfo[3]);
     acceptedLoan.end_date = stringToDate(loanReqInfo[4]);
     //std::cout << "[DEBUG-addAcceptedLoanReq(accepted loan)]: " << loanToString(acceptedLoan) << std::endl;
-    insert(&custArray.data[i].loans,acceptedLoan,custArray.size+1);
-    deleteLoanReqFromCSV();
+    if(!insert(&custArray.data[i].loans,acceptedLoan,custArray.data[i].loans.size+1)){
+        cerr << "[DEBUG@addAcceptedLoanReq]: Failed to insert new loan" << endl;
+        return "\"addAcceptedLoanReq failed at insertion of accepted loan\"";
+    }
     updateCustomerInCsv(custArray.data[i]);
+    deleteLoanReqFromCSV();
     return "\"Added Accepted Loan Request in CPP\"";
 }
 
@@ -491,6 +494,15 @@ string sendTransOfCustomer(const string& idJSON){
     return sent;
 }
 
+/*
+Just a wrapper function to call loadLoanReqs in JS
+Should be called when the employee clicks on "View Customers"
+*/
+string syncLoanReqs(const string&){
+    loadLoanReqs();
+    return "\"Synchronized Loan Requests\"";
+}
+
 // --- SETUP FUNCTIONS ---
 
 
@@ -523,11 +535,12 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("getTransactionCPP",sendTransactionsJS);
     w.bind("undoTranCPP",undoTranCPP);
     //w.bind("statusChangeCPP",changeStatusLoan);
-    w.bind("deleteCompletedLoans",deleteLoan);
+    w.bind("deleteCompletedLoans",deleteCompletedLoans);
     w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
     w.bind("declineLoanReq",declineLoanReq);
     w.bind("receiveTransOfCustomer",sendTransOfCustomer);
+    w.bind("syncLoanReqs",syncLoanReqs);
 }
 
 void setupWebView() {
@@ -562,6 +575,7 @@ int main() {
 
     w.run();
     destroyQueue(currentLoanReqs);
+    destroyArray(&custArray);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }

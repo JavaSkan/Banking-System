@@ -307,25 +307,23 @@ int deleteCustomer(Array<Customer>* cArr, Customer c){
 
 
 
-string deleteLoan(const string&){
+string deleteCompletedLoans(const string&){
     for (int i = 0; i<custArray.size;i++){
-        for (int j = 1; j<=custArray.data[i].loans.size;j++){
-
-            DNode* currentLoan = custArray.data[i].loans.head;
-            if (currentLoan->data.status == 6 )
+        DNode* currentLoan = custArray.data[i].loans.head;
+        while (currentLoan != nullptr){
+            if (currentLoan->data.status == LNS_COMPLETED)
             {
-                string ID = currentLoan->data.ID;
-                bool T = insert(&completed_loans,currentLoan->data, completed_loans.size + 1);
-                removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,ID));
+                if(!insert(&completed_loans,currentLoan->data, completed_loans.size + 1)){
+                    cerr << "[deleteCompletedLoans]: Failed too insert completed loan\n";
+                }
+                removeAt(&custArray.data[i].loans,searchByID(custArray.data[i].loans,currentLoan->data.ID));
                 updateCustomerInCsv(custArray.data[i]);
                 updateCompletedLoansCsv(completed_loans);
-        
             }
-
+            currentLoan = currentLoan->next;
         }
     }
-    return "\"Completed loans are deleted\"";
-
+    return "\"Completed loans have been deleted\"";
 }
 
 string finilize(const string&){
