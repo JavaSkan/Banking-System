@@ -23,7 +23,10 @@ Bank randomBank() {
     }
     srand((unsigned int)time(NULL));  //generate random number between 0 and size-1
     int idx = rand() % size + 1;
-    return getElement<Bank>(BL, idx);
+    //to avoid memory leak
+    Bank ret = getElement<Bank>(BL, idx);
+    destroyList(&BL);
+    return ret;
 }
 SList<Bank> BranchesList() {
     ifstream file("assets/BankBranches.csv"); 
