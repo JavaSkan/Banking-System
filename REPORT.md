@@ -268,8 +268,8 @@ tests/
 >    string password="";
 >    bool rolledback = false;
 >};
->### This also comes with a curentDate global variable defiend using extern
 >```
+>### This also comes with a curentDate global variable defiend using `extern`
 ><br>
 
 > ### **Date :**
@@ -447,23 +447,23 @@ tests/
 ### **Transactions + Undo**
 
 ```
-Deposit/Withdraw Flow                               Undo Flow
-───────────────────────────────────                 ───────────────────────────────────
+Deposit/Withdraw Flow                  Undo Flow
+───────────────────────────────────    ───────────────────────────────────
 
-    ┌───────────────┐                                   ┌──────────┐
-    │  C++ Actions  │                                   │  C++ Pop │
-    └───────┬───────┘                                   └─────┬────┘
-            │                                                 │
-    Push transaction onto stack                        Reverse operation
-            │                                                 │
-            ▼                                                 ▼
- Balance update + CSV write                             Update CSV
+    ┌───────────────┐                      ┌──────────┐
+    │  C++ Actions  │                      │  C++ Pop │
+    └───────┬───────┘                      └─────┬────┘
+            │                                    │
+    Push transaction onto stack           Reverse operation
+            │                                    │
+            ▼                                    ▼
+ Balance update + CSV write                Update CSV
 
 
 ```
 
 ---
-
+# **References**
 
 # **Summary**
 
