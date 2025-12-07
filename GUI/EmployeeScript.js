@@ -564,7 +564,6 @@ function addEmployee() {
             document.getElementById("empName").value.trim()+"*"+document.getElementById("empLastName").value.trim()+"*"+document.getElementById("empAdress").value.trim()+"*"+document.getElementById("empSalary").value+"*"
         ;
 
-        // Call your backend function to save employee
         addEmployeeCPP(newEmp).then(reply => {
             console.log("Employee added:", reply);
             viewAllEmployees(); // refresh the employee list
@@ -782,7 +781,7 @@ function createStyledEmpCard(arr) {
     const [ID, Name, LastName, Address, Salary, HireDate, Branch, Password] = arr;
 
     const card = document.createElement("div");
-    card.classList.add("customerCard"); // same UI theme as customer cards
+    card.classList.add("customerCard"); //juste 3al style
 
     // HEADER
     const header = document.createElement("div");
