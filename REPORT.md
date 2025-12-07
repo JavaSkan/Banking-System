@@ -107,7 +107,7 @@ tests/
 ┌─────────────────────────────────────────────────────┐
 │ 4. Initialize WebView2                              │
 │    • Create WebView instance                        │
-│    • Bind C++ functions  →  see: [Binding](#binding)│
+│    • Bind C++ functions                             │
 │    • Load GUI/index.html                            │
 └────────────────────────────┬────────────────────────┘
     │
