@@ -158,7 +158,7 @@ function getLoanReqComponent(lrs){
 
     const decline_but = document.createElement("button");
     decline_but.type = "button";
-    decline_but.innerText = "Decile";
+    decline_but.innerText = "Decline";
     decline_but.id = "declineBtn";
     decline_but.setAttribute("onclick",`declineLoanRequest('${lrs.ID_cus}')`);
 

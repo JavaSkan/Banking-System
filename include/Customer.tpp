@@ -139,7 +139,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
     ifstream file("assets/Customers.csv"); 
     if(!file.is_open()){
         cerr << "Cannot open file: assets/Customers.csv" << endl;
-        return 0;
+        return -1;
     }
 
     stringstream buf;
