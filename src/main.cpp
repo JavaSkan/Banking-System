@@ -17,6 +17,7 @@
 #include <LoansMeth.hpp>
 #include <Employee.hpp>
 #include <EmployeeTasks.hpp>
+#include <statistics.hpp>
 #include <QueueMeth.hpp>
 
 using namespace std;
@@ -435,13 +436,14 @@ string undoTranCPP(const string&){
         return "\"false\"";
     }else{
         Transaction t = top(LoggedInCustomer.transactions);
-        if (compareDates(t.date,CurrentDate)!=-1){
+        if (!LoggedInCustomer.rolledback){
             Transaction val=pop(LoggedInCustomer.transactions);
             updateCustomerInCsv(LoggedInCustomer);
+            LoggedInCustomer.rolledback = 1;
             return "\"true\"";
         }
         else{
-            cout<<"Cannot undo old transactions"<<endl;
+            cout<<"Cannot undo more transactions"<<endl;
             return "\"falseOld\"";
         }
     }
@@ -584,6 +586,18 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("receiveTransOfCustomer",sendTransOfCustomer);
     w.bind("syncLoanReqs",syncLoanReqs);
     w.bind("finalizeDay",finilize);
+
+    //Statistics
+    w.bind("getGlobalTotalLoans", sendTotalLoans);
+    w.bind("getGlobalTotalEmployees", sendTotalEmployees);
+    w.bind("getCustomerMostLoans", sendCustomerMostLoans);
+    w.bind("getCustomerHighestBalance", sendCustomerHighestBalance);
+    w.bind("getCustomerLowestBalance", sendCustomerLowestBalance);
+    w.bind("getLoansByType", sendLoansByTypeCount);
+    w.bind("getLoansByStatus", sendLoansByStatusCount);
+    w.bind("getActiveLoansInRange", sendActiveLoansInRangeCount);
+    w.bind("getEmpByBranch", sendEmpByBranchCount);
+    // In main.cpp -> setupBindings()
 }
 
 void setupWebView() {

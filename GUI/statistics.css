@@ -1,0 +1,111 @@
+/* ---------- STATISTICS PAGE STYLES (REVISED) ---------- */
+
+/* Main wrapper for the stats view */
+.statsContainer {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Reduced gap */
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* 1. TOP GRID (General Stats) - FORCED SINGLE COLUMN */
+.statsGrid {
+    display: grid;
+    /* Forces a single column that takes up all available width */
+    grid-template-columns: 1fr; 
+    gap: 15px; /* Reduced gap */
+}
+
+/* Individual Stat Card */
+.statCard {
+    background: #1c1c1e;
+    border: 1px solid #d4c34c;
+    border-radius: 10px; /* Slightly smaller radius */
+    padding: 15px 20px; /* Reduced vertical padding */
+    text-align: center;
+    box-shadow: 0 0 8px rgba(255,255,255,0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px; /* Reduced min height */
+}
+
+.statCard:hover {
+    transform: none; /* Removed hover lift effect for cleaner list look */
+    box-shadow: 0 0 10px rgba(212, 195, 76, 0.2);
+}
+
+/* Typography inside Stat Cards - SMALLER TEXT */
+.statLabel {
+    color: #aaa;
+    font-size: 0.8rem; /* Reduced size */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Reduced margin */
+}
+
+.statValue {
+    color: #feee71;
+    font-size: 1.3rem; /* Significantly reduced main number size */
+    font-weight: 800;
+}
+
+/* 2. CONTROLS SECTION (Bottom area) */
+.statsControls {
+    background: #1c1c1e;
+    padding: 20px; /* Reduced padding */
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.statsControls h3 {
+    color: #d4c34c;
+    margin-top: 0;
+    margin-bottom: 15px; /* Reduced margin */
+    border-bottom: 1px solid #3335;
+    padding-bottom: 8px; /* Reduced padding */
+    font-size: 1.1rem; /* Reduced header size */
+}
+
+/* Filter Row styling */
+.controlGroup {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Reduced gap */
+    padding: 10px;
+    margin-bottom: 8px; /* Reduced margin */
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px; /* Reduced radius */
+    border-left: 3px solid #d4c34c;
+}
+
+.controlGroup label {
+    color: white;
+    font-weight: 600;
+    width: 120px; /* Reduced width for alignment */
+    font-size: 0.9rem; /* Reduced size */
+}
+
+.controlGroup select {
+    padding: 6px 10px; /* Reduced padding */
+    background: #111;
+    color: white;
+    border: 1px solid #d4c34c;
+    border-radius: 4px; /* Reduced radius */
+    font-size: 0.9rem; /* Reduced size */
+}
+
+/* Result number in filter row - SMALLER TEXT */
+.statResultValue {
+    margin-left: auto;
+    color: #feee71;
+    font-size: 1.1rem; /* Significantly reduced size */
+    font-weight: bold;
+    padding-right: 5px;
+}

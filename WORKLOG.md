@@ -56,7 +56,6 @@
 || Employee can show transactions of each customer                                   | Skander        |
 || Added back button                                                                 | Skander        |
 || Fixed addition of accepted loan                                                   | Skander        |
-|| Fixed addition of accepted loan                                                   | Skander        |
 || Improved deleteCompletedLoan function                                             | Skander        |
 || Fixed send loan request of custom interface                                       | Skander        |
 || Fixed loanStatus select list color                                                | Skander        |

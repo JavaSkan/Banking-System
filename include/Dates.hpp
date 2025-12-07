@@ -1,6 +1,7 @@
 #ifndef DATES_H
 #define DATES_H
 #include <iostream>
+#include <fstream>
 #include <sstream>
 
 using namespace std;
@@ -37,7 +38,7 @@ returns 0  if d1 == d2
 returns 1  if d1 > d2
 */
 
-int compareDates(Date& d1, Date& d2);
+int compareDates(const Date& d1, const Date& d2);
 //string getDateJS(const string& dateInfoJSON);
 
 bool isLeap(int y);

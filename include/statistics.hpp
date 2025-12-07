@@ -1,36 +1,37 @@
-#ifndef STATISTICS_H
-#define STATISTICS_H
+#ifndef STATISTICS_HPP
+#define STATISTICS_HPP
 
-#include <customer.hpp>
-#include "Employee.hpp"
-#include "Loans.hpp"
+#include <iostream>
+#include <string>
+#include "DoublyLinkedListMeth.hpp"
 #include "arrayMeth.hpp"
+#include "Customer.hpp"
+#include "Employee.hpp"
+#include "Dates.hpp"
 
-//9adech famma min loan
-int getTotalLoans(const Array<Customer>& Cus, int nCus);
+using namespace std;
 
-//9adech famma min loan fi kol type
-int countLoansByType(const Array<Customer>& Cus, int nCus, const int type);
+// --- CORE LOGIC FUNCTIONS (Unchanged logic, just declarations) ---
+int getTotalLoans(const Array<Customer>& Cus);
+int countLoansByType(const Array<Customer>& Cus, int nCus, int type);
+int countLoansByStatus(const Array<Customer>& Cus, int nCus, int status);
+int countActiveLoansInRange(const Array<Customer>& Cus, int nCus, Date startDate, Date endDate);
+Customer* customerMostLoans(const Array<Customer>& Cus, int nCus);
+Customer* customerHighestBalance(const Array<Customer>& Cus, int nCus);
+Customer* customerLowestBalance(const Array<Customer>& Cus, int nCus);
+int totalEmp(const Array<Employee>& Emp);
+int countEmpByBranch(const Array<Employee>& Emp, int branchCode);
 
-//9adech famma min loan 7asb lstatus mte3ou
-int countLoansByStatus(const Array<Customer>& Cus, int nCus, const int status);
-
-//loans li mizlt date mt3hom
-int countActiveLoansInRange(const Array<Customer>& Cus, int nCus, const Date& startDate, const Date& endDate);
-
-//Customer li 3ndou akther loans
-Customer* CustomerMostLoans(const Array<Customer>& Cus, int nCus);
-
-//akther Customer korza
-Customer* CustomerHighestBalance(const Array<Customer>& Cus, int nCus);
-
-//akther Customer mnatef
-Customer* CustomerLowestBalance(Customer Cus[], int nCus);
-
-//9dech famma min employee
-int totalEmp(Employee Emp[], int nEmp);
-
-//9dch famma min employee fi kol branch
-int countEmpByBranch(Employee Emp[], int nEmp, int branchCode);
+// --- COMMUNICATION WRAPPERS (To be bound in main.cpp) ---
+// These receive strings from JS and return JSON strings
+string sendTotalLoans(const string&);
+string sendLoansByTypeCount(const string& typeJSON);
+string sendLoansByStatusCount(const string& statusJSON);
+string sendActiveLoansInRangeCount(const string& datesJSON); // Expects "start*end"
+string sendCustomerMostLoans(const string&);
+string sendCustomerHighestBalance(const string&);
+string sendCustomerLowestBalance(const string&);
+string sendTotalEmployees(const string&);
+string sendEmpByBranchCount(const string& branchJSON);
 
 #endif

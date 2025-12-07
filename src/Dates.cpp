@@ -43,31 +43,35 @@ Date stringToDate(string s){
     return {d,m,y};
 }
 
-int compareDates(Date& d1, Date& d2){
-    if(d1.year < d2.year){
-        return -1;
-    }else if(d1.year > d2.year){
-        return 1;
-    }else{
-        if(d1.month < d2.month){
-            return -1;
-        }else if(d1.month > d2.month){
-            return 1;
-        }else{
-            if(d1.day < d2.day){
-                return -1;
-            }else if(d1.day > d2.day){
-                return 1;
-            }else{
-                return 0;
-            }
-        }
-    }
+int compareDates(const Date& d1, const Date& d2){
+    if(d1.year < d2.year) return -1;
+    if(d1.year > d2.year) return 1;
+
+    if(d1.month < d2.month) return -1;
+    if(d1.month > d2.month) return 1;
+
+    if(d1.day < d2.day) return -1;
+    if(d1.day > d2.day) return 1;
+
+    return 0;
 }
+
 
 bool isLeap(int y) {
     return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
 }
+
+void updateDateInCSV() {
+    ofstream file("assets/Date.csv", ios::trunc); // overwrite whole file
+    if (!file.is_open()) {
+        cerr << "Cannot open file : assets/Date.csv" << endl;
+        return;
+    }
+
+    string line = dateToString(CurrentDate);
+    file << line << "\n";
+}
+
 
 void nextDay() {
     //to keep track of wether we need to increment the month
@@ -85,4 +89,5 @@ void nextDay() {
             CurrentDate.year++;
         }
     }
+    updateDateInCSV();
 }
