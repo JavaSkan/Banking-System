@@ -116,7 +116,7 @@ tests/
 │ 5. User Interfaces (HTML/CSS/JS)              │
 │    • Customer Interface                       │
 │    • Employee Interface                       │
-└───────────────────────────┬───────────────────┘
+└─────────────────────────┬─────────────────────┘
     │
     ▼
 ┌───────────────────────────────────────────────┐
@@ -164,7 +164,7 @@ tests/
 >});
 >```
 ><br>
-
+---
 ### **Complete Bindings Table**
 <div align="center">
 
@@ -217,6 +217,14 @@ tests/
 </div>
 
 
+## **Use of Templates**
+
+### We opted to use C++ Templates as it adds a level of abstraction much needed to fit our needs.At the top of most header file we added :
+>### Template Definition
+>```Cpp
+>#define TEMPLATE template <typename T>
+>```
+><br>
 ## **Structs used**
 
 
@@ -231,140 +239,242 @@ tests/
 >```
 ><br>
 
-Used for: **Customers, Employees**
+> ### **Bank :**
+>```cpp
+>struct Bank{
+>    string branchName;
+>    string ID;
+>};
+>```
+><br>
 
----
+> ### **Customer :**
+>```cpp
+>struct Customer{
+>constexpr int CST_INACTIVE = 0;
+>constexpr int CST_ACTIVE = 1;
+>constexpr int CST_CLOSED = -1;
+>
+>    string ID="";
+>    string type="";
+>    string IBAN="";
+>    string branchCode="";
+>    string name="";
+>    Date openingDate={0,0,0};
+>    int status=2;
+>    float balance=0;
+>    DList loans;
+>    Stack transactions;
+>    string password="";
+>    bool rolledback = false;
+>};
+>### This also comes with a curentDate global variable defiend using extern
+>```
+><br>
 
-### **Singly Linked List**
+> ### **Date :**
+>```cpp
+>struct Date
+>{
+>    int day = 1;
+>    int month = 1;
+>    int year = 1970;
+>};
+>```
+>### This also comes with a global variable `curentDate` 
+><br>
 
-Generic list for completed loans and finalized transactions.
+> ### **Doubly Linked List :**
+>```cpp
+>struct DNode{
+>    Loan data={};
+>    DNode* next=nullptr;
+>    DNode* prev=nullptr;
+>};
+>
+>struct DList {
+>    DNode* head=nullptr;
+>    DNode* tail=nullptr;
+>    int size=0;
+>};
+>```
+><br>
 
----
+> ### **Employee :**
+>```cpp
+>struct Employee{
+>    string ID;
+>    string Name;
+>    string LastName;
+>    string Adress;
+>    float Salary;
+>    Date HireDate;
+>    string bankBranch;
+>    string password;
+>};
+>```
+><br>
 
-### **Doubly Linked List**
+> ### **Loan and LoanRequest :**
+>```cpp
+>//Loan Types
+>constexpr int LNT_CAR = 1;
+>constexpr int LNT_HOME = 2;
+>constexpr int LNT_STUDENT = 3;
+>constexpr int LNT_BUSINESS = 4;
+>
+>//Loan Status
+>constexpr int LNS_ACTIVE = 5;
+>constexpr int LNS_COMPLETED = 6;
+>constexpr int LNS_OVERDUE = 7;
+>
+>struct Loan{
+>    string ID = "";
+>    int type = LNT_CAR;
+>    int status = LNS_OVERDUE;
+>    float pr_amount = -1.0; //principle amount
+>    float it_rate = 0.0; //interest rate
+>    float am_paid = 0.0; //amount paid
+>    float rm_balance = 0.0; //remaining balance
+>    Date start_date;
+>    Date end_date;
+>};
+>
+>struct LoanRequest{
+>    Loan loan = {};
+>    int duration = 0;
+>    string ID_customer = "NO-CUSTOMER";
+>};
+>```
+>### Addition of LoanRequest was necessary in order to store who sent the request and the duration (makes work easier for us lol)
+><br>
 
-Used for **active customer loans**.
+> ### **Queue :**
+>```cpp
+>constexpr int MAX_ELEM_QUEUE = 100;
+>
+>struct Queue {
+>    LoanRequest r_loans[MAX_ELEM_QUEUE];
+>    int front = -1;
+>    int tail = -1;
+>};
+>```
+><br>
 
-Optimized traversal:
+> ### **Singly Linked List :**
+>```cpp
+>TEMPLATE
+>struct SNode {
+>    T data;
+>    SNode<T>* next;
+>};
+>
+>TEMPLATE
+>struct SList {
+>    SNode<T>* head=nullptr;
+>    int size=0;
+>};
+>```
+>### Singly Linked List is a Templated Struct , it allows us to use the same struct for different cases.
+><br>
 
-* First half → start from head
-* Second half → start from tail
+> ### **Stack :**
+>```cpp
+>constexpr int MAX_STACK_ELEMENTS = 1024;
+>
+>struct Stack {
+>    Transaction data[MAX_STACK_ELEMENTS];
+>    int top = -1;
+>};
+>```
+><br>
 
----
+> ### **Transaction :**
+>```cpp
+>constexpr int TR_WITHDRAWAL = 0;
+>constexpr int TR_DEPOSIT = 1;
+>
+>struct Transaction{
+>    string ID = "NOID";
+>    string accountNumber ="NOACCNUM";
+>    int type = -1;
+>    int amount = -1;
+>    Date date = {};
+>};
+>```
+><br>
 
-### **Stack**
 
-Used for **undoable transaction history**.
-
----
-
-### **Queue**
-
-Used for **loan requests** (FIFO).
-
----
-
-## **📈 Data Flow Summary**
+## **Data Flow Summary**
 
 ### **Customer Login**
 
-```
-HTML → JS → WebView → C++ search → Validate → Set LoggedInCustomer → Return → JS loads dashboard
+```HTML
+┌──────────┐     ┌────────┐     ┌──────────┐     ┌───────────────┐
+│   HTML   │ ─→  │   JS   │ ─→  │ WebView  │ ─→  │   C++ Search  │
+└──────────┘     └────────┘     └──────────┘     └───────┬───────┘
+                                                         │
+                                                   Validate Login
+                                                         │
+                                                         ▼
+                                                ┌──────────────────┐
+                                                │ Set LoggedInUser │
+                                                └─────────┬────────┘
+                                                          │
+                                                          ▼
+                                                JS loads customer dashboard
 ```
 
 ### **Loan Request**
 
 ```
-Customer form → JS → WebView → C++ writes CSV → Employee views → Accept/Decline → CSV updates → Customer DList
+┌────────────────┐     ┌────────┐     ┌──────────┐     ┌──────────────┐
+│ Customer Form  │ ─→  │   JS   │ ─→  │ WebView  │ ─→  │    C++ CSV   │
+└────────────────┘     └────────┘     └──────────┘     └───────┬──────┘
+                                                               │
+                                                      Write Loan Request
+                                                               │
+                                                               ▼
+                                                  ┌─────────────────────────────────┐
+                                                  │ Employee Interface (HTML/JS)    │
+                                                  └───────────┬─────────────────────┘
+                                                              │
+                                                  Accept / Decline Loan Request
+                                                              │
+                                                  Updates CSV & Customer DList
 ```
 
 ### **Transactions + Undo**
 
 ```
-Deposit/Withdraw → C++ push to stack → Balance update → CSV
-Undo → C++ pop → Reverse effect → CSV
+Deposit/Withdraw Flow                               Undo Flow
+───────────────────────────────────                 ───────────────────────────────────
+
+    ┌───────────────┐                                   ┌──────────┐
+    │  C++ Actions  │                                   │  C++ Pop │
+    └───────┬───────┘                                   └─────┬────┘
+            │                                                 │
+    Push transaction onto stack                        Reverse operation
+            │                                                 │
+            ▼                                                 ▼
+ Balance update + CSV write                             Update CSV
+
+
 ```
 
 ---
 
-# **👥 Developer Responsibilities**
 
-## **Frontend Developer**
+# **Summary**
 
-**Files:** ~2,591 lines
-Handles:
+This project is a banking management system with:
 
-* Customer UI
-* Employee UI
-* Statistics Dashboard
-* Styling system (dark gold theme)
-* 42 JS bridge functions
-* Grids, cards, layouts, interactions
+* Separation between **frontend**, **backend logic**, and **data structuring**
+* A **WebView bridge**.
+* Fully custom data structures.
+* Full CSV persistence system.
+* A statistics dashboard.
+* Undoable transactions.
+* Loan processing with queues and lists.
 
----
-
-## **Backend Developer – Data Structures**
-
-**Files:** ~1,020 lines
-Implements:
-
-* Dynamic arrays
-* Singly and doubly linked lists
-* Stacks
-* Queues
-* Serialization and deserialization
-* Memory management
-
----
-
-## **Backend Developer – Business Logic**
-
-**Files:** ~1,540 lines
-Responsible for:
-
-* Customer management (IDs, RIB, IBAN, passwords)
-* Employee management
-* Loan system
-* Transaction system + undo
-* All 42 WebView bindings
-* CSV file I/O
-* Authentication and session state
-* Application main flow
-
----
-
-## **Backend Developer – Utilities & Statistics**
-
-Handles:
-
-* Date utilities (compare, increment, leap years)
-* Branch selection
-* JSON formatting functions
-* String split/unescape helpers
-* 12 statistical modules (global + per customer/employee)
-
----
-
-# **📌 Summary**
-
-This project is a complete banking management system with:
-
-* Strong separation between **frontend**, **backend logic**, and **data structure engineering**
-* A **42-function WebView bridge**
-* Fully custom data structures
-* Full CSV persistence system
-* Polished UI and dashboards
-* A detailed statistics engine
-* Undoable transactions
-* Loan processing with queues and lists
-
-It is a full desktop application built like a web app.
-
-The system is modular and scalable, making it an excellent foundation for adding:
-
-* Graph database exports
-* Encryption for CSV files
-* Branch clustering logic
-* React-based UI migration
-
-The architecture leaves many interesting expansion paths to explore.
+# Aymen Abdelmoumen |   Skander Sfar Gandoura    |   Melik Bibi   |   Mohammed Aziz Ayouni
