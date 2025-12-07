@@ -17,6 +17,7 @@
 #include <LoansMeth.hpp>
 #include <Employee.hpp>
 #include <EmployeeTasks.hpp>
+#include <statistics.hpp>
 #include <QueueMeth.hpp>
 
 using namespace std;
@@ -572,6 +573,18 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("declineLoanReq",declineLoanReq);
     w.bind("receiveTransOfCustomer",sendTransOfCustomer);
     w.bind("finalizeDay",finilize);
+
+    //Statistics
+    w.bind("getGlobalTotalLoans", sendTotalLoans);
+    w.bind("getGlobalTotalEmployees", sendTotalEmployees);
+    w.bind("getCustomerMostLoans", sendCustomerMostLoans);
+    w.bind("getCustomerHighestBalance", sendCustomerHighestBalance);
+    w.bind("getCustomerLowestBalance", sendCustomerLowestBalance);
+    w.bind("getLoansByType", sendLoansByTypeCount);
+    w.bind("getLoansByStatus", sendLoansByStatusCount);
+    w.bind("getActiveLoansInRange", sendActiveLoansInRangeCount);
+    w.bind("getEmpByBranch", sendEmpByBranchCount);
+    // In main.cpp -> setupBindings()
 }
 
 void setupWebView() {
