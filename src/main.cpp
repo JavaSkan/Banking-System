@@ -354,7 +354,7 @@ string receiveLoanReq(const string& infoJSON){
         file << loanRequestLine << endl;
     }
     file.close();
-    return "\"Received Loan Request\"";
+    return "\"true\"";
 }
 
 string sendSizeOfQueue(const string&){
@@ -373,8 +373,8 @@ string sendCurrentLoanReq(const string&){
 
 string addAcceptedLoanReq(const string& infoJSON){
     string info = unJSON(infoJSON);
-    string loanReqInfo[5];
-    splitStr(info,'*',loanReqInfo,5);
+    string loanReqInfo[6];
+    splitStr(info,'*',loanReqInfo,6);
     int i = searchByID(custArray,loanReqInfo[0]);
     if(i == -1) {
         cout << "[DEBUG-addAcceptedLoanReq(customer id)]: " << loanReqInfo[0] << endl;
@@ -387,7 +387,7 @@ string addAcceptedLoanReq(const string& infoJSON){
     acceptedLoan.type = stoi(loanReqInfo[2]);
     acceptedLoan.am_paid = 0;
     acceptedLoan.rm_balance = acceptedLoan.pr_amount; //temporary
-    acceptedLoan.it_rate = 0.12;
+    acceptedLoan.it_rate = stof(loanReqInfo[5]) / 100.0f;
     acceptedLoan.status = LNS_ACTIVE;
     acceptedLoan.start_date = stringToDate(loanReqInfo[3]);
     acceptedLoan.end_date = stringToDate(loanReqInfo[4]);

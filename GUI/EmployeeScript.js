@@ -39,23 +39,46 @@ function EmplLogin(){
     });
 }
 
+function makeInterestRateField(lrcid){
+    document.getElementById("asideDisplayArea").innerHTML = 
+    `
+        <div class="loanContainer">
+            <div class="loanField">
+                <span class="loanLabel">Interest Rate(%): </span>
+                <input id="itr_${lrcid}" type="number" min="2" step="1" class="itValue" placeholder="Enter an interest rate">
+            </div>
+        </div>
+    `;
+}
+
 function acceptLoanRequest(loanReqCompId){
     let comp = document.getElementById(loanReqCompId);
     let amount = comp.children[1].children[1].innerText;
     amount = amount.substring(0,amount.indexOf('.'));
-    let sent_data = comp.children[7].innerText+'*' //customer ID
-                    +amount+'*' //amount without ' TND'
-                    +comp.children[2].children[1].dataset.value+"*" //type (string representation)
-                    +comp.children[3].children[1].dataset.value+"*" //start date (string repr)
-                    +comp.children[4].children[1].dataset.value; //end date (string repr)
-    sendAcceptedLoanReq(sent_data).then(
-        (reply) => {
-            console.log("C++ replied:"+reply);
-        }
-    );
-    comp.remove();
-    //display next loan request
-    displayLoanRequest();
+    let itr_field = document.getElementById(`itr_${loanReqCompId}`);
+    if(itr_field == null){
+        makeInterestRateField(loanReqCompId);
+    } else if (itr_field.value == "") {
+        alert("Please enter the interest rate");
+    } else if (Number(itr_field.value) < 2) {
+        alert("Invalid Interest Rate. Should be minimum 2%");
+    } else {
+        let sent_data = comp.children[7].innerText+'*' //customer ID
+                        +amount+'*' //amount without ' TND'
+                        +comp.children[2].children[1].dataset.value+"*" //type (string representation)
+                        +comp.children[3].children[1].dataset.value+"*" //start date (string repr)
+                        +comp.children[4].children[1].dataset.value+"*"
+                        +itr_field.value; //end date (string repr)
+        sendAcceptedLoanReq(sent_data).then(
+            (reply) => {
+                console.log("C++ replied:"+reply);
+            }
+        );
+        comp.remove();
+        itr_field.remove();
+        //display next loan request
+        displayLoanRequest();
+    }
 }
 
 function addNoLoanReqMsg(){
@@ -833,13 +856,10 @@ function viewCustomerTransactions(cusID){
         }
     );
 }
-/*
-function viewAllEmployees(){
-    let displ = document.getElementById("asideDisplayArea");
-    displ.innerHTML = "";
-    //ACCEPT INCOMING CHANGE, THIS IS THE WORK OF AYMEN
-}
 
+
+
+/*
 function statistics(){
     let displ = document.getElementById("asideDisplayArea");
     displ.innerHTML = "";
