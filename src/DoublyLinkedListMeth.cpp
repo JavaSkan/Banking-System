@@ -121,7 +121,7 @@ Loan getElement(const DList& L, int pos) {
 int insert(DList* L, Loan e, int pos) {
     if (!L) return 0;
     if (pos < 1 || pos > L->size + 1) { //Invalid Pos
-        cout << "Invalid position\n";
+        cout << "[DoublyLinkedList] Invalid position\n";
         return 0;
     }
     DNode* n = createNode(e);

@@ -61,6 +61,18 @@ bool isLeap(int y) {
     return (y % 4 == 0 && y % 100 != 0) || (y % 400 == 0);
 }
 
+void updateDateInCSV() {
+    ofstream file("assets/Date.csv", ios::trunc); // overwrite whole file
+    if (!file.is_open()) {
+        cerr << "Cannot open file : assets/Date.csv" << endl;
+        return;
+    }
+
+    string line = dateToString(CurrentDate);
+    file << line << "\n";
+}
+
+
 void nextDay() {
     //to keep track of wether we need to increment the month
     int daysInMonth[12] = {31, 28, 31, 30, 31, 30,31, 31, 30, 31, 30, 31};
@@ -77,4 +89,5 @@ void nextDay() {
             CurrentDate.year++;
         }
     }
+    updateDateInCSV();
 }

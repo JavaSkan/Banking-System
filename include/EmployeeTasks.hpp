@@ -32,7 +32,7 @@ int displayLoans()
 */
 /*
 string changeStatusLoan(const string& infoJSON);   //left for melik
-string deleteLoan(const string& infoJSON);   //melik
+string deleteCompletedLoans(const string& infoJSON);   //melik
 int acceptLoan(Queue* q,DList* Dl);  //melik
 int declineLoan(Loan* L);     //melik
 //leaving managing transaction logs for later cuw dunno how to do that

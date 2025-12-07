@@ -184,6 +184,13 @@ function viewAllCustomers() {
 
     const container = document.createElement("div");
     container.classList.add("EmpCustomersGrid");
+
+    syncLoanReqs().then(
+        (reply) => {
+            console.log("C++ replied: "+reply);
+        }
+    )
+
     main.appendChild(container);
 
     getCustomerCount().then(info => {
@@ -316,8 +323,13 @@ function changeStatus(id){
 }
 
 //BALIZ DO INTERFACE
-function deleteCompletedLoans(){
-    deleteLoan().then((reply))
+function deleteCompLoans(){
+    deleteCompletedLoans().then(
+        (reply) => {
+            alert(reply);
+            console.log("C++ replied:"+reply);
+        }
+    )
 }
 
 function displayEmployee(count, type) {
@@ -825,16 +837,10 @@ function viewCustomerTransactions(cusID){
 function viewAllEmployees(){
     let displ = document.getElementById("asideDisplayArea");
     displ.innerHTML = "";
-    //TODO code
+    //ACCEPT INCOMING CHANGE, THIS IS THE WORK OF AYMEN
 }
 
-function viewTransactions(){
-    let displ = document.getElementById("asideDisplayArea");
-    displ.innerHTML = "";
-    //TODO code
-}
-
-function employeeSettings(){
+function statistics(){
     let displ = document.getElementById("asideDisplayArea");
     displ.innerHTML = "";
     //TODO code
