@@ -59,9 +59,9 @@ function CustLogin(){
     let password=document.getElementById("password").value;
     CustLoginCPP(AccNum+"*"+password).then((answer)=>{
         if(answer=="false"){
-            alert("moch mawjoud");
+            alert("Customer With this ID does not exist");
         }else if(answer=="falseP"){
-            alert("mdp ghlt");
+            alert("Wrong password");
         }else{
             goToPage('CustomerInterface.html');
         }

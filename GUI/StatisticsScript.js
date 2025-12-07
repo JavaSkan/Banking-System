@@ -1,13 +1,11 @@
-// Function to load the statistics interface
 function viewStatistics() {
-    const main = document.getElementById("mainEmpInt");
-    main.innerHTML = ""; // Clear screen
+    const main=document.getElementById("mainEmpInt");
+    main.innerHTML=""; // Clear screen
 
-    // Create a container for stats
-    const container = document.createElement("div");
+    const container=document.createElement("div");
     container.classList.add("statsContainer");
     
-    container.innerHTML = `
+    container.innerHTML=`
         <h2 class="formHeader">Bank Statistics</h2>
         
         <div class="statsGrid" id="statsGrid">
@@ -67,7 +65,6 @@ function viewStatistics() {
     `;
     main.appendChild(container);
 
-    // Fetch and Display General Stats
     fetchGeneralStats();
 }
 
@@ -77,87 +74,53 @@ function createStatCard(label, value) {
             <div class="statLabel">${label}</div>
             <div class="statValue">${value}</div>
         </div>
-    `;
-}
-
+    `;}
 // Fetches and displays the static, general statistics
 function fetchGeneralStats() {
-    const grid = document.getElementById("statsGrid");
+    const grid=document.getElementById("statsGrid");
     
-    // 1. Total Loans
-    getGlobalTotalLoans().then(reply => {
-        grid.innerHTML += createStatCard("Total Loans", reply.data);
-    });
+    getGlobalTotalLoans().then(reply => {grid.innerHTML += createStatCard("Total Loans", reply.data);});
 
-    // 2. Total Employees
-    getGlobalTotalEmployees().then(reply => {
-        grid.innerHTML += createStatCard("Total Employees", reply.data);
-    });
+    getGlobalTotalEmployees().then(reply => {grid.innerHTML += createStatCard("Total Employees", reply.data);});
+    getCustomerMostLoans().then(reply => {grid.innerHTML += createStatCard("Most Loans", reply.data);});
+    getCustomerHighestBalance().then(reply => {grid.innerHTML += createStatCard("Highest Balance", reply.data);});
+    getCustomerLowestBalance().then(reply => {grid.innerHTML += createStatCard("Lowest Balance", reply.data);});}
 
-    // 3. Customer with Most Loans
-    getCustomerMostLoans().then(reply => {
-        grid.innerHTML += createStatCard("Most Loans", reply.data);
-    });
-
-    // 4. Highest Balance
-    getCustomerHighestBalance().then(reply => {
-        grid.innerHTML += createStatCard("Highest Balance", reply.data);
-    });
-    
-    // 5. NEW: Lowest Balance
-    getCustomerLowestBalance().then(reply => {
-        grid.innerHTML += createStatCard("Lowest Balance", reply.data);
-    });
-}
-
-// Function to handle loan type filter (Existing)
 function updateLoanTypeStat() {
-    const type = document.getElementById("statLoanType").value;
+    const type=document.getElementById("statLoanType").value;
     getLoansByType(type).then(reply => {
-        document.getElementById("loanTypeResult").innerText = reply.data;
+        document.getElementById("loanTypeResult").innerText=reply.data;
     });
 }
-
-// Function to handle loan status filter (Existing)
 function updateLoanStatusStat() {
-    const status = document.getElementById("statLoanStatus").value;
+    const status=document.getElementById("statLoanStatus").value;
     getLoansByStatus(status).then(reply => {
-        document.getElementById("loanStatusResult").innerText = reply.data;
+        document.getElementById("loanStatusResult").innerText=reply.data;
     });
 }
-
-// Function to handle NEW: Active Loans in Range
 function updateActiveLoansRangeStat() {
-    const startDate = document.getElementById("statLoanStartDate").value;
-    const endDate = document.getElementById("statLoanEndDate").value;
-
+    const startDate=document.getElementById("statLoanStartDate").value;
+    const endDate=document.getElementById("statLoanEndDate").value;
     if (!startDate || !endDate) {
-        document.getElementById("loanDateRangeResult").innerText = "Error: Need Dates";
+        document.getElementById("loanDateRangeResult").innerText="Error: Need Dates";
         return;
     }
-
-    // Convert YYYY-MM-DD --> DD-MM-YYYY
-    const toDDMMYYYY = (iso) => {
-        const [y, m, d] = iso.split("-");
+    const toDDMMYYYY=(iso) => {
+        const [y, m, d]=iso.split("-");
         return `${d}-${m}-${y}`;
-    };
-
-    const startFixed = toDDMMYYYY(startDate);
-    const endFixed = toDDMMYYYY(endDate);
-
+    };//html ijiblek YYYY-MMM-DD ama el code ye5edh DD-MM-YYYY
+    const startFixed=toDDMMYYYY(startDate);
+    const endFixed=toDDMMYYYY(endDate);
     // C++ expects "DD-MM-YYYY*DD-MM-YYYY"
-    const datesInfo = startFixed + "*" + endFixed;
-
+    const datesInfo=startFixed + "*" + endFixed;
     getActiveLoansInRange(datesInfo).then(reply => {
-        document.getElementById("loanDateRangeResult").innerText = reply.data;
+        document.getElementById("loanDateRangeResult").innerText=reply.data;
     });
 }
-
-
 // Function to handle NEW: Employee Count by Branch
 function updateEmpByBranchStat() {
-    const branchCode = document.getElementById("statEmployeeBranch").value;
+    const branchCode=document.getElementById("statEmployeeBranch").value;
     getEmpByBranch(branchCode).then(reply => {
-        document.getElementById("employeeBranchResult").innerText = reply.data;
+        document.getElementById("employeeBranchResult").innerText=reply.data;
     });
 }

@@ -30,9 +30,9 @@ function EmplLogin(){
     let password=document.getElementById("password").value;
     EmplLoginCPP(ID+"*"+password).then((answer)=>{
         if(answer=="false"){
-            alert("moch mawjoud");
+            alert("Employee with this ID does not Exist");
         }else if(answer=="falseP"){
-            alert("mdp ghlt");
+            alert("Wrong password");
         }else{
             goToPage('EmployeeInterface.html');
         }
