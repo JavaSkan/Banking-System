@@ -634,7 +634,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
 
 void setupWebView() {
     w.set_title("Banking System");
-    w.set_size(960, 720, WEBVIEW_HINT_NONE);
+    w.set_size(1400, 720, WEBVIEW_HINT_NONE);
 
     setupBindings();
     w.navigate(path("index.html")); 
@@ -644,9 +644,11 @@ void setupWebView() {
 // --- MAIN ---
 int main() {
     //y7el lconsole
+    /*
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    */
     getDateFromCSV();
 
     init_customerArray(custArray);
