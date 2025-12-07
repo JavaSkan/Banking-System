@@ -62,3 +62,4 @@
 || Fixed memory leaks                                                                | Skander        |
 |7-12-2025| Added interest rate field to fill when a loan request accepted           | Skander        |
 || Added a loan ID generation                                                        | Skander        |
+|| Implemented the Addition of a new Customer in the Employee Interface              | Skander        |

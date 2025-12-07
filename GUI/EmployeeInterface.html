@@ -31,6 +31,7 @@
             <p id="EmpName"></p>
 
             <div class="actionSidebar">
+                <button onclick="clearGUI();addNewCustomer()">Add New Customer</button>
                 <button onclick="clearGUI();viewAllCustomers()">View Customers</button>
                 <button onclick="clearGUI();displayLoanRequest()">View All loan Requests</button>
                 <button onclick="clearGUI();viewAllEmployees()">View Employees</button>
@@ -39,14 +40,11 @@
                 <button class="finalizeBtn" onclick="clearGUI();fin()">Finalize</button>
             </div>
         </aside>
-
         <div id="mainWrapper">            
-            <div id="mainEmpInt"></div>
+            <div id="mainEmpInt">
+            </div>
         </div>
-
-        <aside id="asideDisplayArea">
-
-        </aside>
+        <aside id="asideDisplayArea"></aside>
     </div>
 </body>
 </html>

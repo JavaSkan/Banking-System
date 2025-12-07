@@ -560,3 +560,63 @@
     background-color: #c93b3bff !important;
     color: white;
 }
+
+/*----------------- New Customer -----------------*/
+#newCustomerContainer{
+    box-shadow: 0px 0px 12px rgba(219, 218, 149,0.5) !important;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+}
+
+#newCustomerTitle{
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    font-size: 22px;
+}
+
+#newCustomerFieldSet{
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+    padding: 10px;
+    margin: 10px;
+}
+
+#newCustomerName{
+    font-size: 15px;
+    padding: 10px;
+    background-color: #1e1e20;
+    color: #d4c34c;
+}
+
+#newCustomerAccType{
+    background-color: #1e1e20;
+    color: #d4c34c;
+    font-size: 15px;
+}
+
+#newCustomerType option{
+    background-color: inherit;
+    color: #d4c34c;
+}
+
+#createCusBtn{
+    background: #161718;
+    border: 2px solid #d4c34c;
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: bolder;
+    cursor: pointer;
+    color: #d4c34c;
+    transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    margin: 15px;
+}
+
+#createCusBtn:hover {
+    transform: scale(1.07);
+    filter: brightness(1.15);
+    box-shadow: 0 0 10px rgba(212,195,76,0.5);
+}
