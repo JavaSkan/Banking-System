@@ -673,19 +673,19 @@ function buildLoanContainer(cusID,lnj){
     let status = document.getElementById(`loanStatus_${lnj.id}`);
     switch(lnj.status){
         case "5":
-            status.children[0].selected = "selected";
+            status.children[0].setAttribute("selected","selected");
             break;
         case "6":
-            status.children[1].selected = "selected";
+            status.children[1].setAttribute("selected","selected");
             break;
         case "7":
-            status.children[2].selected = "selected";
+            status.children[2].setAttribute("selected","selected");
             break;
     }
     updateLoanStatusColor(`loanStatus_${lnj.id}`);
 }
 
-function buildTransationContainer(cusID,trj){
+function buildTransationContainer(trj){
     let displayArea = document.getElementById(`asideDisplayArea`);
     const content = `
         <div class="loanContainer">
@@ -716,24 +716,25 @@ function buildTransationContainer(cusID,trj){
 
 function updateLoanStatusColor(ls_id){
     let status = document.getElementById(ls_id);
-    switch(status.value){
-        case "5":
-            status.style.backgroundColor = "#4388ceff";
+    console.log(`update status : ${status.value}`);
+    switch(status.selectedIndex){
+        case 0:
+            status.classList = "lsActive";
             break;
-        case "6":
-            status.style.backgroundColor = "#68e768ff";
+        case 1:
+            status.classList = "lsCompleted";
             break;
-        case "7":
-            status.style.backgroundColor = "#c93b3bff";
+        case 2:
+            status.classList = "lsOverdue";
             break;
     }
 }
 
 function changeLoanStatus(cusID,ln_id,ls_id){
     let status = document.getElementById(ls_id);
-    updateLoanStatusColor(ls_id);
     changeLoanStatusOfCustomer(cusID+"*"+ln_id+"*"+status.value).then(
         (reply) => {
+            updateLoanStatusColor(ls_id);
             console.log(`C++ replied ${reply}`);
         }
     )
@@ -828,7 +829,7 @@ function viewCustomerTransactions(cusID){
                 return;
             }
             for(let i = 0; i < trsJSON.length; i++){
-                buildTransationContainer(cusID,trsJSON[i]);
+                buildTransationContainer(trsJSON[i]);
             }
         }
     );

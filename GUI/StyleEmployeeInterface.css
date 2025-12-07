@@ -539,3 +539,17 @@
     color: white;
     font-weight: bold;
 }
+
+/*----------------- Loan Status Colors -----------------*/
+.lsActive{
+    background-color: #4388ceff;
+    color: white;
+}
+.lsCompleted{
+    background-color: #68e768ff;
+    color: white;
+}
+.lsOverdue{
+    background-color: #c93b3bff;
+    color: white;
+}

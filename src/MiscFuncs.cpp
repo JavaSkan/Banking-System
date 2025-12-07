@@ -271,9 +271,8 @@ string SLToString(const SList<Loan>& sl){
     stringstream ss;
     ss << "SLL[" << sl.size << "$";
     SNode<Loan>* cur = sl.head;
-    int i = 1;
-    while(cur && i<=sl.size){
-        ss << loanToString(cur->data) << (i<sl.size ? "$" : "]");
+    while(cur){
+        ss << loanToString(cur->data) << (cur->next != nullptr ? "$" : "]");
         cur = cur->next;
     }
     return ss.str();
@@ -284,9 +283,8 @@ string SLTrToString(const SList<Transaction>& sl){
     stringstream ss;
     ss << "SLL[" << sl.size << "$";
     SNode<Transaction>* cur = sl.head;
-    int i = 1;
-    while(cur && i<=sl.size){
-        ss << transactionToString(cur->data) << (i<sl.size ? "$" : "]");
+    while(cur){
+        ss << transactionToString(cur->data) << (cur->next != nullptr ? "$" : "]");
         cur = cur->next;
     }
     return ss.str();

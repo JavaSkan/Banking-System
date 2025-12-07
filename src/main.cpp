@@ -617,8 +617,15 @@ int main() {
     setupWebView();
 
     w.run();
+    /*Freeing memory*/
     destroyQueue(currentLoanReqs);
+    for(int i = 0; i < custArray.size; i++){
+        destroyList(&custArray.data[i].loans);
+    }
     destroyArray(&custArray);
+    destroyList(&LoggedInCustomer.loans);
+    destroyList(&completed_loans);
+    destroyList(&finalized_transactions);
     //LEZEM NA3MLOU DESTROY L AY HAJA DYNAMIC 5DEMNA BEHA
     return 0;
 }

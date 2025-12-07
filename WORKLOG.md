@@ -54,8 +54,10 @@
 || Implemented Deletion of loan requests from CSV file when accepting/deleting them  | Skander        |
 || Added forgotten closing instruction of files                                      | Skander        |
 || Employee can show transactions of each customer                                   | Skander        |
-|| Fixed addition of accepted loan |Skander|
-|| Added back button |Skander|
-|| Fixed addition of accepted loan |Skander|
-|| Improved deleteCompletedLoan function |Skander|
-|| Fixed send loan request of custom interface |Skander|
+|| Added back button                                                                 | Skander        |
+|| Fixed addition of accepted loan                                                   | Skander        |
+|| Fixed addition of accepted loan                                                   | Skander        |
+|| Improved deleteCompletedLoan function                                             | Skander        |
+|| Fixed send loan request of custom interface                                       | Skander        |
+|| Fixed loanStatus select list color                                                | Skander        |
+|| Fixed memory leaks                                                                | Skander        |
