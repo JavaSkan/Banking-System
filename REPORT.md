@@ -1,9 +1,5 @@
-Here’s a refined, clean, publication-ready **Markdown** version of your full project report.
-I kept everything structured, readable, and polished, without losing any detail.
 
----
-
-# **Banking System Project – Comprehensive Technical Report**
+# **Banking System Project – Report**
 
 ## **Project Overview**
 
@@ -133,7 +129,7 @@ C:.
 4. Initialize WebView2:
    - Create WebView instance
    - [Bind](#Binding) C++ functions
-   -  Load[index.html](GUI/index.html)
+   -  Load [index.html](GUI/index.html)
 5. UI Loop:
    - Customer Interface
    - Employee Interface
@@ -146,16 +142,30 @@ C:.
 
 ## **WebView Bindings**
 
+### Webvies uses a `JSON string` Handshake protocol :
+ - <span style="color:#F7DF1E">JavaScript</span> Sends a string.
+ - <span style="color:#085E9F;font-weight:bold;">C++</span> recieves the string as a `JSON string` it uses the unJSON function to turn it back into a normal string.
+ - Multiple data is sent to <span style="color:#085E9F;font-weight:bold;">C++</span> as a concatination , generally using a seperator `'*'` which it splits using the `splitStr()` function.
+ - Multiple data is sent to <span style="color:#F7DF1E">JavaScript</span> as a small `JSON object` for clarity :
+ 
+ > Example :
+ > ```Cpp
+>return "{\"data\":\"" + Data + "\"}";
+> ```
+> **a7la project**
+
 **Bridge pattern:**
 
-```Cpp
-// C++ side
-string (const string& parems){   
-    /*Code*/
-    return " \"Message\" "
-}
+>**Cpp Side :**
+>```Cpp
+>string cppFunction(const string& parems){   
+>    /*Code*/
+>    return " \"Message\" "
+>}
+>w.bind("functionName", cppFunction);
+>``` 
+><br>
 
-w.bind("functionName", cppFunction);
 
 // JavaScript side
 window.functionName(params).then(result => {
