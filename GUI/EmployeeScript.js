@@ -856,13 +856,3 @@ function viewCustomerTransactions(cusID){
         }
     );
 }
-
-
-
-/*
-function statistics(){
-    let displ = document.getElementById("asideDisplayArea");
-    displ.innerHTML = "";
-    //TODO code
-}
-*/

@@ -61,3 +61,4 @@
 || Fixed loanStatus select list color                                                | Skander        |
 || Fixed memory leaks                                                                | Skander        |
 |7-12-2025| Added interest rate field to fill when a loan request accepted           | Skander        |
+|| Added a loan ID generation                                                        | Skander        |
