@@ -469,6 +469,11 @@ string undoTranCPP(const string&){
         Transaction t = top(LoggedInCustomer.transactions);
         if (!LoggedInCustomer.rolledback){
             Transaction val=pop(LoggedInCustomer.transactions);
+            if(!val.type){
+                LoggedInCustomer.balance+=val.amount;
+            }else{
+                LoggedInCustomer.balance-=val.amount;
+            }
             updateCustomerInCsv(LoggedInCustomer);
             LoggedInCustomer.rolledback = 1;
             return "\"true\"";
