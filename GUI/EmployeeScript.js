@@ -856,3 +856,35 @@ function viewCustomerTransactions(cusID){
         }
     );
 }
+
+function addNewCustomer(){
+    document.getElementById("mainEmpInt").innerHTML = `
+        <div id="newCustomerContainer">
+            <p id="newCustomerTitle">
+                New Customer
+            </p>
+            <div id="newCustomerFieldSet">
+                <input type="text" id="newCustomerName" placeholder="The New Customer's name">
+                <select id="newCustomerAccType">
+                    <option value="Current">Current</option>
+                    <option value="Savings">Savings</option>
+                </select>
+            </div>
+            <button type="button" onclick="createCustomer()" id="createCusBtn">Create</button>
+        </div>
+    `;
+}
+
+function createCustomer(){
+    let name = document.getElementById("newCustomerName").value;
+    if(name == ""){
+        alert("Please enter the new customer's name.");
+        return;
+    }
+    let type = document.getElementById("newCustomerAccType").value;
+    sendRegCusInfo(type+"*"+name).then(
+        (reply) => {
+            alert(reply);
+        }
+    )
+}
