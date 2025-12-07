@@ -197,10 +197,21 @@ string sendEmpLoggedInfoJS(const string&){
 
 
 }
-// TRANSACTIONS
-bool existsID(const Stack& s, const string& id) {
+// TRANSACTION ID
+bool existsIDTran(const Stack& s, const string& id) {
     for (int i = s.top; i >= 0; i--) {
         if (s.data[i].ID == id) return true;
+    }
+    return false;
+}
+
+// LOAN ID
+bool existsIDLoan(const DList& s, const string& id) {
+    if(isEmpty(s)) return false;
+    DNode* c = s.head;
+    while(c){
+        if(c->data.ID == id) return true;
+        c = c->next;
     }
     return false;
 }
@@ -212,9 +223,21 @@ string TranIdGen(){
         while(id.size()<4){
             id="0"+id;
         } 
-    } while (existsID(LoggedInCustomer.transactions, id));
+    } while (existsIDTran(LoggedInCustomer.transactions, id));
     return "T"+id;
 }
+
+string LoanIdGen(){
+    string id;
+    do {
+        id = to_string(random(0,9999));
+        while(id.size()<4){
+            id="0"+id;
+        }
+    } while (existsIDLoan(LoggedInCustomer.loans, id));
+    return "L"+id;
+}
+
 Transaction createNewTransaction(int type,float amount){
     Transaction T;
     T.accountNumber=LoggedInCustomer.ID;
@@ -231,6 +254,7 @@ string deposit(const string& amountJSON){
     push(LoggedInCustomer.transactions,createNewTransaction(1,amount));
     return "\"true\"";
 }
+
 string withdraw(const string& amountJSON){
     int amount=stoi(unJSON(amountJSON));
     LoggedInCustomer.balance-=amount;
@@ -244,6 +268,7 @@ string getSpecificCustomerStr(int i){
     string CustomerString=customerToStr(Cus);
     return CustomerString;
 }
+
 string sendLoanInfo(const string& i){return "{\"data\":\"" + getSpecificLoan(stoi(unJSON(i)))+ "\"}";}
 
 string sendCustomerLine(const string& i){
@@ -255,6 +280,7 @@ string getSpecificEmployeeStr(const Array<Employee>& arr,int i){
     string EmployeeString=employeeToStr(emp);
     return EmployeeString; //brojla da5alt el camel case fel pascal case ama bara barka
 }
+
 void sortAlpha(Array<Employee>& arr) {
     for (int i = 0; i < arr.size - 1; i++) {
         for (int j = 0; j < arr.size - i - 1; j++) {
@@ -266,6 +292,7 @@ void sortAlpha(Array<Employee>& arr) {
         }
     }
 }
+
 void grpBankBranch(Array<Employee>& arr) {
     for (int i = 0; i < arr.size - 1; i++) {
         for (int j = 0; j < arr.size - i - 1; j++) {
@@ -277,7 +304,6 @@ void grpBankBranch(Array<Employee>& arr) {
         }
     }
 }
-
 
 string sendEmployeeLine(const string& infoJSON){
     string info=unJSON(infoJSON);
@@ -296,6 +322,7 @@ string sendEmployeeLine(const string& infoJSON){
     }
     return "\"false\"";
 }
+
 string modifyEmployee(const string& infoJSON){
     string info=unJSON(infoJSON);
     string parts[8];
@@ -315,6 +342,7 @@ string modifyEmployee(const string& infoJSON){
     updateEmployeeInCsv(EmplArray.data[pos]);
     return "\"ok\"";    
 }
+
 string deleteEmployee(const string& infoJSON){
     string info=unJSON(infoJSON);
     int pos=searchByID(EmplArray,info);
@@ -328,12 +356,14 @@ string closeWindow(const string&) {
     w.terminate();
     return "\"Closed\"";
 }
+
 string goToPageCpp(const string& pageJSON) { //ybadel el page eli ywari feha el webview
     string page=unJSON(pageJSON);
     cout<<endl<<pageJSON<<" "<<page;
     w.navigate(path(page));
     return "\"page changed\"";
 }
+
 string getInfo(const string&) {
     string sDate = to_string(CurrentDate.day) + "-" + to_string(CurrentDate.month) + "-" + to_string(CurrentDate.year);
     string combined = globalSessBank.branchName + "*" + globalSessBank.ID+'*'+sDate;
@@ -382,7 +412,7 @@ string addAcceptedLoanReq(const string& infoJSON){
     }
     //add a loan to the customer
     Loan acceptedLoan;
-    acceptedLoan.ID = "L"+loanReqInfo[0]+to_string(listSize(custArray.data[i].loans)+1);
+    acceptedLoan.ID = LoanIdGen();
     acceptedLoan.pr_amount = stof(loanReqInfo[1]);
     acceptedLoan.type = stoi(loanReqInfo[2]);
     acceptedLoan.am_paid = 0;
@@ -431,6 +461,7 @@ string sendTransactionsJS(const string&){
     }
     return "{\"data\":\"" + combined + "\"}";
 }
+
 string undoTranCPP(const string&){
     if(isEmpty(LoggedInCustomer.transactions)){
         return "\"false\"";
@@ -553,7 +584,6 @@ string syncLoanReqs(const string&){
 
 void setupBindings() {  // binds functions to JavaScript so that they're visible and usable
     w.bind("closeWindow", closeWindow);
-    //w.bind("sendDate",getDateJS);
     w.bind("getInfo", getInfo); //sends general information about session : bank branch and date
     w.bind("goToPage", goToPageCpp);
     w.bind("sendRegCusInfo",createNewCustomer);
@@ -574,16 +604,13 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
     w.bind("addEmployeeCPP",addEmployee);
     w.bind("getLoggedInCustomerInformationFromCPlusPlus",sendCusLoggedInfoJS); //chkoun ya3mel atwel esm function challenge
     w.bind("depositCPP",deposit);
-    //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("receiveQueueSize",sendSizeOfQueue);
     w.bind("receiveCurrentLoanReq",sendCurrentLoanReq);
     w.bind("sendAcceptedLoanReq",addAcceptedLoanReq);
-    //w.bind("sendAcceptedLoanReq",receiveAcceptedLoanReq);
     w.bind("changeStatusCPP", changeStatus);
     w.bind("withdrawCPP",withdraw);
     w.bind("getTransactionCPP",sendTransactionsJS);
     w.bind("undoTranCPP",undoTranCPP);
-    //w.bind("statusChangeCPP",changeStatusLoan);
     w.bind("deleteCompletedLoans",deleteCompletedLoans);
     w.bind("receiveLoansOfCustomer",sendLoansOfCustomer);
     w.bind("changeLoanStatusOfCustomer",updateLoanStatusOfCustomer);
