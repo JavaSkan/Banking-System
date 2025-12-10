@@ -3,7 +3,7 @@
 | Date              | Task                                                                  | Contributor(s) |
 |------------|-----------------------------------------------------------------------|----------------|
 | 13-11-2025 | Set up GitHub                                                         | Skander        |
-| 14-11-2025 | Created advanced `README.md` file                                     | Aymen          |
+| 14-11-2025 | Created advanced [`README.md`](README.md) file                                     | Aymen          |
 | 15-11-2025 | Connected all members to the GitHub repository                        | All            |
 |            | Developed the Singly Linked List headers                              | All            |
 || Implemented the main menu and placeholders for Customer and Employee interfaces   | Aymen          |
@@ -61,3 +61,5 @@
 || Fixed loanStatus select list color                                                | Skander        |
 || Fixed memory leaks                                                                | Skander        |
 |7-12-2025| Added interest rate field to fill when a loan request accepted           | Skander        |
+|| Added a loan ID generation                                                        | Skander        |
+|| Implemented the Addition of a new Customer in the Employee Interface              | Skander        |

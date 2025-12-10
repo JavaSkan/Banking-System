@@ -17,8 +17,8 @@ constexpr int CST_CLOSED = -1;
 //Status values can only be one of the 3 above
 
 struct Customer{
-    string ID="";
     //is the account number
+    string ID="";
     string type="";
     string IBAN="";
     string branchCode="";

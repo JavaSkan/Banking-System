@@ -150,15 +150,8 @@ bool isValidEmail(const string& email) {
 }
 
 int random(int min, int max) {
-    static bool SEEDED = false; //constant to not reseed (faza comme quoi)
-    if (!SEEDED) {
-        srand(static_cast<unsigned>(time(nullptr))); // :)
-        SEEDED = true;
-    }
-    int randomNumber = min + rand() % (max - min + 1);
-    return randomNumber;
+    return min + rand() % (max - min + 1);
 }
-
 
 long long strToLongLong(const string& s) { //wlh ktebha aziz , fa5r el c++
     long long result = 0;

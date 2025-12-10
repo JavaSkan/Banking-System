@@ -1,4 +1,9 @@
 /* Universal ----------------------------------------------------- */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
 
 * {
     color: #e5e5e5;
@@ -22,7 +27,7 @@ body {
 /* Title --------------------------------------------------------- */
 
 h1 {
-    color: #d4c34c;                 /* elegant gold accent */
+    color: #d4c34c;                
     margin: 30px 0;
     letter-spacing: 1px;
     font-weight: 700;

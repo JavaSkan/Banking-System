@@ -18,7 +18,7 @@ int init_employeeArray(Array<Employee>& EmplArray){
     ifstream file("assets/Employees.csv"); 
     if(!file.is_open()){
         cerr << "Cannot open file: assets/Employees.csv" << endl;
-        return 0;
+        return -1;
     }
     stringstream buf;
     string line;

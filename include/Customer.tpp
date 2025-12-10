@@ -139,7 +139,7 @@ int init_customerArray(Array<Customer>& Cusarr) {
     ifstream file("assets/Customers.csv"); 
     if(!file.is_open()){
         cerr << "Cannot open file: assets/Customers.csv" << endl;
-        return 0;
+        return -1;
     }
 
     stringstream buf;
@@ -188,43 +188,26 @@ Array<T> createCustomerArray(){
 }
 
 string createNewCustomer(const string& infoJSON){
-    string info=unJSON(infoJSON);
-    string acc_type;
-    string name;
+    string info=unJSON(infoJSON); //acc_type*name
     string infoParts[2];
     int n = splitStr(info, '*',infoParts,2);
-// Now parts[0..n-1] contain the substrings.
 
     Customer Cus;
-    Cus.type=acc_type=infoParts[0];
-    Cus.branchCode=globalSessBank.ID;
-    Cus.ID=IDGenCustomer();
-    Cus.IBAN=IBANGen(Cus);
-    Cus.name=name=infoParts[1];
-    Cus.openingDate=CurrentDate;
-    Cus.status=1;
-    Cus.balance=0;
-    DList Loans=createList();
-    Stack Transactions=createStack();
-    Cus.loans=Loans;
-    Cus.transactions=Transactions; 
-    Cus.password=passwordGen(12);
+    DList Loans        = createList();
+    Stack Transactions = createStack();
+    Cus.type           = infoParts[0];
+    Cus.branchCode     = globalSessBank.ID;
+    Cus.ID             = IDGenCustomer();
+    Cus.IBAN           = IBANGen(Cus);
+    Cus.name           = infoParts[1];
+    Cus.openingDate    = CurrentDate;
+    Cus.status         = CST_ACTIVE;
+    Cus.balance        = 0.0f;
+    Cus.loans          = Loans;
+    Cus.transactions   = Transactions; 
+    Cus.password       = passwordGen(12);
     addCustomerToCsv(Cus);
     addElement<Customer>(&custArray,Cus,custArray.size);
-    
-    //addElement(CustArray,Cus,CustArray.size);
-    cout<<endl;
-    cout<<"ID : "<<Cus.ID<<endl;
-    cout<<"type : "<<Cus.type<<endl;
-    cout<<"IBAN : "<<Cus.IBAN<<"("<<Cus.IBAN.size()<<")"<<endl;
-    cout<<"branch code : "<<Cus.branchCode<<endl;
-    cout<<"name : "<<Cus.name<<endl;
-    cout<<"opening date : "<<Cus.openingDate.day<<"-"<<Cus.openingDate.month<<"-"<<Cus.openingDate.year<<endl;
-    cout<<"status : "<<Cus.status<<endl;
-    cout<<"balance : "<<Cus.balance<<endl;
-    cout<<"password : "<<Cus.password<<endl;
 
-    //displayCusts(CustArray);
-    return "\"Customer created .\"";
-
+    return "\"Create Customer Successfully !\"";
 }
