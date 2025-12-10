@@ -173,6 +173,7 @@ function deposit(){
     depositCPP(amount).then((reply) => {
         if(reply=="true"){
             location.reload(); //reload page to update the balance 3al isar
+            getloggedinfo();
         }
     })
 }
@@ -181,6 +182,7 @@ function withdraw(){
     withdrawCPP(amount).then((reply) => {
         if(reply=="true"){
             location.reload(); //reload page to update the balance 3al isar
+            getloggedinfo();
         }
     })
 }
@@ -248,8 +250,13 @@ function undoTransaction(State) {
         return;
     }else{
         undoTranCPP().then((reply) =>{
-            if(reply=="true"){
+            if(reply=="false"){
+                alert("There is no transactions");
+            } else if(reply == "done"){
+                alert("You have already undone a transaction today");
+            } else {
                 showTransactions();
+                document.getElementById("CustomerBalance").innerText=reply;
             }
         })
     }

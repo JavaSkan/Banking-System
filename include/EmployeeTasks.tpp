@@ -274,6 +274,7 @@ int displayAccounts(const Array<Customer>& cArr){
     return 1;
 }
 
+/*Change the status of the customer account*/
 string changeStatus(const string& infoJSON){
     string info=unJSON(infoJSON);
     string parts[2];

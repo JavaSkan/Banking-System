@@ -53,11 +53,33 @@ function viewStatistics() {
             
             <div class="controlGroup">
                 <label>Count by Branch:</label>
-                <select id="statEmployeeBranch" class="employeeFilter">
-                    <option value="1">Central (1)</option>
-                    <option value="2">North (2)</option>
-                    <option value="3">South (3)</option>
-                </select>
+                <select class='selectbank' id="branchSelect_Stat">
+            <option value="001">Tunis (001)</option>
+            <option value="002">Sousse (002)</option>
+            <option value="003">BenArous (003)</option>
+            <option value="004">Ariana (004)</option>
+            <option value="005">Nabeul (005)</option>
+            <option value="006">Gaserine (006)</option>
+            <option value="007">Gafsa (007)</option>
+            <option value="008">Mehdia (008)</option>
+            <option value="009">Sfax (009)</option>
+            <option value="010">Djerba (010)</option>
+            <option value="011">Mednine (011)</option>
+            <option value="012">Tozeur (012)</option>
+            <option value="013">Tatawin (013)</option>
+            <option value="014">Bizerte (014)</option>
+            <option value="015">ElKef (015)</option>
+            <option value="016">Monastir (016)</option>
+            <option value="017">Jandouba (017)</option>
+            <option value="018">Kebeli (018)</option>
+            <option value="019">SidiBouzid (019)</option>
+            <option value="020">Gabes (020)</option>
+            <option value="021">Seliana (021)</option>
+            <option value="022">Beja (022)</option>
+            <option value="023">Kairouan (023)</option>
+            <option value="024">Mannouba (024)</option>
+            <option value="025">Zaghouane (025)</option>
+        </select>
                 <button class="miniBtn" onclick="updateEmpByBranchStat()">Check</button>
                 <span id="employeeBranchResult" class="statResultValue">--</span>
             </div>
@@ -119,7 +141,7 @@ function updateActiveLoansRangeStat() {
 }
 // Function to handle NEW: Employee Count by Branch
 function updateEmpByBranchStat() {
-    const branchCode=document.getElementById("statEmployeeBranch").value;
+    const branchCode=document.getElementById("branchSelect_Stat").value;
     getEmpByBranch(branchCode).then(reply => {
         document.getElementById("employeeBranchResult").innerText=reply.data;
     });

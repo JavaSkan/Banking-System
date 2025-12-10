@@ -435,19 +435,23 @@ string undoTranCPP(const string&){
     if(isEmpty(LoggedInCustomer.transactions)){
         return "\"false\"";
     }else{
-        Transaction t = top(LoggedInCustomer.transactions);
         if (!LoggedInCustomer.rolledback){
-            Transaction val=pop(LoggedInCustomer.transactions);
+            Transaction val = pop(LoggedInCustomer.transactions);
+            insert(&finalized_transactions,val,finalized_transactions.size+1);
+            if(!val.type){
+                LoggedInCustomer.balance += val.amount;
+            }else{
+                LoggedInCustomer.balance -= val.amount;
+            }
             updateCustomerInCsv(LoggedInCustomer);
             LoggedInCustomer.rolledback = 1;
-            return "\"true\"";
+            return "\"" + to_string(LoggedInCustomer.balance) + "\"";
         }
         else{
             cout<<"Cannot undo more transactions"<<endl;
-            return "\"falseOld\"";
+            return "\"done\"";
         }
     }
-    
 }
 string sendEmployeeCount(const string&){
     return "{\"data\":\"" + to_string(EmplArray.size) + "\"}";
@@ -602,7 +606,7 @@ void setupBindings() {  // binds functions to JavaScript so that they're visible
 
 void setupWebView() {
     w.set_title("Banking System");
-    w.set_size(960, 720, WEBVIEW_HINT_NONE);
+    w.set_size(1400, 720, WEBVIEW_HINT_NONE);
 
     setupBindings();
     w.navigate(path("index.html")); 
@@ -612,9 +616,11 @@ void setupWebView() {
 // --- MAIN ---
 int main() {
     //y7el lconsole
+    /*
     AllocConsole();
     freopen("CONOUT$", "w", stdout);
     freopen("CONIN$", "r", stdin);
+    */
     getDateFromCSV();
 
     init_customerArray(custArray);

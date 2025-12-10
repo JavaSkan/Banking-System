@@ -50,7 +50,6 @@ int countActiveLoansInRange(const Array<Customer>& Cus, int nCus, Date startDate
         DNode* current = Cus.data[i].loans.head;
         while (current) {
             Loan& loan = current->data;
-            // 5 is likely the status code for ACTIVE
             bool isInRangeStart=compareDates(loan.start_date, startDate) >= 0;
             bool isInRangeEnd=compareDates(loan.start_date, endDate) <= 0;
         
